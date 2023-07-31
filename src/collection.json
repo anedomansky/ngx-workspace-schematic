@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "schematics": {
+    "ng-new": {
+      "description": "Generates a new complete Angular workspace.",
+      "factory": "./index#newCompleteWorkspace",
+      "schema": "./schema.json"
+    },
+    "new-complete-angular-workspace": {
+      "description": "Generates a new complete Angular workspace.",
+      "factory": "./index#newCompleteWorkspace",
+      "schema": "./schema.json"
+    }
+  }
+}

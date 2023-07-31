@@ -1,0 +1,42 @@
+{
+  "folders": [
+    {
+      "name": "ROOT",
+      "path": "../"
+    },
+    {
+      "path": "../projects/<%= dasherize(libraryPackageName) %>"
+    },
+    {
+      "path": "../projects/<%= dasherize(name) %>-app"
+    }
+  ],
+  "settings": {
+    "stylelint.validate": [
+      "css",
+      "scss"
+    ],
+    "npm.packageManager": "npm",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true,
+      "source.fixAll.stylelint": true,
+    },
+    "editor.formatOnSave": true,
+    "jest.autoRun": "off",
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[scss]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+      "editor.defaultFormatter": null
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/target": true,
+      "**/dist": true,
+      "**/coverage": true
+    }
+  },
+}

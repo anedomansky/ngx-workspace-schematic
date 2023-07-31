@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-prettier"
+  ],
+  "plugins": ["stylelint-order", "stylelint-scss"],
+  "rules": {
+    "import-notation": null,
+    "max-nesting-depth": [2, {}],
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["host", "host-context"]
+      }
+    ],
+    "selector-class-pattern": [
+      "^[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*(?:__[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*)?(?:(?:_|--)[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*){0,2}(?:\\[.+\\])?$",
+      {
+        "message": "Expected class selector to match 'class-name', 'class-name--class-modifier', 'class-block__class-element' or 'class-block__class-element--class-modifier'"
+      }
+    ],
+    "selector-pseudo-element-no-unknown": [
+      true,
+      {
+        "ignorePseudoElements": ["ng-deep"]
+      }
+    ]
+  }
+}
