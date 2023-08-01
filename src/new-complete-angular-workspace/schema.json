@@ -13,7 +13,7 @@
     "libraryPrefix": {
       "type": "string",
       "description": "The namespace of the library",
-      "x-prompt": "Library namespace (e. g. @yourname):"
+      "x-prompt": "Library namespace (e. g. 'yourname' without the '@'):"
     },
     "libraryName": {
       "type": "string",

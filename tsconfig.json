@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "src",
     "baseUrl": "./",
     "lib": [
       "ES2020"
     ],
     "declaration": true,
-    "module": "ES2020",
+    "module": "CommonJS",
     "moduleResolution": "Node16",
     "noEmitOnError": true,
     "strict": true,
@@ -17,5 +19,8 @@
   },
   "include": [
     "src/**/*"
+  ],
+  "exclude": [
+    "src/*/files/**/*"
   ]
 }
