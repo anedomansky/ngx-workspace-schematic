@@ -1,0 +1,24 @@
+import { Component, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { <%= capitalize(name) %>Config, <%= capitalize(name) %>ConfigToken } from '../config/<%= dasherize(name) %>-config';
+import { SampleService } from '../core/services/sample/sample.service';
+import { AsyncPipe } from '@angular/common';
+
+@Component({
+  selector: '<%= dasherize(name) %>-sample',
+  templateUrl: './sample.component.html',
+  styleUrls: ['./sample.component.scss'],
+  standalone: true,
+  imports: [AsyncPipe],
+})
+export class SampleComponent {
+  greeting$: Observable<string>;
+
+  constructor(
+    private sampleService: SampleService,
+    @Inject(<%= capitalize(name) %>ConfigToken) public config: <%= capitalize(name) %>Config
+  ) {
+    this.greeting$ = this.sampleService.sayHello();
+  }
+}

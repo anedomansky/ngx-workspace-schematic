@@ -1,0 +1,21 @@
+module.exports = {
+  preset: "jest-preset-angular",
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
+  globalSetup: "jest-preset-angular/global-setup",
+  testPathIgnorePatterns: [
+    "/node_modules/",
+    "/cypress/",
+    "/projects/<%= dasherize(libraryPackageName) %>/src/gen/",
+  ],
+  coverageDirectory: "coverage/",
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/cypress/",
+    "/dist/",
+    ".html",
+  ],
+  moduleNameMapper: {
+    "@<%= dasherize(libraryPackageName) %>":
+      "<rootDir>/dist/<%= dasherize(libraryPackageName) %>/fesm2020/<%= dasherize(libraryPrefix) %>-<%= dasherize(libraryName) %>.mjs",
+  },
+};

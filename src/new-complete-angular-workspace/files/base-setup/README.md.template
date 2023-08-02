@@ -1,0 +1,13 @@
+# <%= capitalize(name) %> workspace
+
+## Run the application(s)
+
+To serve an application, you should run `npm run start`.
+The workspace enables it to run checks like linting and tests easily.
+You can run `npm run lint` for linting and `npm run test` inside the workspace folder to run the checks for both projects.
+
+## Architecture of the workspace
+
+The workspaces defines consists of one Angular library which holds all the specific logic and components.
+
+In order to use the library we have also generated an accompanying <%= capitalize(name) %>-app application.

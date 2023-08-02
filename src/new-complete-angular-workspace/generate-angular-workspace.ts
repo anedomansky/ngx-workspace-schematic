@@ -54,100 +54,78 @@ function copyBaseFiles(options: Schema): Rule {
   );
 }
 
-// function updatePackageJson(options: Schema): Rule {
-//   return (tree: Tree): Tree => {
-//     const path = `/${options.name}/package.json`;
-//     const file = tree.read(path);
-//     if (!file) {
-//       return tree;
-//     }
+function updatePackageJson(options: Schema): Rule {
+  return (tree: Tree): Tree => {
+    const path = `/${options.name}/package.json`;
+    const file = tree.read(path);
+    if (!file) {
+      return tree;
+    }
 
-//     const json = JSON.parse(file.toString());
+    const json = JSON.parse(file.toString());
 
-//     json.scripts = {
-//       start: 'ng serve',
-//       build: `ng build insuria-${options.name}`,
-//       'build:library': `ng build @${options.libraryPackageName} --configuration=production`,
-//       'build:library:watch': `ng build @${options.libraryPackageName} --configuration development --watch`,
-//       test: 'npm run test:lib && npm run test:app',
-//       'test:lib': 'jest --silent --config ./jest.lib.config.js',
-//       'test:lib:local': 'jest --config ./jest.lib.config.js',
-//       'test:app': 'jest --silent --config ./jest.app.config.js',
-//       'test:app:local': 'jest --config ./jest.app.config.js',
-//       'test:coverage':
-//         'jest --silent --collectCoverage --config ./jest.lib.config.js',
-//       lint: 'eslint . --ext .ts --ext .html',
-//       'lint:fix': 'eslint . --ext .ts --ext .html --fix',
-//       'build:complete':
-//         'npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build',
-//     };
+    json.scripts = {
+      start: 'ng serve',
+      build: `ng build ${options.name}-app`,
+      'build:library': `ng build @${options.libraryPackageName} --configuration=production`,
+      'build:library:watch': `ng build @${options.libraryPackageName} --configuration development --watch`,
+      test: 'npm run test:lib && npm run test:app',
+      'test:lib': 'jest --silent --config ./jest.lib.config.js',
+      'test:lib:local': 'jest --config ./jest.lib.config.js',
+      'test:app': 'jest --silent --config ./jest.app.config.js',
+      'test:app:local': 'jest --config ./jest.app.config.js',
+      'test:coverage':
+        'jest --silent --collectCoverage --config ./jest.lib.config.js',
+      lint: 'eslint . --ext .ts --ext .html',
+      'lint:fix': 'eslint . --ext .ts --ext .html --fix',
+      'build:complete':
+        'npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build',
+    };
 
-//     json.dependencies['@angular/animations'] =
-//       packageJson.dependencies['@angular/animations'];
-//     json.dependencies['@angular/common'] =
-//       packageJson.dependencies['@angular/common'];
-//     json.dependencies['@angular/compiler'] =
-//       packageJson.dependencies['@angular/compiler'];
-//     json.dependencies['@angular/core'] =
-//       packageJson.dependencies['@angular/core'];
-//     json.dependencies['@angular/elements'] =
-//       packageJson.dependencies['@angular/elements'];
-//     json.dependencies['@angular/forms'] =
-//       packageJson.dependencies['@angular/forms'];
-//     json.dependencies['@angular/platform-browser'] =
-//       packageJson.dependencies['@angular/platform-browser'];
-//     json.dependencies['@angular/platform-browser-dynamic'] =
-//       packageJson.dependencies['@angular/platform-browser-dynamic'];
-//     json.dependencies['@angular/router'] =
-//       packageJson.dependencies['@angular/router'];
-//     json.dependencies['rxjs'] = packageJson.dependencies['rxjs'];
-//     json.dependencies['tslib'] = packageJson.dependencies['tslib'];
-//     json.dependencies['zone.js'] = packageJson.dependencies['zone.js'];
+    json.dependencies['@angular/animations'] = '~16.1.7';
+    json.dependencies['@angular/common'] = '~16.1.7';
+    json.dependencies['@angular/compiler'] = '~16.1.7';
+    json.dependencies['@angular/core'] = '~16.1.7';
+    json.dependencies['@angular/forms'] = '~16.1.7';
+    json.dependencies['@angular/platform-browser'] = '~16.1.7';
+    json.dependencies['@angular/platform-browser-dynamic'] = '~16.1.7';
+    json.dependencies['@angular/router'] = '~16.1.7';
+    json.dependencies['rxjs'] = '~7.8.1';
+    json.dependencies['tslib'] = '~2.6.1';
+    json.dependencies['zone.js'] = '~0.13.1';
 
-//     json.devDependencies['@angular/cli'] =
-//       packageJson.devDependencies['@angular/cli'];
-//     json.devDependencies['@angular/compiler-cli'] =
-//       packageJson.devDependencies['@angular/compiler-cli'];
-//     json.devDependencies['@openapitools/openapi-generator-cli'] =
-//       packageJson.devDependencies['@openapitools/openapi-generator-cli'];
-//     json.devDependencies['ng-packagr'] =
-//       packageJson.devDependencies['ng-packagr'];
-//     json.devDependencies['typescript'] =
-//       packageJson.devDependencies['typescript'];
+    json.devDependencies['@angular/cli'] = '~16.1.6';
+    json.devDependencies['@angular/compiler-cli'] = '~16.1.7';
+    json.devDependencies['ng-packagr'] = '~16.1.0';
+    json.devDependencies['typescript'] = '~5.1.6';
 
-//     // Delete Jasmin / Karma Tests
-//     delete json.devDependencies['@types/jasmine'];
-//     delete json.devDependencies['jasmine-core'];
-//     delete json.devDependencies['karma'];
-//     delete json.devDependencies['karma-chrome-launcher'];
-//     delete json.devDependencies['karma-coverage'];
-//     delete json.devDependencies['karma-jasmine'];
-//     delete json.devDependencies['karma-jasmine-html-reporter'];
+    // Delete Jasmin / Karma Tests
+    delete json.devDependencies['@types/jasmine'];
+    delete json.devDependencies['jasmine-core'];
+    delete json.devDependencies['karma'];
+    delete json.devDependencies['karma-chrome-launcher'];
+    delete json.devDependencies['karma-coverage'];
+    delete json.devDependencies['karma-jasmine'];
+    delete json.devDependencies['karma-jasmine-html-reporter'];
 
-//     // Adds jest
-//     json.devDependencies['@types/jest'] =
-//       packageJson.devDependencies['@types/jest'];
-//     json.devDependencies['jest'] = packageJson.devDependencies['jest'];
-//     json.devDependencies['jest-preset-angular'] =
-//       packageJson.devDependencies['jest-preset-angular'];
+    // Adds jest
+    json.devDependencies['@types/jest'] = '~29.5.3';
+    json.devDependencies['jest'] = '~29.6.2';
+    json.devDependencies['jest-preset-angular'] = '~13.1.1';
 
-//     json.devDependencies['stylelint'] =
-//       packageJson.devDependencies['stylelint'];
-//     json.devDependencies['stylelint-config-prettier'] =
-//       packageJson.devDependencies['stylelint-config-prettier'];
-//     json.devDependencies['stylelint-config-sass-guidelines'] =
-//       packageJson.devDependencies['stylelint-config-sass-guidelines'];
-//     json.devDependencies['stylelint-config-standard'] =
-//       packageJson.devDependencies['stylelint-config-standard'];
-//     json.devDependencies['stylelint-order'] =
-//       packageJson.devDependencies['stylelint-order'];
-//     json.devDependencies['stylelint-scss'] =
-//       packageJson.devDependencies['stylelint-scss'];
+    json.devDependencies['stylelint'] = '~15.10.2';
+    json.devDependencies['stylelint-config-prettier'] = '~9.0.5';
+    json.devDependencies['stylelint-config-sass-guidelines'] = '~10.0.0';
+    json.devDependencies['stylelint-config-standard'] = '~34.0.0';
+    json.devDependencies['stylelint-order'] = '~6.0.3';
+    json.devDependencies['stylelint-scss'] = '~5.0.1';
 
-//     tree.overwrite(path, JSON.stringify(json, null, 2));
-//     return tree;
-//   };
-// }
+    // TODO: add dependencies from eslint-config and ngx-dev
+
+    tree.overwrite(path, JSON.stringify(json, null, 2));
+    return tree;
+  };
+}
 
 export function generateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {

@@ -1,0 +1,26 @@
+import { importProvidersFrom } from '@angular/core';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import {
+  <%= classify(name) %>Module,
+  SampleServiceToken,
+} from '@<%= dasherize(libraryPackageName) %>';
+
+import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/app.routes';
+import { AppSampleService } from './app/sample/sample.service';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    importProvidersFrom(
+      <%= classify(name) %>Module.forRoot({
+        headerTitle: 'App',
+      })
+    ),
+    provideRouter(APP_ROUTES),
+    {
+      provide: SampleServiceToken,
+      useClass: AppSampleService,
+    },
+  ],
+});

@@ -1,0 +1,7 @@
+export * from './lib/config/<%= dasherize(name) %>-config';
+export * from './lib/core/services/sample/sample.service';
+export * from './lib/core/services/sample/sample.config';
+export * from './lib/sample/sample.routes';
+export * from './lib/sample/sample.component.form';
+export * from './lib/<%= dasherize(name) %>.module';
+export * from './lib/sample/sample.component';

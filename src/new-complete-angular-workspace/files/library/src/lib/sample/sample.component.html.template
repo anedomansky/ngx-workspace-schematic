@@ -1,0 +1,2 @@
+<h1>{{ config.headerTitle }}</h1>
+<p>{{ greeting$ | async }}</p>
