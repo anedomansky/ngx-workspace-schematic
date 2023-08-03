@@ -4,8 +4,6 @@ export const APP_ROUTES: Route[] = [
   {
     path: '',
     loadChildren: () =>
-      import('@<%= dasherize(libraryPackageName) %>').then(
-        (m) => m.SAMPLE_ROUTES
-      ),
+      import('@<%= dasherize(libraryPackageName) %>').then((m) => m.SAMPLE_ROUTES),
   },
 ];

@@ -1,18 +1,17 @@
 import { normalize } from '@angular-devkit/core';
 import {
-  apply,
-  chain,
-  externalSchematic,
   MergeStrategy,
-  mergeWith,
-  move,
   Rule,
   SchematicContext,
-  strings,
-  template,
   Tree,
-  url,
+  apply,
   applyTemplates,
+  chain,
+  externalSchematic,
+  mergeWith,
+  move,
+  strings,
+  url,
 } from '@angular-devkit/schematics';
 import { Source } from '@angular-devkit/schematics/src/engine/interface';
 
@@ -94,8 +93,24 @@ function updatePackageJson(options: Schema): Rule {
     json.dependencies['tslib'] = '~2.6.1';
     json.dependencies['zone.js'] = '~0.13.1';
 
-    json.devDependencies['@angular/cli'] = '~16.1.6';
+    json.devDependencies['@angular/cli'] = '~16.1.7';
     json.devDependencies['@angular/compiler-cli'] = '~16.1.7';
+    json.devDependencies['@angular-devkit/build-angular'] = '~16.1.7';
+    json.devDependencies['@angular-eslint/builder'] = '~16.1.0';
+    json.devDependencies['@angular-eslint/eslint-plugin'] = '~16.1.0';
+    json.devDependencies['@angular-eslint/eslint-plugin-template'] = '~16.1.0';
+    json.devDependencies['@angular-eslint/template-parser'] = '~16.1.0';
+    json.devDependencies['@types/node'] = '~20.4.6';
+    json.devDependencies['@typescript-eslint/eslint-plugin'] = '~6.2.1';
+    json.devDependencies['@typescript-eslint/parser'] = '~6.2.1';
+    json.devDependencies['eslint'] = '~8.46.0';
+    json.devDependencies['eslint-config-prettier'] = '~8.10.0';
+    json.devDependencies['eslint-plugin-import'] = '~2.28.0';
+    json.devDependencies['eslint-plugin-prettier'] = '~5.0.0';
+    json.devDependencies['eslint-plugin-rxjs'] = '~5.0.3';
+    json.devDependencies['eslint-plugin-rxjs-angular'] = '~2.0.1';
+    json.devDependencies['eslint-plugin-simple-import-sort'] = '~10.0.0';
+    json.devDependencies['prettier'] = '~3.0.1';
     json.devDependencies['ng-packagr'] = '~16.1.0';
     json.devDependencies['typescript'] = '~5.1.6';
 
@@ -113,14 +128,12 @@ function updatePackageJson(options: Schema): Rule {
     json.devDependencies['jest'] = '~29.6.2';
     json.devDependencies['jest-preset-angular'] = '~13.1.1';
 
-    json.devDependencies['stylelint'] = '~15.10.2';
+    json.devDependencies['stylelint'] = '~14.16.1';
     json.devDependencies['stylelint-config-prettier'] = '~9.0.5';
-    json.devDependencies['stylelint-config-sass-guidelines'] = '~10.0.0';
-    json.devDependencies['stylelint-config-standard'] = '~34.0.0';
+    json.devDependencies['stylelint-config-sass-guidelines'] = '~9.0.1';
+    json.devDependencies['stylelint-config-standard'] = '~29.0.0';
     json.devDependencies['stylelint-order'] = '~6.0.3';
     json.devDependencies['stylelint-scss'] = '~5.0.1';
-
-    // TODO: add dependencies from eslint-config and ngx-dev
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
     return tree;
@@ -131,8 +144,8 @@ export function generateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const rule = chain([
       executeSchematic(options),
-      // updatePackageJson(options),
       copyBaseFiles(options),
+      updatePackageJson(options),
       mergeWith(
         copyPath(
           options,

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { SampleServiceConfig } from '@<%= dasherize(libraryPackageName) %>';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class InsuriaSampleService implements SampleServiceConfig {
   sayHello(): Observable<string> {
-    return of('Welcome from insuria!');
+    return of('Welcome from <%= capitalize(name) %>!');
   }
 }

@@ -1,19 +1,17 @@
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
+  getDefault<%= capitalize(name) %>Config,
   <%= capitalize(name) %>Config,
   <%= capitalize(name) %>ConfigToken,
-  getDefault<%= capitalize(name) %>Config,
 } from './config/<%= dasherize(name) %>-config';
-import { SampleServiceToken} from './core/services/sample/sample.config';
+import { SampleServiceToken } from './core/services/sample/sample.config';
 import { SampleService } from './core/services/sample/sample.service';
 import { SampleComponent } from './sample/sample.component';
 
 @NgModule({
   declarations: [],
-  imports: [
-    SampleComponent,
-  ],
+  imports: [SampleComponent],
   providers: [
     {
       provide: SampleServiceToken,

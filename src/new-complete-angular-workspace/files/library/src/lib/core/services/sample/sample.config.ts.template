@@ -6,5 +6,5 @@ export interface SampleServiceConfig {
 }
 
 export const SampleServiceToken = new InjectionToken<SampleServiceConfig>(
-  'SampleService'
+  'SampleService',
 );
