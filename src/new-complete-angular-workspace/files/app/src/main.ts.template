@@ -11,7 +11,7 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(
       <%= classify(name) %>Module.forRoot({
-        headerTitle: 'App',
+        appTitle: 'App',
       }),
     ),
     provideRouter(APP_ROUTES),
