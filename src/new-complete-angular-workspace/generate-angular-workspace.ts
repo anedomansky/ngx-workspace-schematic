@@ -69,12 +69,12 @@ function updatePackageJson(options: Schema): Rule {
       'build:library': `ng build @${options.libraryPackageName} --configuration=production`,
       'build:library:watch': `ng build @${options.libraryPackageName} --configuration development --watch`,
       test: 'npm run test:lib && npm run test:app',
-      'test:lib': 'jest --silent --config ./jest.lib.config.js',
-      'test:lib:local': 'jest --config ./jest.lib.config.js',
-      'test:app': 'jest --silent --config ./jest.app.config.js',
-      'test:app:local': 'jest --config ./jest.app.config.js',
+      'test:lib': 'jest --silent --config ./jest.lib.config.ts',
+      'test:lib:local': 'jest --config ./jest.lib.config.ts',
+      'test:app': 'jest --silent --config ./jest.app.config.ts',
+      'test:app:local': 'jest --config ./jest.app.config.ts',
       'test:coverage':
-        'jest --silent --collectCoverage --config ./jest.lib.config.js',
+        'jest --silent --collectCoverage --config ./jest.lib.config.ts',
       lint: 'eslint . --ext .ts --ext .html',
       'lint:fix': 'eslint . --ext .ts --ext .html --fix',
       'build:complete':
@@ -127,6 +127,7 @@ function updatePackageJson(options: Schema): Rule {
     json.devDependencies['@types/jest'] = '~29.5.3';
     json.devDependencies['jest'] = '~29.6.2';
     json.devDependencies['jest-preset-angular'] = '~13.1.1';
+    json.devDependencies['ts-node'] = '~10.9.1';
 
     json.devDependencies['stylelint'] = '~14.16.1';
     json.devDependencies['stylelint-config-prettier'] = '~9.0.5';

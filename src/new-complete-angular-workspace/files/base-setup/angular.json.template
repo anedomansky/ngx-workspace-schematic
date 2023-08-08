@@ -51,18 +51,12 @@
               "projects/<%= dasherize(name) %>-app/src/assets",
               {
                 "glob": "**/*",
-                "input": "./node_modules/@insure/ngx-components/assets",
-                "output": "assets"
-              },
-              {
-                "glob": "**/*",
                 "input": "projects/<%= dasherize(libraryPackageName) %>/assets",
                 "output": "assets"
               }
             ],
             "styles": [
               "projects/<%= dasherize(name) %>-app/src/styles.scss",
-              "./node_modules/@insure/ngx-components/styles/index.scss",
               "projects/<%= dasherize(libraryPackageName) %>/styles/index.scss"
             ],
             "scripts": []

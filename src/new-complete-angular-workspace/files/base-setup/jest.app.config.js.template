@@ -1,9 +1,0 @@
-const baseConfig = require("./jest.config");
-
-module.exports = {
-  ...baseConfig,
-  roots: ["<rootDir>/projects/<%= dasherize(name) %>-app/src"],
-  modulePathIgnorePatterns: [
-    "<rootDir>/projects/<%= dasherize(libraryPackageName) %>",
-  ],
-};
