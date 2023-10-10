@@ -2,6 +2,6 @@ import baseConfig from './jest.config';
 
 export default {
   ...baseConfig,
-  roots: ['<rootDir>/projects/test-app/src'],
-  modulePathIgnorePatterns: ['<rootDir>/projects/complete/test-lib'],
+  roots: ['<rootDir>/projects/<%= dasherize(name) %>-app/src'],
+  modulePathIgnorePatterns: ['<rootDir>/projects/<%= dasherize(libraryPackageName) %>'],
 };
