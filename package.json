@@ -1,6 +1,6 @@
 {
   "name": "@anedomansky/ngx-workspace-schematic",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Angular schematic for creating complete workspaces.",
   "main": "./src/index.js",
   "scripts": {
