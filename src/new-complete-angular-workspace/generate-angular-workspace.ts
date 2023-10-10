@@ -81,37 +81,37 @@ function updatePackageJson(options: Schema): Rule {
         'npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build',
     };
 
-    json.dependencies['@angular/animations'] = '~16.1.7';
-    json.dependencies['@angular/common'] = '~16.1.7';
-    json.dependencies['@angular/compiler'] = '~16.1.7';
-    json.dependencies['@angular/core'] = '~16.1.7';
-    json.dependencies['@angular/forms'] = '~16.1.7';
-    json.dependencies['@angular/platform-browser'] = '~16.1.7';
-    json.dependencies['@angular/platform-browser-dynamic'] = '~16.1.7';
-    json.dependencies['@angular/router'] = '~16.1.7';
+    json.dependencies['@angular/animations'] = '~16.2.8';
+    json.dependencies['@angular/common'] = '~16.2.8';
+    json.dependencies['@angular/compiler'] = '~16.2.8';
+    json.dependencies['@angular/core'] = '~16.2.8';
+    json.dependencies['@angular/forms'] = '~16.2.8';
+    json.dependencies['@angular/platform-browser'] = '~16.2.8';
+    json.dependencies['@angular/platform-browser-dynamic'] = '~16.2.8';
+    json.dependencies['@angular/router'] = '~16.2.8';
     json.dependencies['rxjs'] = '~7.8.1';
-    json.dependencies['tslib'] = '~2.6.1';
+    json.dependencies['tslib'] = '~2.6.2';
     json.dependencies['zone.js'] = '~0.13.1';
 
-    json.devDependencies['@angular/cli'] = '~16.1.7';
-    json.devDependencies['@angular/compiler-cli'] = '~16.1.7';
-    json.devDependencies['@angular-devkit/build-angular'] = '~16.1.7';
-    json.devDependencies['@angular-eslint/builder'] = '~16.1.0';
-    json.devDependencies['@angular-eslint/eslint-plugin'] = '~16.1.0';
-    json.devDependencies['@angular-eslint/eslint-plugin-template'] = '~16.1.0';
-    json.devDependencies['@angular-eslint/template-parser'] = '~16.1.0';
-    json.devDependencies['@types/node'] = '~20.4.6';
-    json.devDependencies['@typescript-eslint/eslint-plugin'] = '~6.2.1';
-    json.devDependencies['@typescript-eslint/parser'] = '~6.2.1';
-    json.devDependencies['eslint'] = '~8.46.0';
-    json.devDependencies['eslint-config-prettier'] = '~8.10.0';
-    json.devDependencies['eslint-plugin-import'] = '~2.28.0';
+    json.devDependencies['@angular/cli'] = '~16.2.5';
+    json.devDependencies['@angular/compiler-cli'] = '~16.2.8';
+    json.devDependencies['@angular-devkit/build-angular'] = '~16.2.1';
+    json.devDependencies['@angular-eslint/builder'] = '~16.2.0';
+    json.devDependencies['@angular-eslint/eslint-plugin'] = '~16.2.0';
+    json.devDependencies['@angular-eslint/eslint-plugin-template'] = '~16.2.0';
+    json.devDependencies['@angular-eslint/template-parser'] = '~16.2.0';
+    json.devDependencies['@types/node'] = '~20.8.4';
+    json.devDependencies['@typescript-eslint/eslint-plugin'] = '~6.7.5';
+    json.devDependencies['@typescript-eslint/parser'] = '~6.7.5';
+    json.devDependencies['eslint'] = '~8.51.0';
+    json.devDependencies['eslint-config-prettier'] = '~9.0.0';
+    json.devDependencies['eslint-plugin-import'] = '~2.28.1';
     json.devDependencies['eslint-plugin-prettier'] = '~5.0.0';
     json.devDependencies['eslint-plugin-rxjs'] = '~5.0.3';
     json.devDependencies['eslint-plugin-rxjs-angular'] = '~2.0.1';
     json.devDependencies['eslint-plugin-simple-import-sort'] = '~10.0.0';
-    json.devDependencies['prettier'] = '~3.0.1';
-    json.devDependencies['ng-packagr'] = '~16.1.0';
+    json.devDependencies['prettier'] = '~3.0.3';
+    json.devDependencies['ng-packagr'] = '~16.2.3';
     json.devDependencies['typescript'] = '~5.1.6';
 
     // Delete Jasmin / Karma Tests
@@ -124,9 +124,9 @@ function updatePackageJson(options: Schema): Rule {
     delete json.devDependencies['karma-jasmine-html-reporter'];
 
     // Adds jest
-    json.devDependencies['@types/jest'] = '~29.5.3';
-    json.devDependencies['jest'] = '~29.6.2';
-    json.devDependencies['jest-preset-angular'] = '~13.1.1';
+    json.devDependencies['@types/jest'] = '~29.5.5';
+    json.devDependencies['jest'] = '~29.7.0';
+    json.devDependencies['jest-preset-angular'] = '~13.1.2';
     json.devDependencies['ts-node'] = '~10.9.1';
 
     json.devDependencies['stylelint'] = '~14.16.1';
@@ -134,7 +134,7 @@ function updatePackageJson(options: Schema): Rule {
     json.devDependencies['stylelint-config-sass-guidelines'] = '~9.0.1';
     json.devDependencies['stylelint-config-standard'] = '~29.0.0';
     json.devDependencies['stylelint-order'] = '~6.0.3';
-    json.devDependencies['stylelint-scss'] = '~5.0.1';
+    json.devDependencies['stylelint-scss'] = '~5.2.1';
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
     return tree;
