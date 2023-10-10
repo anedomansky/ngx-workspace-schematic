@@ -1,9 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
-  getDefault<%= capitalize(name) %>Config,
-  <%= capitalize(name) %>Config,
-  <%= capitalize(name) %>ConfigToken,
+  getDefault<%= classify(name) %>Config,
+  <%= classify(name) %>Config,
+  <%= classify(name) %>ConfigToken,
 } from './config/<%= dasherize(name) %>-config';
 import { SampleServiceToken } from './core/services/sample/sample.config';
 import { SampleService } from './core/services/sample/sample.service';
@@ -18,19 +18,19 @@ import { SampleComponent } from './sample/sample.component';
       useClass: SampleService,
     },
     {
-      provide: <%= capitalize(name) %>ConfigToken,
-      useValue: getDefault<%= capitalize(name) %>Config(),
+      provide: <%= classify(name) %>ConfigToken,
+      useValue: getDefault<%= classify(name) %>Config(),
     },
   ],
   exports: [SampleComponent],
 })
 export class <%= classify(name) %>Module {
-  static forRoot(config: <%= capitalize(name) %>Config): ModuleWithProviders<<%= capitalize(name) %>Module> {
+  static forRoot(config: <%= classify(name) %>Config): ModuleWithProviders<<%= classify(name) %>Module> {
     return {
-      ngModule: <%= capitalize(name) %>Module,
+      ngModule: <%= classify(name) %>Module,
       providers: [
         {
-          provide: <%= capitalize(name) %>ConfigToken,
+          provide: <%= classify(name) %>ConfigToken,
           useValue: config,
         },
       ],

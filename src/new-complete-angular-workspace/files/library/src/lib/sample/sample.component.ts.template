@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { <%= capitalize(name) %>Config, <%= capitalize(name) %>ConfigToken } from '../config/<%= dasherize(name) %>-config';
+import { <%= classify(name) %>Config, <%= classify(name) %>ConfigToken } from '../config/<%= dasherize(name) %>-config';
 import { SampleService } from '../core/services/sample/sample.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class SampleComponent {
 
   constructor(
     private sampleService: SampleService,
-    @Inject(<%= capitalize(name) %>ConfigToken) public config: <%= capitalize(name) %>Config,
+    @Inject(<%= classify(name) %>ConfigToken) public config: <%= classify(name) %>Config,
   ) {
     this.greeting$ = this.sampleService.sayHello();
   }
