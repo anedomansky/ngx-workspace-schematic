@@ -5,9 +5,19 @@
   "projects": {
     "@<%= dasherize(libraryPackageName) %>": {
       "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush",
+          "standalone": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true
+        }
+      },
       "root": "projects/<%= dasherize(libraryPackageName) %>",
       "sourceRoot": "projects/<%= dasherize(libraryPackageName) %>/src",
-      "prefix": "product",
+      "prefix": "<%= dasherize(name) %>",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -30,7 +40,12 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-          "style": "scss"
+          "style": "scss",
+          "changeDetection": "OnPush",
+          "standalone": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true
         }
       },
       "root": "projects/<%= dasherize(name) %>-app",
