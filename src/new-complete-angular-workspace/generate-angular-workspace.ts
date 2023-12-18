@@ -81,36 +81,36 @@ function updatePackageJson(options: Schema): Rule {
         'npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build',
     };
 
-    json.dependencies['@angular/animations'] = '~16.2.8';
-    json.dependencies['@angular/common'] = '~16.2.8';
-    json.dependencies['@angular/compiler'] = '~16.2.8';
-    json.dependencies['@angular/core'] = '~16.2.8';
-    json.dependencies['@angular/forms'] = '~16.2.8';
-    json.dependencies['@angular/platform-browser'] = '~16.2.8';
-    json.dependencies['@angular/platform-browser-dynamic'] = '~16.2.8';
-    json.dependencies['@angular/router'] = '~16.2.8';
+    json.dependencies['@angular/animations'] = '~16.2.12';
+    json.dependencies['@angular/common'] = '~16.2.12';
+    json.dependencies['@angular/compiler'] = '~16.2.12';
+    json.dependencies['@angular/core'] = '~16.2.12';
+    json.dependencies['@angular/forms'] = '~16.2.12';
+    json.dependencies['@angular/platform-browser'] = '~16.2.12';
+    json.dependencies['@angular/platform-browser-dynamic'] = '~16.2.12';
+    json.dependencies['@angular/router'] = '~16.2.12';
     json.dependencies['rxjs'] = '~7.8.1';
     json.dependencies['tslib'] = '~2.6.2';
     json.dependencies['zone.js'] = '~0.13.1';
 
-    json.devDependencies['@angular/cli'] = '~16.2.5';
-    json.devDependencies['@angular/compiler-cli'] = '~16.2.8';
-    json.devDependencies['@angular-devkit/build-angular'] = '~16.2.1';
-    json.devDependencies['@angular-eslint/builder'] = '~16.2.0';
-    json.devDependencies['@angular-eslint/eslint-plugin'] = '~16.2.0';
-    json.devDependencies['@angular-eslint/eslint-plugin-template'] = '~16.2.0';
-    json.devDependencies['@angular-eslint/template-parser'] = '~16.2.0';
-    json.devDependencies['@types/node'] = '~20.8.4';
-    json.devDependencies['@typescript-eslint/eslint-plugin'] = '~6.7.5';
-    json.devDependencies['@typescript-eslint/parser'] = '~6.7.5';
-    json.devDependencies['eslint'] = '~8.51.0';
-    json.devDependencies['eslint-config-prettier'] = '~9.0.0';
-    json.devDependencies['eslint-plugin-import'] = '~2.28.1';
-    json.devDependencies['eslint-plugin-prettier'] = '~5.0.0';
+    json.devDependencies['@angular/cli'] = '~16.2.10';
+    json.devDependencies['@angular/compiler-cli'] = '~16.2.12';
+    json.devDependencies['@angular-devkit/build-angular'] = '~16.2.10';
+    json.devDependencies['@angular-eslint/builder'] = '~16.3.1';
+    json.devDependencies['@angular-eslint/eslint-plugin'] = '~16.3.1';
+    json.devDependencies['@angular-eslint/eslint-plugin-template'] = '~16.3.1';
+    json.devDependencies['@angular-eslint/template-parser'] = '~16.3.1';
+    json.devDependencies['@types/node'] = '~20.10.5';
+    json.devDependencies['@typescript-eslint/eslint-plugin'] = '~6.15.0';
+    json.devDependencies['@typescript-eslint/parser'] = '~6.15.0';
+    json.devDependencies['eslint'] = '~8.56.0';
+    json.devDependencies['eslint-config-prettier'] = '~9.1.0';
+    json.devDependencies['eslint-plugin-import'] = '~2.29.1';
+    json.devDependencies['eslint-plugin-prettier'] = '~5.0.1';
     json.devDependencies['eslint-plugin-rxjs'] = '~5.0.3';
     json.devDependencies['eslint-plugin-rxjs-angular'] = '~2.0.1';
     json.devDependencies['eslint-plugin-simple-import-sort'] = '~10.0.0';
-    json.devDependencies['prettier'] = '~3.0.3';
+    json.devDependencies['prettier'] = '~3.1.1';
     json.devDependencies['ng-packagr'] = '~16.2.3';
     json.devDependencies['typescript'] = '~5.1.6';
 
@@ -124,10 +124,10 @@ function updatePackageJson(options: Schema): Rule {
     delete json.devDependencies['karma-jasmine-html-reporter'];
 
     // Adds jest
-    json.devDependencies['@types/jest'] = '~29.5.5';
+    json.devDependencies['@types/jest'] = '~29.5.11';
     json.devDependencies['jest'] = '~29.7.0';
-    json.devDependencies['jest-preset-angular'] = '~13.1.2';
-    json.devDependencies['ts-node'] = '~10.9.1';
+    json.devDependencies['jest-preset-angular'] = '~13.1.4';
+    json.devDependencies['ts-node'] = '~10.9.2';
 
     json.devDependencies['stylelint'] = '~14.16.1';
     json.devDependencies['stylelint-config-prettier'] = '~9.0.5';
