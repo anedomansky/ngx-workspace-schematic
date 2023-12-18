@@ -1,10 +1,10 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
-  getDefault<%= classify(name) %>Config,
-  <%= classify(name) %>Config,
-  <%= classify(name) %>ConfigToken,
-} from './config/<%= dasherize(name) %>-config';
+  getDefault<%= classify(libraryName) %>Config,
+  <%= classify(libraryName) %>Config,
+  <%= classify(libraryName) %>ConfigToken,
+} from './config/<%= dasherize(libraryName) %>-config';
 import { SampleServiceToken } from './core/services/sample/sample.config';
 import { SampleService } from './core/services/sample/sample.service';
 import { SampleComponent } from './sample/sample.component';
@@ -18,19 +18,19 @@ import { SampleComponent } from './sample/sample.component';
       useClass: SampleService,
     },
     {
-      provide: <%= classify(name) %>ConfigToken,
-      useValue: getDefault<%= classify(name) %>Config(),
+      provide: <%= classify(libraryName) %>ConfigToken,
+      useValue: getDefault<%= classify(libraryName) %>Config(),
     },
   ],
   exports: [SampleComponent],
 })
-export class <%= classify(name) %>Module {
-  static forRoot(config: <%= classify(name) %>Config): ModuleWithProviders<<%= classify(name) %>Module> {
+export class <%= classify(libraryName) %>Module {
+  static forRoot(config: <%= classify(libraryName) %>Config): ModuleWithProviders<<%= classify(libraryName) %>Module> {
     return {
-      ngModule: <%= classify(name) %>Module,
+      ngModule: <%= classify(libraryName) %>Module,
       providers: [
         {
-          provide: <%= classify(name) %>ConfigToken,
+          provide: <%= classify(libraryName) %>ConfigToken,
           useValue: config,
         },
       ],

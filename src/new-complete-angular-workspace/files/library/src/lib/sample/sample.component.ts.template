@@ -1,24 +1,20 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
 
-import { <%= classify(name) %>Config, <%= classify(name) %>ConfigToken } from '../config/<%= dasherize(name) %>-config';
+import { <%= classify(libraryName) %>ConfigToken } from '../config/<%= dasherize(libraryName) %>-config';
 import { SampleService } from '../core/services/sample/sample.service';
 
 @Component({
-  selector: '<%= dasherize(name) %>-sample',
+  selector: '<%= dasherize(libraryName) %>-sample',
   templateUrl: './sample.component.html',
   styleUrls: ['./sample.component.scss'],
   standalone: true,
   imports: [AsyncPipe],
 })
 export class SampleComponent {
-  greeting$: Observable<string>;
+  private sampleService = inject(SampleService);
 
-  constructor(
-    private sampleService: SampleService,
-    @Inject(<%= classify(name) %>ConfigToken) public config: <%= classify(name) %>Config,
-  ) {
-    this.greeting$ = this.sampleService.sayHello();
-  }
+  protected config = inject(NgxIconConfigToken);
+
+  greeting$ = this.sampleService.sayHello();
 }

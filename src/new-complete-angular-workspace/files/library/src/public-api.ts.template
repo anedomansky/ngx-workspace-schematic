@@ -1,6 +1,6 @@
-export * from './lib/config/<%= dasherize(name) %>-config';
+export * from './lib/config/<%= dasherize(libraryName) %>-config';
 export * from './lib/core/services/sample/sample.config';
 export * from './lib/core/services/sample/sample.service';
 export * from './lib/sample/sample.component';
 export * from './lib/sample/sample.routes';
-export * from './lib/<%= dasherize(name) %>.module';
+export * from './lib/<%= dasherize(libraryName) %>.module';

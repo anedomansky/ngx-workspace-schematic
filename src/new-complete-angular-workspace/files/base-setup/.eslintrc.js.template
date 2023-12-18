@@ -25,6 +25,7 @@ module.exports = {
         "plugin:rxjs/recommended"
       ],
       "rules": {
+        "lines-between-class-members": ["warn", "always"],
         "rxjs/no-ignored-observable": "error",
         "rxjs/no-sharereplay": "off",
         "rxjs/throw-error": "error",
