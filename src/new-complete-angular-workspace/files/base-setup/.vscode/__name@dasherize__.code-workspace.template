@@ -18,11 +18,9 @@
     ],
     "npm.packageManager": "npm",
     "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.fixAll.stylelint": true,
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
     },
-    "editor.formatOnSave": true,
-    "jest.autoRun": "off",
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -30,6 +28,9 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[html]": {
+      "editor.defaultFormatter": null
+    },
+    "[typescript]": {
       "editor.defaultFormatter": null
     },
     "search.exclude": {
