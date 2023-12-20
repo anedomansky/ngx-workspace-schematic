@@ -18,7 +18,6 @@
     ],
     "npm.packageManager": "npm",
     "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit",
       "source.fixAll": "explicit"
     },
     "[json]": {
