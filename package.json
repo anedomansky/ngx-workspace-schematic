@@ -17,7 +17,8 @@
     "angular",
     "schematic",
     "blueprints",
-    "code generation"
+    "code generation",
+    "automation"
   ],
   "repository": {
     "type": "git",

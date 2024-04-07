@@ -14,7 +14,7 @@ import { SampleService } from '../core/services/sample/sample.service';
 export class SampleComponent {
   private sampleService = inject(SampleService);
 
-  protected config = inject(NgxIconConfigToken);
+  protected config = inject(<%= classify(libraryName) %>ConfigToken);
 
   greeting$ = this.sampleService.sayHello();
 }

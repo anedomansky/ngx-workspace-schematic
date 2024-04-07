@@ -55,7 +55,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/<<%= dasherize(appName) %>",
+            "outputPath": "dist/<%= dasherize(appName) %>",
             "index": "projects/<%= dasherize(appName) %>/src/index.html",
             "main": "projects/<%= dasherize(appName) %>/src/main.ts",
             "polyfills": ["zone.js"],

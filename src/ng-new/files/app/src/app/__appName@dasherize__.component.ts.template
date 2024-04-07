@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: '<%= dasherize(appName) %>-root',
+  templateUrl: './<%= dasherize(appName) %>.component.html',
+  styleUrls: ['./<%= dasherize(appName) %>.component.scss'],
   standalone: true,
   imports: [RouterOutlet],
 })
-export class AppComponent {}
+export class <%= classify(appName) %>Component {}
