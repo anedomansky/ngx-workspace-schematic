@@ -8,6 +8,7 @@
     "build:watch": "npm run build -- --watch",
     "prepublishOnly": "npm run build",
     "ng-new": "npm run build && schematics .:ng-new",
+    "ng-new:prod": "npm run build && schematics .:ng-new --debug false",
     "test:ng-new": "jest ./src/ng-new/ng-new.spec.ts"
   },
   "author": "Alexander Nedomansky <anedomansky@gmail.com>",
@@ -37,9 +38,10 @@
   ],
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "16.2.10",
-    "@angular-devkit/schematics": "16.2.10",
-    "@schematics/angular": "16.2.10"
+    "@angular-devkit/core": "16.2.12",
+    "@angular-devkit/schematics": "16.2.12",
+    "@angular-devkit/schematics-cli": "16.2.12",
+    "@schematics/angular": "16.2.12"
   },
   "devDependencies": {
     "@types/jest": "29.5.4",

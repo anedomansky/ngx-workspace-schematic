@@ -17,13 +17,9 @@ export function ngNew(options: Schema): Rule {
     options.appName = `${name}-app`;
   }
 
-  if (!options.libraryPrefix) {
-    options.libraryPackageName = strings.dasherize(options.libraryName);
-  } else {
-    options.libraryPackageName = `${options.libraryPrefix}/${strings.dasherize(
-      options.libraryName
-    )}`;
-  }
+  options.libraryPackageName = `${options.libraryPrefix}/${strings.dasherize(
+    options.libraryName
+  )}`;
 
   return (tree: Tree, context: SchematicContext) => {
     const rule = chain([generateAngularWorkspace(options)]);
