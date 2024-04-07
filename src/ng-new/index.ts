@@ -4,14 +4,18 @@ import {
   SchematicContext,
   strings,
   Tree,
-} from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+} from "@angular-devkit/schematics";
+import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 
-import { generateAngularWorkspace } from './generate-angular-workspace';
-import { Schema } from './schema';
+import { generateAngularWorkspace } from "./generate-angular-workspace";
+import { Schema } from "./schema";
 
-export function newCompleteWorkspace(options: Schema): Rule {
+export function ngNew(options: Schema): Rule {
   const name = strings.dasherize(options.name);
+
+  if (!options.appName) {
+    options.appName = `${name}-app`;
+  }
 
   if (!options.libraryPrefix) {
     options.libraryPackageName = strings.dasherize(options.libraryName);

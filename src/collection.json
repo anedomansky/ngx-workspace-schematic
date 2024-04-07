@@ -3,13 +3,8 @@
   "schematics": {
     "ng-new": {
       "description": "Generates a new complete Angular workspace.",
-      "factory": "./new-complete-angular-workspace/index#newCompleteWorkspace",
-      "schema": "./new-complete-angular-workspace/schema.json"
-    },
-    "new-complete-angular-workspace": {
-      "description": "Generates a new complete Angular workspace.",
-      "factory": "./new-complete-angular-workspace/index#newCompleteWorkspace",
-      "schema": "./new-complete-angular-workspace/schema.json"
+      "factory": "./ng-new/index#ngNew",
+      "schema": "./ng-new/schema.json"
     }
   }
 }

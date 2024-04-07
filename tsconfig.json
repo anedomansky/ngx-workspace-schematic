@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "rootDir": "src",
+    "outDir": "./src",
     "baseUrl": "./",
     "lib": [
       "ES2020"
@@ -11,6 +10,7 @@
     "moduleResolution": "Node16",
     "noEmitOnError": true,
     "strict": true,
+    "skipDefaultLibCheck": true,
     "skipLibCheck": false,
     "sourceMap": true,
     "resolveJsonModule": true,
@@ -21,6 +21,6 @@
     "src/**/*"
   ],
   "exclude": [
-    "src/*/files/**/*"
+    "src/**/*.spec.ts"
   ]
 }

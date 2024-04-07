@@ -6,7 +6,7 @@ module.exports = {
     "@angular-eslint/component-selector": [
       "error",
       {
-        prefix: "app",
+        prefix: "<%= dasherize(appName) %>",
         style: "kebab-case",
         type: "element",
       },
@@ -14,7 +14,7 @@ module.exports = {
     "@angular-eslint/directive-selector": [
       "error",
       {
-        prefix: "app",
+        prefix: "<%= camelize(appName) %>",
         style: "camelCase",
         type: "attribute",
       },

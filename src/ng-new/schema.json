@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "NewCompleteWorkspaceSchematic",
+  "$id": "NgNewSchematic",
   "title": "ng new options schema",
   "type": "object",
   "description": "Initialize a new complete Angular workspace",
@@ -9,6 +9,11 @@
       "type": "string",
       "description": "The name of the workspace",
       "x-prompt": "Workspace name:"
+    },
+    "appName": {
+      "type": "string",
+      "description": "The name of the application",
+      "x-prompt": "App name (optional):"
     },
     "libraryPrefix": {
       "type": "string",

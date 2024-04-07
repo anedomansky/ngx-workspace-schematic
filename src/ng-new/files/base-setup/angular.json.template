@@ -17,7 +17,7 @@
       },
       "root": "projects/<%= dasherize(libraryPackageName) %>",
       "sourceRoot": "projects/<%= dasherize(libraryPackageName) %>/src",
-      "prefix": "<%= dasherize(name) %>",
+      "prefix": "<%= dasherize(libraryPackageName) %>",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -36,7 +36,7 @@
         }
       }
     },
-    "<%= dasherize(name) %>-app": {
+    "<%= dasherize(appName) %>": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -48,22 +48,22 @@
           "standalone": true
         }
       },
-      "root": "projects/<%= dasherize(name) %>-app",
-      "sourceRoot": "projects/<%= dasherize(name) %>-app/src",
+      "root": "projects/<%= dasherize(appName) %>",
+      "sourceRoot": "projects/<%= dasherize(appName) %>/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/<%= dasherize(name) %>-app",
-            "index": "projects/<%= dasherize(name) %>-app/src/index.html",
-            "main": "projects/<%= dasherize(name) %>-app/src/main.ts",
+            "outputPath": "dist/<<%= dasherize(appName) %>",
+            "index": "projects/<%= dasherize(appName) %>/src/index.html",
+            "main": "projects/<%= dasherize(appName) %>/src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "projects/<%= dasherize(name) %>-app/tsconfig.app.json",
+            "tsConfig": "projects/<%= dasherize(appName) %>/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              "projects/<%= dasherize(name) %>-app/src/favicon.ico",
-              "projects/<%= dasherize(name) %>-app/src/assets",
+              "projects/<%= dasherize(appName) %>/src/favicon.ico",
+              "projects/<%= dasherize(appName) %>/src/assets",
               {
                 "glob": "**/*",
                 "input": "projects/<%= dasherize(libraryPackageName) %>/assets",
@@ -71,7 +71,7 @@
               }
             ],
             "styles": [
-              "projects/<%= dasherize(name) %>-app/src/styles.scss",
+              "projects/<%= dasherize(appName) %>/src/styles.scss",
               "projects/<%= dasherize(libraryPackageName) %>/styles/index.scss"
             ],
             "scripts": []
@@ -107,10 +107,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "<%= dasherize(name) %>-app:build:production"
+              "browserTarget": "<%= dasherize(appName) %>:build:production"
             },
             "development": {
-              "browserTarget": "<%= dasherize(name) %>-app:build:development"
+              "browserTarget": "<%= dasherize(appName) %>:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -118,7 +118,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "<%= dasherize(name) %>-app:build"
+            "browserTarget": "<%= dasherize(appName) %>:build"
           }
         }
       }

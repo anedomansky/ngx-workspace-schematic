@@ -1,7 +1,6 @@
 src/**/*.js.map
 src/**/*.d.ts
 src/**/*.js
-!src/files/
 dist/
 node_modules/
 test/

@@ -8,7 +8,7 @@
       "path": "../projects/<%= dasherize(libraryPackageName) %>"
     },
     {
-      "path": "../projects/<%= dasherize(name) %>-app"
+      "path": "../projects/<%= dasherize(appName) %>"
     }
   ],
   "settings": {

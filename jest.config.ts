@@ -1,0 +1,7 @@
+export default {
+  preset: "jest-preset-angular",
+  setupFilesAfterEnv: ["<rootDir>/setup-jest.ts"],
+  testPathIgnorePatterns: ["/node_modules/", "/src/.*/files/"],
+  testEnvironment: "jsdom",
+  reporters: ["default"],
+};

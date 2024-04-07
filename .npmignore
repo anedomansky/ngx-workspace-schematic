@@ -1,0 +1,5 @@
+src/**/*.ts
+!*.d.ts
+.idea
+test
+test-generated
