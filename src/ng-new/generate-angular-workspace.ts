@@ -127,6 +127,9 @@ function updatePackageJson(options: Schema): Rule {
     json.devDependencies["@types/jest"] = "~29.5.11";
     json.devDependencies["jest"] = "~29.7.0";
     json.devDependencies["jest-preset-angular"] = "~13.1.4";
+    json.devDependencies["@testing-library/angular"] = "~14.3.0";
+    json.devDependencies["@testing-library/jest-dom"] = "~6.1.3";
+    json.devDependencies["@testing-library/user-event"] = "~14.4.3";
     json.devDependencies["ts-node"] = "~10.9.2";
 
     json.devDependencies["stylelint"] = "~14.16.1";

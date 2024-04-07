@@ -3,21 +3,21 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { SampleServiceToken, <%= classify(libraryName) %>Module } from '@<%= dasherize(libraryPackageName) %>';
 
-import { AppComponent } from './app/app.component';
-import { APP_ROUTES } from './app/app.routes';
-import { AppSampleService } from './app/sample/sample.service';
+import { <%= classify(appName) %>Component } from './app/<%= dasherize(appName) %>.component';
+import { APP_ROUTES } from './app/<%= dasherize(appName) %>.routes';
+import { <%= classify(appName) %>SampleService } from './app/sample/sample.service';
 
-bootstrapApplication(AppComponent, {
+bootstrapApplication(<%= classify(appName) %>Component, {
   providers: [
     importProvidersFrom(
       <%= classify(libraryName) %>Module.forRoot({
-        appTitle: 'App',
+        appTitle: '<%= dasherize(appName) %>',
       }),
     ),
     provideRouter(APP_ROUTES),
     {
       provide: SampleServiceToken,
-      useClass: AppSampleService,
+      useClass: <%= classify(appName) %>SampleService,
     },
   ],
 });

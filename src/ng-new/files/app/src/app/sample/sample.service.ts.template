@@ -3,8 +3,8 @@ import { SampleServiceConfig } from '@<%= dasherize(libraryPackageName) %>';
 import { Observable, of } from 'rxjs';
 
 @Injectable()
-export class AppSampleService implements SampleServiceConfig {
+export class <%= classify(appName) %>SampleService implements SampleServiceConfig {
   sayHello(): Observable<string> {
-    return of('Welcome from <%= capitalize(name) %>!');
+    return of('Welcome from <%= dasherize(appName) %>!');
   }
 }

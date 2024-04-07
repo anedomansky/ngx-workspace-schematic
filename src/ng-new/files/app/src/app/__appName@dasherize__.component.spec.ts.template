@@ -1,0 +1,22 @@
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { <%= classify(appName) %>Component } from './<%= dasherize(appName) %>.component';
+import { render } from '@testing-library/angular';
+
+describe('<%= classify(appName) %>Component', () => {
+  let componentContainer: Element;
+
+  beforeEach(async () => {
+    const { container } = await render(<%= classify(appName) %>Component, {
+      imports: [
+        RouterTestingModule,
+      ],
+    });
+
+    componentContainer = container;
+  });
+
+  it('should create the app', () => {
+    expect(componentContainer).toBeTruthy();
+  });
+});

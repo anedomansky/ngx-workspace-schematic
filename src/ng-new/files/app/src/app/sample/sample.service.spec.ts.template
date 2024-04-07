@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AppSampleService } from './sample.service';
+import { <%= classify(appName) %>SampleService } from './sample.service';
 
-describe('AppSampleService', () => {
-  let service: AppSampleService;
+describe('<%= classify(appName) %>SampleService', () => {
+  let service: <%= classify(appName) %>SampleService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AppSampleService],
+      providers: [<%= classify(appName) %>SampleService],
     });
-    service = TestBed.inject(AppSampleService);
+    service = TestBed.inject(<%= classify(appName) %>SampleService);
   });
 
   it('should be created', () => {
