@@ -10,21 +10,90 @@
       "description": "The name of the workspace",
       "x-prompt": "Workspace name:"
     },
-    "appName": {
+    "type": {
       "type": "string",
-      "description": "The name of the application",
-      "x-prompt": "App name:"
+      "description": "The type of workspace to create",
+      "default": "complete",
+      "enum": ["application", "library", "complete"],
+      "x-prompt": {
+        "message": "What type of workspace would you like to create?",
+        "type": "list",
+        "items": [
+          {
+            "value": "complete",
+            "label": "Complete"
+          },
+          {
+            "value": "application",
+            "label": "Application"
+          },
+          {
+            "value": "library",
+            "label": "Library"
+          }
+        ]
+      }
     },
-    "libraryPrefix": {
-      "type": "string",
-      "description": "The namespace of the library",
-      "x-prompt": "Library namespace (e. g. 'yourname' without the '@'):"
+    "if": {
+      "properties": {
+        "type": {
+          "const": "application"
+        }
+      }
     },
-    "libraryName": {
-      "type": "string",
-      "description": "The name of the library",
-      "x-prompt": "Library name:"
+    "then": {
+      "properties": {
+        "appName": {
+          "type": "string",
+          "description": "The name of the application",
+          "x-prompt": "App name:"
+        }
+      },
+      "required": ["name"]
+    },
+    "else": {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "library"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "libraryName": {
+            "type": "string",
+            "description": "The name of the library",
+            "x-prompt": "Library name:"
+          },
+          "libraryPrefix": {
+            "type": "string",
+            "description": "The namespace of the library",
+            "x-prompt": "Library namespace:"
+          }
+        },
+        "required": ["name", "libraryPrefix", "libraryName"]
+      },
+      "else": {
+        "properties": {
+          "appName": {
+            "type": "string",
+            "description": "The name of the application",
+            "x-prompt": "App name:"
+          },
+          "libraryName": {
+            "type": "string",
+            "description": "The name of the library",
+            "x-prompt": "Library name:"
+          },
+          "libraryPrefix": {
+            "type": "string",
+            "description": "The namespace of the library",
+            "x-prompt": "Library namespace:"
+          }
+        },
+        "required": ["name", "libraryPrefix", "libraryName"]
+      }
     }
-  },
-  "required": ["name", "libraryPrefix", "libraryName"]
+  }
 }

@@ -11,26 +11,44 @@ import { generateAngularWorkspace } from "./generate-angular-workspace";
 import { Schema } from "./schema";
 
 export function ngNew(options: Schema): Rule {
-  const name = strings.dasherize(options.name);
+  options.name = strings.dasherize(options.name);
 
-  if (!options.appName) {
-    options.appName = `${name}-app`;
+  switch (options.type) {
+    case "complete":
+      options.appName = options.appName
+        ? options.appName
+        : `${options.name}-app`;
+      options.libraryPackageName = `${
+        options.libraryPrefix
+      }/${strings.dasherize(options.libraryName)}`;
+      break;
+    case "application":
+      options.appName = options.appName
+        ? options.appName
+        : `${options.name}-app`;
+      break;
+    case "library":
+      options.libraryPackageName = `${
+        options.libraryPrefix
+      }/${strings.dasherize(options.libraryName)}`;
+      break;
   }
-
-  options.libraryPackageName = `${options.libraryPrefix}/${strings.dasherize(
-    options.libraryName
-  )}`;
 
   return (tree: Tree, context: SchematicContext) => {
     const rule = chain([generateAngularWorkspace(options)]);
 
     context.addTask(
       new NodePackageInstallTask({
-        workingDirectory: `/${name}`,
+        workingDirectory: `/${options.name}`,
         allowScripts: true,
       })
     );
 
-    return rule(tree, context) as Rule;
+    return rule(tree, context);
   };
 }
+
+// TODO: tests
+// TODO: update README.md
+// TODO: rename libraryPrefix tp libraryNamespace
+// TODO: releas 2.0.0

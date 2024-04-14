@@ -3,7 +3,6 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from "@angular-devkit/schematics/testing";
-import library from "@schematics/angular/library/index";
 
 describe("ng-new schematic", () => {
   const schematicRunner = new SchematicTestRunner(

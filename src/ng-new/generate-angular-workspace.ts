@@ -15,7 +15,12 @@ import {
 } from "@angular-devkit/schematics";
 import { Source } from "@angular-devkit/schematics/src/engine/interface";
 
-import { Schema } from "./schema";
+import {
+  ApplicationWorkspace,
+  CompleteWorkspace,
+  LibraryWorkspace,
+  Schema,
+} from "./schema";
 
 function executeSchematic(options: Schema): Rule {
   return externalSchematic("@schematics/angular", "ng-new", {
@@ -53,6 +58,38 @@ function copyBaseFiles(options: Schema): Rule {
   );
 }
 
+function copyAppFiles(
+  options: Schema & (ApplicationWorkspace | CompleteWorkspace)
+): Rule {
+  return mergeWith(
+    copyPath(
+      options,
+      "app",
+      `${options.name}/projects/${strings.dasherize(options.appName)}`
+    ),
+    MergeStrategy.Overwrite
+  );
+}
+
+function copyLibraryFiles(
+  options: Schema & (LibraryWorkspace | CompleteWorkspace)
+): Rule {
+  options.libraryPackageName = `${options.libraryPrefix}/${strings.dasherize(
+    options.libraryName
+  )}`;
+
+  return mergeWith(
+    copyPath(
+      options,
+      "library",
+      `${options.name}/projects/${strings.dasherize(
+        options.libraryPackageName
+      )}`
+    ),
+    MergeStrategy.Overwrite
+  );
+}
+
 function updatePackageJson(options: Schema): Rule {
   return (tree: Tree): Tree => {
     const path = `/${options.name}/package.json`;
@@ -63,23 +100,49 @@ function updatePackageJson(options: Schema): Rule {
 
     const json = JSON.parse(file.toString());
 
-    json.scripts = {
-      start: "ng serve",
-      build: `ng build ${options.appName}`,
-      "build:library": `ng build @${options.libraryPackageName} --configuration=production`,
-      "build:library:watch": `ng build @${options.libraryPackageName} --configuration development --watch`,
-      test: "npm run test:lib && npm run test:app",
-      "test:lib": "jest --silent --config ./jest.lib.config.ts",
-      "test:lib:local": "jest --config ./jest.lib.config.ts",
-      "test:app": "jest --silent --config ./jest.app.config.ts",
-      "test:app:local": "jest --config ./jest.app.config.ts",
-      "test:coverage":
-        "jest --silent --collectCoverage --config ./jest.lib.config.ts",
-      lint: "eslint . --ext .ts --ext .html",
-      "lint:fix": "eslint . --ext .ts --ext .html --fix",
-      "build:complete":
-        "npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build",
-    };
+    switch (options.type) {
+      case "complete":
+        json.scripts = {
+          start: "ng serve",
+          build: `ng build ${options.appName}`,
+          "build:library": `ng build @${options.libraryPackageName} --configuration=production`,
+          "build:library:watch": `ng build @${options.libraryPackageName} --configuration development --watch`,
+          test: "npm run test:lib && npm run test:app",
+          "test:lib": "jest --silent --config ./jest.lib.config.ts",
+          "test:lib:local": "jest --config ./jest.lib.config.ts",
+          "test:app": "jest --silent --config ./jest.app.config.ts",
+          "test:app:local": "jest --config ./jest.app.config.ts",
+          "test:coverage":
+            "jest --silent --collectCoverage --config ./jest.lib.config.ts",
+          lint: "eslint . --ext .ts --ext .html",
+          "lint:fix": "eslint . --ext .ts --ext .html --fix",
+          "build:complete":
+            "npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build",
+        };
+        break;
+      case "application":
+        json.scripts = {
+          start: "ng serve",
+          build: `ng build ${options.appName}`,
+          test: "jest --silent --config ./jest.app.config.ts",
+          "test:local": "jest --config ./jest.app.config.ts",
+          lint: "eslint . --ext .ts --ext .html",
+          "lint:fix": "eslint . --ext .ts --ext .html --fix",
+          "build:complete": "npm run lint:fix && npm run test && npm run build",
+        };
+        break;
+      case "library":
+        json.scripts = {
+          "build:library": `ng build ${options.libraryPackageName}`,
+          "build:library:watch": `ng build ${options.libraryPackageName} --watch`,
+          test: "jest --silent --config ./jest.lib.config.ts",
+          "test:local": "jest --config ./jest.lib.config.ts",
+          lint: "eslint . --ext .ts --ext .html",
+          "lint:fix": "eslint . --ext .ts --ext .html --fix",
+          "build:complete": "npm run lint:fix && npm run test && npm run build",
+        };
+        break;
+    }
 
     json.dependencies["@angular/animations"] = "~16.2.12";
     json.dependencies["@angular/common"] = "~16.2.12";
@@ -146,29 +209,28 @@ function updatePackageJson(options: Schema): Rule {
 
 export function generateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const rule = chain([
+    const rules = [
       executeSchematic(options),
       copyBaseFiles(options),
       updatePackageJson(options),
-      mergeWith(
-        copyPath(
-          options,
-          "library",
-          `${options.name}/projects/${strings.dasherize(
-            options.libraryPackageName
-          )}`
-        ),
-        MergeStrategy.Overwrite
-      ),
-      mergeWith(
-        copyPath(
-          options,
-          "app",
-          `${options.name}/projects/${strings.dasherize(options.appName)}`
-        ),
-        MergeStrategy.Overwrite
-      ),
-    ]);
-    return rule(tree, context);
+    ];
+
+    switch (options.type) {
+      case "complete":
+        rules.map(() => [
+          ...rules,
+          copyAppFiles(options),
+          copyLibraryFiles(options),
+        ]);
+        break;
+      case "application":
+        rules.push(copyAppFiles(options));
+        break;
+      case "library":
+        rules.push(copyLibraryFiles(options));
+        break;
+    }
+
+    return chain(rules)(tree, context);
   };
 }
