@@ -10,4 +10,9 @@ export function getDefault<%= classify(libraryName) %>Config(): <%= classify(lib
   };
 }
 
-export const <%= classify(libraryName) %>ConfigToken = new InjectionToken<<%= classify(libraryName) %>Config>('<%= classify(libraryName) %>Config');
+export const <%= classify(libraryName) %>ConfigToken = new InjectionToken<<%= classify(libraryName) %>Config>(
+  '<%= classify(libraryName) %>Config',
+  {
+    factory: () => getDefault<%= classify(libraryName) %>Config(),
+  },
+);

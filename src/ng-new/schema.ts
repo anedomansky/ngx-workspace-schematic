@@ -6,7 +6,7 @@ export type CompleteWorkspace = {
   type: "complete";
   appName: string;
   libraryName: string;
-  libraryPrefix: string;
+  libraryNamespace: string;
   libraryPackageName: string;
 };
 
@@ -18,6 +18,6 @@ export type ApplicationWorkspace = {
 export type LibraryWorkspace = {
   type: "library";
   libraryName: string;
-  libraryPrefix: string;
+  libraryNamespace: string;
   libraryPackageName: string;
 };

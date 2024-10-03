@@ -1,9 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@<%= dasherize(libraryPackageName) %>": {
+    <% if(type === 'complete') { %>"@<%= dasherize(libraryPackageName) %>": {
       "projectType": "library",
       "schematics": {
         "@schematics/angular:component": {
@@ -53,7 +56,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist/<%= dasherize(appName) %>",
             "index": "projects/<%= dasherize(appName) %>/src/index.html",
@@ -66,12 +69,18 @@
               "projects/<%= dasherize(appName) %>/src/assets",
               {
                 "glob": "**/*",
+                "input": "./node_modules/@insure/ngx-components/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*",
                 "input": "projects/<%= dasherize(libraryPackageName) %>/assets",
                 "output": "assets"
               }
             ],
             "styles": [
               "projects/<%= dasherize(appName) %>/src/styles.scss",
+              "./node_modules/@insure/ngx-components/styles/index.scss",
               "projects/<%= dasherize(libraryPackageName) %>/styles/index.scss"
             ],
             "scripts": []
@@ -82,7 +91,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1250kb"
+                  "maximumError": "1500kb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -90,12 +99,106 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "aot": true,
+              "buildOptimizer": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "optimization": true
             },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "<%= dasherize(appName) %>:build:production"
+            },
+            "development": {
+              "buildTarget": "<%= dasherize(appName) %>:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "buildTarget": "<%= dasherize(appName) %>:build"
+          }
+        }
+      }
+    }<% } else if(type === 'application') { %>"<%= dasherize(appName) %>": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush",
+          "standalone": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true
+        }
+      },
+      "root": "projects/<%= dasherize(appName) %>",
+      "sourceRoot": "projects/<%= dasherize(appName) %>/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "options": {
+            "outputPath": "dist/<%= dasherize(appName) %>",
+            "index": "projects/<%= dasherize(appName) %>/src/index.html",
+            "main": "projects/<%= dasherize(appName) %>/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/<%= dasherize(appName) %>/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/<%= dasherize(appName) %>/src/favicon.ico",
+              "projects/<%= dasherize(appName) %>/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@insure/ngx-components/assets",
+                "output": "assets"
+              }
+            ],
+            "styles": [
+              "projects/<%= dasherize(appName) %>/src/styles.scss",
+              "./node_modules/@insure/ngx-components/styles/index.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1500kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "outputHashing": "all",
+              "aot": true,
+              "buildOptimizer": true,
+              "sourceMap": false,
+              "namedChunks": false,
+              "optimization": true
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
@@ -122,6 +225,38 @@
           }
         }
       }
-    }
+    }<% } else { %>"@<%= dasherize(libraryPackageName) %>": {
+      "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush",
+          "standalone": true
+        },
+        "@schematics/angular:directive": {
+          "standalone": true
+        }
+      },
+      "root": "projects/<%= dasherize(libraryPackageName) %>",
+      "sourceRoot": "projects/<%= dasherize(libraryPackageName) %>/src",
+      "prefix": "<%= dasherize(libraryPackageName) %>",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/<%= dasherize(libraryPackageName) %>/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/<%= dasherize(libraryPackageName) %>/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/<%= dasherize(libraryPackageName) %>/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
+      }
+    }<% } %>
   }
 }

@@ -19,7 +19,7 @@ export function ngNew(options: Schema): Rule {
         ? options.appName
         : `${options.name}-app`;
       options.libraryPackageName = `${
-        options.libraryPrefix
+        options.libraryNamespace
       }/${strings.dasherize(options.libraryName)}`;
       break;
     case "application":
@@ -29,7 +29,7 @@ export function ngNew(options: Schema): Rule {
       break;
     case "library":
       options.libraryPackageName = `${
-        options.libraryPrefix
+        options.libraryNamespace
       }/${strings.dasherize(options.libraryName)}`;
       break;
   }
@@ -50,5 +50,4 @@ export function ngNew(options: Schema): Rule {
 
 // TODO: tests
 // TODO: update README.md
-// TODO: rename libraryPrefix tp libraryNamespace
-// TODO: releas 2.0.0
+// TODO: release 2.0.0

@@ -25,6 +25,9 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
+    "types": [
+      "jest"
+    ],
     "paths": {
       "@<%= dasherize(libraryPackageName) %>": [
         "dist/<%= dasherize(libraryPackageName) %>"

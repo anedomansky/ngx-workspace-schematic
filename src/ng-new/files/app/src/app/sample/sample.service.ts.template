@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { SampleServiceConfig } from '@<%= dasherize(libraryPackageName) %>';
+<% if(type === 'complete') { %>import { SampleServiceConfig } from '@<%= dasherize(libraryPackageName) %>';<% } %>
 import { Observable, of } from 'rxjs';
 
 @Injectable()
-export class <%= classify(appName) %>SampleService implements SampleServiceConfig {
+export class <%= classify(appName) %>SampleService<% if(type === 'complete') { %> implements SampleServiceConfig<% } %> {
   sayHello(): Observable<string> {
     return of('Welcome from <%= dasherize(appName) %>!');
   }

@@ -4,12 +4,20 @@
       "name": "ROOT",
       "path": "../"
     },
-    {
+    <% if(type === 'complete') { %>{
+      "name": "<%= dasherize(libraryName) %>",
       "path": "../projects/<%= dasherize(libraryPackageName) %>"
     },
     {
+      "name": "<%= dasherize(appName) %>",
       "path": "../projects/<%= dasherize(appName) %>"
-    }
+    }<% } else if (type == 'application') { %>{
+      "name": "<%= dasherize(appName) %>",
+      "path": "../projects/<%= dasherize(appName) %>"
+    }<% } else { %>{
+      "name": "<%= dasherize(libraryName) %>",
+      "path": "../projects/<%= dasherize(libraryPackageName) %>"
+    }<% } %>
   ],
   "settings": {
     "stylelint.validate": [
@@ -20,6 +28,7 @@
     "editor.codeActionsOnSave": {
       "source.fixAll": "explicit"
     },
+    "editor.formatOnSave": true,
     "[json]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
@@ -27,10 +36,10 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[html]": {
-      "editor.defaultFormatter": null
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[typescript]": {
-      "editor.defaultFormatter": null
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "search.exclude": {
       "**/node_modules": true,

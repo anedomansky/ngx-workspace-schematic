@@ -21,7 +21,7 @@ describe("ng-new schematic", () => {
       "ng-new",
       {
         libraryName: "test-lib",
-        libraryPrefix: "namespace",
+        libraryNamespace: "namespace",
         name: "test",
       },
       appTree

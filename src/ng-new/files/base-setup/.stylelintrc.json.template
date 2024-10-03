@@ -1,10 +1,9 @@
 {
   "extends": [
-    "stylelint-config-standard",
-    "stylelint-config-sass-guidelines",
-    "stylelint-config-prettier"
+    "stylelint-config-standard-scss",
+    "stylelint-config-sass-guidelines"
   ],
-  "plugins": ["stylelint-order", "stylelint-scss"],
+  "plugins": ["stylelint-order"],
   "rules": {
     "import-notation": null,
     "max-nesting-depth": [2, {}],
@@ -25,6 +24,14 @@
       {
         "ignorePseudoElements": ["ng-deep"]
       }
-    ]
+    ],
+    "order/order": [
+      "at-rules",
+      "custom-properties",
+      "dollar-variables",
+      "declarations",
+      "rules"
+    ],
+    "order/properties-alphabetical-order": true
   }
 }

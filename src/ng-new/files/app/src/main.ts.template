@@ -1,7 +1,7 @@
 import { importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
-import { SampleServiceToken, <%= classify(libraryName) %>Module } from '@<%= dasherize(libraryPackageName) %>';
+<% if(type === 'complete') { %>import { SampleServiceToken, <%= classify(libraryName) %>Module } from '@<%= dasherize(libraryPackageName) %>';<% } %>
 
 import { <%= classify(appName) %>Component } from './app/<%= dasherize(appName) %>.component';
 import { APP_ROUTES } from './app/<%= dasherize(appName) %>.routes';
@@ -9,11 +9,10 @@ import { <%= classify(appName) %>SampleService } from './app/sample/sample.servi
 
 bootstrapApplication(<%= classify(appName) %>Component, {
   providers: [
-    importProvidersFrom(
-      <%= classify(libraryName) %>Module.forRoot({
-        appTitle: '<%= dasherize(appName) %>',
+    <% if(type === 'complete') { %>importProvidersFrom(<%= classify(libraryName) %>Module.forRoot({
+        headerTitle: '<%= dasherize(appName) %>',
       }),
-    ),
+    ),<% } %>
     provideRouter(APP_ROUTES),
     {
       provide: SampleServiceToken,

@@ -1,21 +1,64 @@
-export default {
-  preset: 'jest-preset-angular',
+import { Config } from 'jest';
+import ngPreset from 'jest-preset-angular/presets';
+
+const jestConfig: Config = {
+  ...ngPreset.defaultsESM,
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
-  testEnvironment: 'jsdom',
   testPathIgnorePatterns: [
     '/node_modules/',
-    '/cypress/',
-    '/projects/<%= dasherize(libraryPackageName) %>/src/gen/',
+    <% if(type === 'complete' || type === 'library') { %>'/projects/<%= dasherize(libraryPackageName) %>/src/gen/',<% } %>
   ],
-  coverageDirectory: 'coverage/',
+  testEnvironment: 'jest-environment-jsdom',
+  coverageDirectory: 'jest-reports/',
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 90,
+      lines: 80,
+    },
+  },
   coveragePathIgnorePatterns: [
     '/node_modules/',
-    '/cypress/',
     '/dist/',
     '.html',
+    <% if(type === 'complete' || type === 'library') { %>'/projects/<%= dasherize(libraryPackageName) %>/src/gen/',<% } %>
   ],
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        classNameTemplate: '{classname}',
+        includeConsoleOutput: true,
+        outputDirectory: 'jest-reports/',
+        suiteNameTemplate: '<%= dasherize(name) %>/{filename}',
+      },
+    ],
+    'jest-sonar',
+  ],
+  roots: ['<rootDir>/projects'],
   moduleNameMapper: {
-    '@<%= dasherize(libraryPackageName) %>':
-      '<rootDir>/dist/<%= dasherize(libraryPackageName) %>/fesm2022/<%= dasherize(libraryPrefix) %>-<%= dasherize(libraryName) %>.mjs',
+    '^rxjs(/operators$)?$':
+      '<rootDir>/node_modules/rxjs/dist/bundles/rxjs.umd.js',
+    '^flat$': '<rootDir>/node_modules/flat/index.js',
+    <% if(type === 'complete' || type === 'library') { %>'@<%= dasherize(libraryPackageName) %>':
+      '<rootDir>/dist/<%= dasherize(libraryPackageName) %>/fesm2022/<%= dasherize(libraryNamespace) %>-<%= dasherize(libraryName) %>.mjs',<% } %>
   },
+  transform: {
+    '^.+\\.(ts|js|html|svg)$': [
+      'jest-preset-angular',
+      {
+        tsconfig: '<rootDir>/tsconfig.spec.json',
+        stringifyContentPathRegex: '\\.(html|svg)$',
+        useESM: true,
+      },
+    ],
+  },
+  moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(tslib|.*\\.mjs))',
+    'dist/(?!(.*.mjs))',
+  ],
 };
+
+export default jestConfig;
