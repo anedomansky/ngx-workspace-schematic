@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "LibrarySchematic",
+  "title": "Angular Library options schema",
+  "type": "object",
+  "description": "Create a library in the workspace",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the library",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Library name:"
+    },
+    "namespace": {
+      "type": "string",
+      "description": "The namespace of the library",
+      "alias": "Library namespace:",
+      "examples": ["@myorg", "@username"]
+    }
+  },
+  "required": ["name"]
+}

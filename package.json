@@ -8,7 +8,9 @@
     "prepublishOnly": "npm run build",
     "ng-new": "npm run build && schematics .:ng-new",
     "ng-new:prod": "npm run build && schematics .:ng-new --debug false",
-    "test:ng-new": "jest ./src/ng-new/ng-new.spec.ts"
+    "test:ng-new": "jest ./src/ng-new/ng-new.spec.ts",
+    "test:integration:ng-new": "rm -rf test && npm run ng-new -- --debug false",
+    "test:integration:ng-new:default": "rm -rf test && npm run ng-new -- test --debug false"
   },
   "author": "Alexander Nedomansky <anedomansky@gmail.com>",
   "license": "MIT",

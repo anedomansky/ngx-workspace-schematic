@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "WorkspaceSchematic",
+  "title": "Angular Workspace options schema",
+  "type": "object",
+  "description": "Create a workspace",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the workspace",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Workspace name:"
+    }
+  },
+  "required": ["name"]
+}

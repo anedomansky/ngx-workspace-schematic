@@ -2,9 +2,25 @@
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-new": {
-      "description": "Generates a new complete Angular workspace.",
-      "factory": "./ng-new/index#ngNew",
+      "description": "Generates a new Angular workspace",
+      "factory": "./ng-new",
       "schema": "./ng-new/schema.json"
+    },
+    "workspace": {
+      "description": "Generates an Angular workspace.",
+      "factory": "./workspace",
+      "schema": "./workspace/schema.json",
+      "hidden": true
+    },
+    "application": {
+      "description": "Create an application in the workspace",
+      "factory": "./application",
+      "schema": "./application/schema.json"
+    },
+    "library": {
+      "description": "Create a library in the workspace",
+      "factory": "./library",
+      "schema": "./library/schema.json"
     }
   }
 }

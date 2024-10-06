@@ -10,7 +10,7 @@ import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 import { generateAngularWorkspace } from "./generate-angular-workspace";
 import { Schema } from "./schema";
 
-export function ngNew(options: Schema): Rule {
+export default function (options: Schema): Rule {
   options.name = strings.dasherize(options.name);
 
   switch (options.type) {

@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "ApplicationSchematic",
+  "title": "Angular Application options schema",
+  "type": "object",
+  "description": "Create an application in the workspace",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The name of the application",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "Library name:"
+    }
+  },
+  "required": ["name"]
+}

@@ -8,31 +8,21 @@
     "name": {
       "type": "string",
       "description": "The name of the workspace",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
       "x-prompt": "Workspace name:"
     },
-    "type": {
-      "type": "string",
-      "description": "The type of workspace to create",
-      "default": "complete",
-      "enum": ["application", "library", "complete"],
-      "x-prompt": {
-        "message": "What type of workspace would you like to create?",
-        "type": "list",
-        "items": [
-          {
-            "value": "complete",
-            "label": "Complete"
-          },
-          {
-            "value": "application",
-            "label": "Application"
-          },
-          {
-            "value": "library",
-            "label": "Library"
-          }
-        ]
-      }
+    "withApplication": {
+      "type": "boolean",
+      "description": "Create an application in the workspace",
+      "default": true
+    },
+    "withLibrary": {
+      "type": "boolean",
+      "description": "Create a library in the workspace",
+      "default": true
     },
     "appName": {
       "type": "string",
