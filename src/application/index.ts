@@ -8,16 +8,23 @@ import {
   strings,
   Tree,
 } from "@angular-devkit/schematics";
-import { Schema } from "./schema";
 import { copyPath } from "../utils/copy-path.fn";
+import { Schema } from "./schema";
 
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
     copyPath<Schema>(
       options,
       "base",
-      `${options.name!}/projects/${options.appName}`
+      `${options.name}/projects/${options.appName}`
     ),
+    MergeStrategy.Overwrite
+  );
+}
+
+function copyUnitTestFiles(options: Schema): Rule {
+  return mergeWith(
+    copyPath(options, "unit-testing", options.name!),
     MergeStrategy.Overwrite
   );
 }
@@ -32,105 +39,12 @@ function updatePackageJson(options: Schema): Rule {
 
     const json = JSON.parse(file.toString());
 
-    switch (options.type) {
-      case "complete":
-        json.scripts = {
-          [`start:app:${dasherize(options.appName)}`]: `ng serve ${dasherize(
-            options.appName
-          )}`,
-          [`build:app:${dasherize(options.appName)}`]: `ng build ${dasherize(
-            options.appName
-          )}`,
-          [`build:library:${dasherize(
-            options.libraryName
-          )}`]: `ng build @${options.libraryPackageName} --configuration=production`,
-          [`build:library:${dasherize(
-            options.libraryName
-          )}:watch`]: `ng build @${options.libraryPackageName} --configuration development --watch`,
-          "test:esm":
-            "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
-          test: "npm run test:esm -- --silent",
-          "test:local": "npm run test:esm",
-          [`test:lib:${dasherize(
-            options.libraryName
-          )}`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.libraryName
-          )}.config.ts --silent`,
-          [`test:lib:${dasherize(
-            options.libraryName
-          )}:local`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.libraryName
-          )}.config.ts`,
-          [`test:app:${dasherize(
-            options.appName
-          )}`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.appName
-          )}.config.ts --silent`,
-          [`test:app:${dasherize(
-            options.appName
-          )}:local`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.appName
-          )}.config.ts`,
-          "test:coverage": "npm run test:esm -- --silent --collectCoverage",
-          lint: "eslint ./projects --ext .ts --ext .html",
-          "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
-        };
-        break;
-      case "application":
-        json.scripts = {
-          [`start:app:${dasherize(options.appName)}`]: `ng serve ${dasherize(
-            options.appName
-          )}`,
-          [`build:app:${dasherize(options.appName)}`]: `ng build ${dasherize(
-            options.appName
-          )}`,
-          "test:esm":
-            "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
-          test: "npm run test:esm -- --silent",
-          "test:local": "npm run test:esm",
-          [`test:app:${dasherize(
-            options.appName
-          )}`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.appName
-          )}.config.ts --silent`,
-          [`test:app:${dasherize(
-            options.appName
-          )}:local`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.appName
-          )}.config.ts`,
-          "test:coverage": "npm run test:esm -- --silent --collectCoverage",
-          lint: "eslint ./projects --ext .ts --ext .html",
-          "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
-        };
-        break;
-      case "library":
-        json.scripts = {
-          [`build:library:${dasherize(
-            options.libraryName
-          )}`]: `ng build @${options.libraryPackageName} --configuration=production`,
-          [`build:library:${dasherize(
-            options.libraryName
-          )}:watch`]: `ng build @${options.libraryPackageName} --configuration development --watch`,
-          "test:esm":
-            "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
-          test: "npm run test:esm -- --silent",
-          "test:local": "npm run test:esm",
-          [`test:lib:${dasherize(
-            options.libraryName
-          )}`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.libraryName
-          )}.config.ts --silent`,
-          [`test:lib:${dasherize(
-            options.libraryName
-          )}:local`]: `npm run test:esm -- -c=jest.${dasherize(
-            options.libraryName
-          )}.config.ts`,
-          "test:coverage": "npm run test:esm -- --silent --collectCoverage",
-          lint: "eslint ./projects --ext .ts --ext .html",
-          "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
-        };
-        break;
-    }
+    json.scripts = {
+      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
+      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
+      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
+      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+    };
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -152,7 +66,11 @@ export default function (options: Schema): Rule {
   }
 
   return (tree: Tree, context: SchematicContext) => {
-    const rule = chain([copyBaseFiles(options), updatePackageJson(options)]);
+    const rule = chain([
+      copyBaseFiles(options),
+      copyUnitTestFiles(options),
+      updatePackageJson(options),
+    ]);
 
     return rule(tree, context);
   };

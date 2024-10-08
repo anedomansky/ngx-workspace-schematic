@@ -21,3 +21,7 @@ You can use the Angular CLI command `ng new` with the following options:
 `ng new --collection @anedomansky/ngx-workspace-schematic`
 
 The command will ask you for the name of the workspace, the namespace for your initial library and finally for the name of your initial library.
+
+// TODO: tests
+// TODO: update README.md
+// TODO: release 2.0.0

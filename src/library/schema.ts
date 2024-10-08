@@ -1,4 +1,6 @@
 export type Schema = {
   name?: string;
-  namespace?: string;
+  libraryName?: string;
+  libraryNamespace?: string;
+  libraryPackageName?: string;
 };

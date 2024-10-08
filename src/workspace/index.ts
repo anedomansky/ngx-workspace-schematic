@@ -6,7 +6,6 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  Source,
   strings,
   Tree,
 } from "@angular-devkit/schematics";
