@@ -28,11 +28,6 @@
     "types": [
       "jest"
     ],
-    "paths": {
-      "@<%= dasherize(libraryPackageName) %>": [
-        "dist/<%= dasherize(libraryPackageName) %>"
-      ]
-    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

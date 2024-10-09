@@ -3,21 +3,7 @@
     {
       "name": "ROOT",
       "path": "../"
-    },
-    <% if(type === 'complete') { %>{
-      "name": "<%= dasherize(libraryName) %>",
-      "path": "../projects/<%= dasherize(libraryPackageName) %>"
-    },
-    {
-      "name": "<%= dasherize(appName) %>",
-      "path": "../projects/<%= dasherize(appName) %>"
-    }<% } else if (type == 'application') { %>{
-      "name": "<%= dasherize(appName) %>",
-      "path": "../projects/<%= dasherize(appName) %>"
-    }<% } else { %>{
-      "name": "<%= dasherize(libraryName) %>",
-      "path": "../projects/<%= dasherize(libraryPackageName) %>"
-    }<% } %>
+    }
   ],
   "settings": {
     "stylelint.validate": [

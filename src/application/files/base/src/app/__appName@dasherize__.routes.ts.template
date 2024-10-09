@@ -1,9 +1,3 @@
 import { Route } from '@angular/router';
 
-export const APP_ROUTES: Route[] = [
-  <% if(type === 'complete') { %>{
-    path: '',
-    loadChildren: () =>
-      import('@<%= dasherize(libraryPackageName) %>').then((m) => m.SAMPLE_ROUTES),
-  },<% } %>
-];
+export const APP_ROUTES: Route[] = [];

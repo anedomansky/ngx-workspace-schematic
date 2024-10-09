@@ -40,6 +40,7 @@ function updatePackageJson(options: Schema): Rule {
     const json = JSON.parse(file.toString());
 
     json.scripts = {
+      ...json.scripts,
       [`build:library:${options.libraryName}`]: `ng build @${options.libraryPackageName} --configuration=production`,
       [`build:library:${options.libraryName}:watch`]: `ng build @${options.libraryPackageName} --configuration development --watch`,
       [`test:lib:${options.libraryName}`]: `npm run test:esm -- -c=jest.${options.libraryName}.config.ts --silent`,
@@ -51,6 +52,10 @@ function updatePackageJson(options: Schema): Rule {
     return tree;
   };
 }
+
+function updateVSCodeWorkspace(options: Schema): Rule {}
+function updateAngularWorkspace(options: Schema): Rule {}
+function updateTsconfig(options: Schema): Rule {}
 
 export default function (options: Schema): Rule {
   if (!options.name) {

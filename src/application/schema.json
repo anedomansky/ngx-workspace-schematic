@@ -13,10 +13,6 @@
       "type": "string",
       "description": "The name of the application",
       "x-prompt": "Library name:"
-    },
-    "withLibrary": {
-      "type": "boolean",
-      "description": "Create a library in the workspace"
     }
   },
   "required": ["name", "appName"]

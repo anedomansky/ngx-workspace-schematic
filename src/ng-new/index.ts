@@ -30,7 +30,6 @@ export default function (options: Schema): Rule {
   const applicationOptions: ApplicationSchema = {
     name: options.name,
     appName: options.appName,
-    withLibrary: options.withLibrary,
   };
 
   return (tree: Tree, context: SchematicContext) => {
@@ -38,10 +37,10 @@ export default function (options: Schema): Rule {
       mergeWith(
         apply(empty(), [
           schematic("workspace", workspaceOptions),
+          options.withLibrary ? schematic("library", libraryOptions) : noop,
           options.withApplication
             ? schematic("application", applicationOptions)
             : noop,
-          options.withLibrary ? schematic("library", libraryOptions) : noop,
         ])
       ),
     ]);
