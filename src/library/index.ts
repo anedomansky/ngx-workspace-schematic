@@ -53,9 +53,77 @@ function updatePackageJson(options: Schema): Rule {
   };
 }
 
-function updateVSCodeWorkspace(options: Schema): Rule {}
-function updateAngularWorkspace(options: Schema): Rule {}
-function updateTsconfig(options: Schema): Rule {}
+function updateVSCodeWorkspace(options: Schema): Rule {
+  return (tree: Tree): Tree => {
+    const path = `/${options.name}/package.json`;
+    const file = tree.read(path);
+    if (!file) {
+      throw new SchematicsException("package.json not found.");
+    }
+
+    const json = JSON.parse(file.toString());
+
+    json.scripts = {
+      ...json.scripts,
+      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
+      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
+      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
+      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+    };
+
+    tree.overwrite(path, JSON.stringify(json, null, 2));
+
+    return tree;
+  };
+}
+
+function updateAngularWorkspace(options: Schema): Rule {
+  return (tree: Tree): Tree => {
+    const path = `/${options.name}/package.json`;
+    const file = tree.read(path);
+    if (!file) {
+      throw new SchematicsException("package.json not found.");
+    }
+
+    const json = JSON.parse(file.toString());
+
+    json.scripts = {
+      ...json.scripts,
+      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
+      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
+      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
+      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+    };
+
+    tree.overwrite(path, JSON.stringify(json, null, 2));
+
+    return tree;
+  };
+}
+
+function updateTsconfig(options: Schema): Rule {
+  return (tree: Tree): Tree => {
+    const path = `/${options.name}/package.json`;
+    const file = tree.read(path);
+    if (!file) {
+      throw new SchematicsException("package.json not found.");
+    }
+
+    const json = JSON.parse(file.toString());
+
+    json.scripts = {
+      ...json.scripts,
+      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
+      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
+      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
+      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+    };
+
+    tree.overwrite(path, JSON.stringify(json, null, 2));
+
+    return tree;
+  };
+}
 
 export default function (options: Schema): Rule {
   if (!options.name) {
