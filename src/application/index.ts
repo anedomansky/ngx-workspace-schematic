@@ -14,6 +14,7 @@ import { normalize, workspaces } from "@angular-devkit/core";
 import { get } from "http";
 import { getWorkspace } from "src/utils/get-workspace.fn";
 import { writeWorkspace } from "src/utils/write-workspace.fn";
+import { dasherize } from "@angular-devkit/core/src/utils/strings";
 
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
@@ -81,6 +82,7 @@ function updateVSCodeWorkspace(options: Schema): Rule {
   };
 }
 
+// TODO: implement the following functions
 function updateAngularWorkspace(options: Schema): Rule {
   return async (tree: Tree) => {
     const workspace = await getWorkspace(tree);
@@ -99,16 +101,10 @@ function updateAngularWorkspace(options: Schema): Rule {
 }
 
 export default function (options: Schema): Rule {
-  if (!options.name) {
-    throw new SchematicsException("Option (name) is required.");
-  }
-
-  options.name = strings.dasherize(options.name);
-
   if (!options.appName) {
     options.appName = `${options.name}-app`;
   } else {
-    options.appName = strings.dasherize(options.appName);
+    options.appName = dasherize(options.appName);
   }
 
   return (tree: Tree, context: SchematicContext) => {

@@ -4,6 +4,7 @@
   "title": "Angular Application options schema",
   "type": "object",
   "description": "Create an application in the workspace",
+  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string",
@@ -12,7 +13,7 @@
     "appName": {
       "type": "string",
       "description": "The name of the application",
-      "x-prompt": "Library name:"
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$"
     }
   },
   "required": ["name", "appName"]

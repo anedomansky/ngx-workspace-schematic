@@ -6,11 +6,10 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  strings,
   Tree,
 } from "@angular-devkit/schematics";
-import { Schema } from "./schema";
 import { copyPath } from "../utils/copy-path.fn";
+import { Schema } from "./schema";
 
 function executeSchematic(options: Schema): Rule {
   return externalSchematic("@schematics/angular", "ng-new", {
@@ -29,7 +28,7 @@ function executeSchematic(options: Schema): Rule {
 
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath<Schema>(options, "", options.name!),
+    copyPath<Schema>(options, "", options.name),
     MergeStrategy.Overwrite
   );
 }
@@ -127,12 +126,6 @@ function updatePackageJson(options: Schema): Rule {
 }
 
 export default function (options: Schema): Rule {
-  if (!options.name) {
-    throw new SchematicsException("Option (name) is required.");
-  }
-
-  options.name = strings.dasherize(options.name);
-
   return (tree: Tree, context: SchematicContext) => {
     const rule = chain([
       executeSchematic(options),

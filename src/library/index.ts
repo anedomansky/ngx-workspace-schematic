@@ -1,3 +1,4 @@
+import { dasherize } from "@angular-devkit/core/src/utils/strings";
 import {
   chain,
   MergeStrategy,
@@ -5,18 +6,17 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  strings,
   Tree,
 } from "@angular-devkit/schematics";
-import { Schema } from "./schema";
 import { copyPath } from "src/utils/copy-path.fn";
+import { Schema } from "./schema";
 
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
     copyPath<Schema>(
       options,
       "base",
-      `${options.name}/projects/${options.libraryPackageName}`
+      `${options.name}/projects/${options.libraryName.replace("@", "")}`
     ),
     MergeStrategy.Overwrite
   );
@@ -24,7 +24,7 @@ function copyBaseFiles(options: Schema): Rule {
 
 function copyUnitTestFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath(options, "unit-testing", options.name!),
+    copyPath(options, "unit-testing", options.name),
     MergeStrategy.Overwrite
   );
 }
@@ -39,12 +39,16 @@ function updatePackageJson(options: Schema): Rule {
 
     const json = JSON.parse(file.toString());
 
+    const libraryNameWithoutScope = options.libraryName
+      .replace("@", "")
+      .slice(options.libraryName.indexOf("/") + 1);
+
     json.scripts = {
       ...json.scripts,
-      [`build:library:${options.libraryName}`]: `ng build @${options.libraryPackageName} --configuration=production`,
-      [`build:library:${options.libraryName}:watch`]: `ng build @${options.libraryPackageName} --configuration development --watch`,
-      [`test:lib:${options.libraryName}`]: `npm run test:esm -- -c=jest.${options.libraryName}.config.ts --silent`,
-      [`test:lib:${options.libraryName}:local`]: `npm run test:esm -- -c=jest.${options.libraryName}.config.ts`,
+      [`build:library:${libraryNameWithoutScope}`]: `ng build ${options.libraryName} --configuration=production`,
+      [`build:library:${libraryNameWithoutScope}:watch`]: `ng build ${options.libraryName} --configuration development --watch`,
+      [`test:lib:${libraryNameWithoutScope}`]: `npm run test:esm -- -c=jest.${libraryNameWithoutScope}.config.ts --silent`,
+      [`test:lib:${libraryNameWithoutScope}:local`]: `npm run test:esm -- -c=jest.${libraryNameWithoutScope}.config.ts`,
     };
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
@@ -53,6 +57,7 @@ function updatePackageJson(options: Schema): Rule {
   };
 }
 
+// TODO: implement the following functions
 function updateVSCodeWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
     const path = `/${options.name}/package.json`;
@@ -126,25 +131,7 @@ function updateTsconfig(options: Schema): Rule {
 }
 
 export default function (options: Schema): Rule {
-  if (!options.name) {
-    throw new SchematicsException("Option (name) is required.");
-  }
-
-  if (!options.libraryName) {
-    throw new SchematicsException("Option (libraryName) is required.");
-  }
-
-  options.libraryName = strings.dasherize(options.libraryName);
-
-  if (!options.libraryNamespace) {
-    options.libraryPackageName = options.libraryName;
-  } else {
-    options.libraryNamespace = strings.dasherize(options.libraryNamespace);
-    options.libraryPackageName = `${options.libraryNamespace.replace(
-      "@",
-      ""
-    )}/${options.libraryName}`;
-  }
+  options.libraryName = dasherize(options.libraryName);
 
   return (tree: Tree, context: SchematicContext) => {
     const rule = chain([

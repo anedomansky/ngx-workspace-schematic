@@ -4,6 +4,7 @@
   "title": "ng new options schema",
   "type": "object",
   "description": "Initialize a new complete Angular workspace",
+  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string",
@@ -11,30 +12,22 @@
       "$default": {
         "$source": "argv",
         "index": 0
-      }
-    },
-    "withApplication": {
-      "type": "boolean",
-      "description": "Create an application in the workspace",
-      "default": true
-    },
-    "withLibrary": {
-      "type": "boolean",
-      "description": "Create a library in the workspace",
-      "default": true
+      },
+      "x-prompt": "Workspace name:"
     },
     "appName": {
       "type": "string",
-      "description": "The name of the application"
+      "description": "The name of the application",
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
+      "x-prompt": "Application name: (Enter to skip)"
     },
     "libraryName": {
       "type": "string",
-      "description": "The name of the library"
-    },
-    "libraryNamespace": {
-      "type": "string",
-      "description": "The namespace of the library",
-      "alias": "library-namespace"
+      "description": "The name of the library",
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
+      "x-prompt": "Library name: (Enter to skip)",
+      "examples": ["@myorg/mylib"]
     }
-  }
+  },
+  "required": ["name"]
 }

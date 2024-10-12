@@ -4,11 +4,11 @@
   "title": "Angular Workspace options schema",
   "type": "object",
   "description": "Create a workspace",
+  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the workspace",
-      "x-prompt": "Workspace name:"
+      "description": "The name of the workspace"
     }
   },
   "required": ["name"]

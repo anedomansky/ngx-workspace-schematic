@@ -4,6 +4,7 @@
   "title": "Angular Library options schema",
   "type": "object",
   "description": "Create a library in the workspace",
+  "additionalProperties": false,
   "properties": {
     "name": {
       "type": "string",
@@ -12,13 +13,8 @@
     "libraryName": {
       "type": "string",
       "description": "The name of the library",
-      "x-prompt": "Library name:"
-    },
-    "libraryNamespace": {
-      "type": "string",
-      "description": "The namespace of the library",
-      "x-prompt": "Library namespace:",
-      "examples": ["@myorg", "@username"]
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
+      "examples": ["@myorg/mylib"]
     }
   },
   "required": ["name", "libraryName"]

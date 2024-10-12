@@ -15,21 +15,23 @@ import { Schema } from "./schema";
 import { Schema as LibrarySchema } from "../library/schema";
 import { Schema as ApplicationSchema } from "../application/schema";
 import { Schema as WorkspaceSchema } from "../workspace/schema";
+import { dasherize } from "@angular-devkit/core/src/utils/strings";
 
 export default function (options: Schema): Rule {
+  options.name = dasherize(options.name);
+
   const workspaceOptions: WorkspaceSchema = {
     name: options.name,
   };
 
   const libraryOptions: LibrarySchema = {
     name: options.name,
-    libraryName: options.libraryName,
-    libraryNamespace: options.libraryNamespace,
+    libraryName: options.libraryName ?? "",
   };
 
   const applicationOptions: ApplicationSchema = {
     name: options.name,
-    appName: options.appName,
+    appName: options.appName ?? "",
   };
 
   return (tree: Tree, context: SchematicContext) => {
@@ -37,8 +39,10 @@ export default function (options: Schema): Rule {
       mergeWith(
         apply(empty(), [
           schematic("workspace", workspaceOptions),
-          options.withLibrary ? schematic("library", libraryOptions) : noop,
-          options.withApplication
+          libraryOptions.libraryName
+            ? schematic("library", libraryOptions)
+            : noop,
+          applicationOptions.appName
             ? schematic("application", applicationOptions)
             : noop,
         ])

@@ -1,4 +1,4 @@
 export type Schema = {
-  name?: string;
-  appName?: string;
+  name: string;
+  appName: string;
 };
