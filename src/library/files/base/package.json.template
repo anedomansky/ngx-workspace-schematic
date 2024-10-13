@@ -1,9 +1,9 @@
 {
-  "name": "@<%= dasherize(libraryPackageName) %>",
+  "name": "<%= libraryName %>",
   "version": "0.0.1",
   "description": "An Angular Library",
   "scripts": {
-    "build": "ng build @<%= dasherize(libraryPackageName) %>",
+    "build": "ng build <%= libraryName %>",
     "prepublishOnly": "npm run build"
   },
   "exports": {

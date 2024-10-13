@@ -6,6 +6,6 @@ import { Observable, of } from 'rxjs';
 })
 export class SampleService {
   sayHello(): Observable<string> {
-    return of('Hello from <%= capitalize(libraryName) %>!');
+    return of('Hello from <%= capitalize(libraryNameWithoutScope) %>!');
   }
 }

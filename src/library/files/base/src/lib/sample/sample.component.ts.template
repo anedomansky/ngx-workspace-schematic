@@ -1,11 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
-import { <%= classify(libraryName) %>ConfigToken } from '../config/<%= dasherize(libraryName) %>-config';
+import { <%= classify(libraryNameWithoutScope) %>ConfigToken } from '../config/<%= libraryNameWithoutScope %>-config';
 import { SampleService } from '../core/services/sample/sample.service';
 
 @Component({
-  selector: '<%= dasherize(libraryName) %>-sample',
+  selector: '<%= libraryNameWithoutScope %>-sample',
   templateUrl: './sample.component.html',
   styleUrls: ['./sample.component.scss'],
   standalone: true,
@@ -14,7 +14,7 @@ import { SampleService } from '../core/services/sample/sample.service';
 export class SampleComponent {
   private sampleService = inject(SampleService);
 
-  protected config = inject(<%= classify(libraryName) %>ConfigToken);
+  protected config = inject(<%= classify(libraryNameWithoutScope) %>ConfigToken);
 
   greeting$ = this.sampleService.sayHello();
 }

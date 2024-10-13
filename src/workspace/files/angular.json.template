@@ -4,5 +4,6 @@
     "analytics": false
   },
   "version": 1,
-  "newProjectRoot": "projects"
+  "newProjectRoot": "projects",
+  "projects": {}
 }

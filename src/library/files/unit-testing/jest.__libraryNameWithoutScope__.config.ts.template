@@ -4,8 +4,8 @@ import baseConfig from './jest.config';
 
 const config: Config = {
   ...baseConfig,
-  roots: ['<rootDir>/projects/<%= dasherize(libraryPackageName) %>'],
-  displayName: '@<%= dasherize(libraryPackageName) %>',
+  roots: ['<rootDir>/projects/<%= libraryNameWithoutScope %>'],
+  displayName: '<%= libraryName %>',
 };
 
 export default config;

@@ -33,5 +33,5 @@
       "**/dist": true,
       "**/coverage": true
     }
-  },
+  }
 }

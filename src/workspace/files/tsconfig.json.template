@@ -27,7 +27,7 @@
     ],
     "types": [
       "jest"
-    ],
+    ]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

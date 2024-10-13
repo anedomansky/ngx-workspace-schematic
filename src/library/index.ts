@@ -1,3 +1,4 @@
+import { normalize } from "@angular-devkit/core";
 import { dasherize } from "@angular-devkit/core/src/utils/strings";
 import {
   chain,
@@ -8,7 +9,7 @@ import {
   SchematicsException,
   Tree,
 } from "@angular-devkit/schematics";
-import { copyPath } from "src/utils/copy-path.fn";
+import { copyPath } from "../utils/copy-path.fn";
 import { Schema } from "./schema";
 
 function copyBaseFiles(options: Schema): Rule {
@@ -39,16 +40,12 @@ function updatePackageJson(options: Schema): Rule {
 
     const json = JSON.parse(file.toString());
 
-    const libraryNameWithoutScope = options.libraryName
-      .replace("@", "")
-      .slice(options.libraryName.indexOf("/") + 1);
-
     json.scripts = {
       ...json.scripts,
-      [`build:library:${libraryNameWithoutScope}`]: `ng build ${options.libraryName} --configuration=production`,
-      [`build:library:${libraryNameWithoutScope}:watch`]: `ng build ${options.libraryName} --configuration development --watch`,
-      [`test:lib:${libraryNameWithoutScope}`]: `npm run test:esm -- -c=jest.${libraryNameWithoutScope}.config.ts --silent`,
-      [`test:lib:${libraryNameWithoutScope}:local`]: `npm run test:esm -- -c=jest.${libraryNameWithoutScope}.config.ts`,
+      [`build:library:${options.libraryNameWithoutScope}`]: `ng build ${options.libraryName} --configuration=production`,
+      [`build:library:${options.libraryNameWithoutScope}:watch`]: `ng build ${options.libraryName} --configuration development --watch`,
+      [`test:lib:${options.libraryNameWithoutScope}`]: `npm run test:esm -- -c=jest.${options.libraryNameWithoutScope}.config.ts --silent`,
+      [`test:lib:${options.libraryNameWithoutScope}:local`]: `npm run test:esm -- -c=jest.${options.libraryNameWithoutScope}.config.ts`,
     };
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
@@ -57,24 +54,27 @@ function updatePackageJson(options: Schema): Rule {
   };
 }
 
-// TODO: implement the following functions
 function updateVSCodeWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = `/${options.name}/package.json`;
+    const path = `/${options.name}/.vscode/${options.name}.code-workspace`;
     const file = tree.read(path);
     if (!file) {
-      throw new SchematicsException("package.json not found.");
+      throw new SchematicsException(
+        `${options.name}.code-workspace not found.`
+      );
     }
 
     const json = JSON.parse(file.toString());
 
-    json.scripts = {
-      ...json.scripts,
-      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
-      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
-      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
-      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
-    };
+    const libraryName = options.libraryName.replace("@", "");
+
+    json.folders = [
+      ...json.folders,
+      {
+        name: libraryName,
+        path: `../projects/${libraryName}`,
+      },
+    ];
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -84,20 +84,51 @@ function updateVSCodeWorkspace(options: Schema): Rule {
 
 function updateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = `/${options.name}/package.json`;
+    const path = `/${options.name}/angular.json`;
     const file = tree.read(path);
     if (!file) {
-      throw new SchematicsException("package.json not found.");
+      throw new SchematicsException(`angular.json not found.`);
     }
 
     const json = JSON.parse(file.toString());
 
-    json.scripts = {
-      ...json.scripts,
-      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
-      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
-      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
-      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+    const libraryName = options.libraryName.replace("@", "");
+
+    json.projects = {
+      ...json.projects,
+      [options.libraryName]: {
+        root: normalize(`projects/${libraryName}`),
+        sourceRoot: normalize(`projects/${libraryName}/src`),
+        prefix: "lib",
+        projectType: "library",
+        schematics: {
+          "@schematics/angular:component": {
+            style: "scss",
+            changeDetection: "OnPush",
+            standalone: true,
+          },
+          "@schematics/angular:directive": {
+            standalone: true,
+          },
+        },
+        targets: {
+          build: {
+            builder: "@angular-devkit/build-angular:ng-packagr",
+            options: {
+              project: `projects/${libraryName}/ng-packagr.json`,
+            },
+            configurations: {
+              production: {
+                tsConfig: `projects/${libraryName}/tsconfig.lib.prod.json`,
+              },
+              development: {
+                tsConfig: `projects/${libraryName}/tsconfig.lib.json`,
+              },
+            },
+            defaultConfiguration: "production",
+          },
+        },
+      },
     };
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
@@ -108,20 +139,22 @@ function updateAngularWorkspace(options: Schema): Rule {
 
 function updateTsconfig(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = `/${options.name}/package.json`;
+    const path = `/${options.name}/tsconfig.json`;
     const file = tree.read(path);
     if (!file) {
-      throw new SchematicsException("package.json not found.");
+      throw new SchematicsException("tsconfig.json not found.");
     }
 
     const json = JSON.parse(file.toString());
 
-    json.scripts = {
-      ...json.scripts,
-      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
-      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
-      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
-      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+    const libraryName = options.libraryName.replace("@", "");
+
+    json.compilerOptions = {
+      ...json.compilerOptions,
+      paths: {
+        ...json.compilerOptions.paths,
+        [options.libraryName]: [`dist/${libraryName}`],
+      },
     };
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
@@ -133,11 +166,20 @@ function updateTsconfig(options: Schema): Rule {
 export default function (options: Schema): Rule {
   options.libraryName = dasherize(options.libraryName);
 
+  const libraryNameWithoutScope = options.libraryName
+    .replace("@", "")
+    .slice(options.libraryName.indexOf("/") + 1);
+
+  options.libraryNameWithoutScope = libraryNameWithoutScope;
+
   return (tree: Tree, context: SchematicContext) => {
     const rule = chain([
       copyBaseFiles(options),
       copyUnitTestFiles(options),
       updatePackageJson(options),
+      updateVSCodeWorkspace(options),
+      updateAngularWorkspace(options),
+      updateTsconfig(options),
     ]);
 
     return rule(tree, context);
