@@ -1,8 +1,4 @@
-import { Tree } from "@angular-devkit/schematics";
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from "@angular-devkit/schematics/testing";
+import { SchematicTestRunner } from "@angular-devkit/schematics/testing";
 
 describe("ng-new schematic", () => {
   const schematicRunner = new SchematicTestRunner(
@@ -10,198 +6,289 @@ describe("ng-new schematic", () => {
     require.resolve("../collection.json")
   );
 
-  let appTree: UnitTestTree;
+  it("should create a new project (complete)", async () => {
+    const tree = await schematicRunner.runSchematic("ng-new", {
+      name: "test",
+      appName: "test-application",
+      libraryName: "test-lib",
+    });
 
-  beforeEach(() => {
-    appTree = new UnitTestTree(Tree.empty());
+    const workspaceJSON = JSON.parse(tree.readContent("/test/angular.json"));
+
+    const expectedProjects = {
+      "test-application": {
+        root: "projects/test-application",
+        sourceRoot: "projects/test-application/src",
+        prefix: "app",
+        projectType: "application",
+        schematics: {
+          "@schematics/angular:component": {
+            style: "scss",
+            changeDetection: "OnPush",
+            standalone: true,
+          },
+          "@schematics/angular:directive": {
+            standalone: true,
+          },
+        },
+        architect: {
+          build: {
+            builder: "@angular-devkit/build-angular:browser-esbuild",
+            options: {
+              outputPath: "dist/test-application",
+              index: "projects/test-application/src/index.html",
+              main: "projects/test-application/src/main.ts",
+              polyfills: ["zone.js"],
+              tsConfig: "projects/test-application/tsconfig.app.json",
+              inlineStyleLanguage: "scss",
+              assets: [
+                "projects/test-application/src/favicon.ico",
+                "projects/test-application/src/assets",
+                {
+                  glob: "**/*",
+                  input: "dist/test-lib/assets",
+                  output: "assets",
+                },
+              ],
+              styles: [
+                "projects/test-application/src/styles.scss",
+                "dist/test-lib/styles/index.scss",
+              ],
+              scripts: [],
+            },
+            configurations: {
+              production: {
+                budgets: [
+                  {
+                    type: "initial",
+                    maximumWarning: "500kb",
+                    maximumError: "1500kb",
+                  },
+                  {
+                    type: "anyComponentStyle",
+                    maximumWarning: "2kb",
+                    maximumError: "4kb",
+                  },
+                ],
+                outputHashing: "all",
+                aot: true,
+                buildOptimizer: true,
+                sourceMap: false,
+                namedChunks: false,
+                optimization: true,
+              },
+              development: {
+                buildOptimizer: false,
+                optimization: false,
+                extractLicenses: false,
+                sourceMap: true,
+                namedChunks: true,
+              },
+            },
+            defaultConfiguration: "production",
+          },
+          serve: {
+            builder: "@angular-devkit/build-angular:dev-server",
+            configurations: {
+              production: {
+                buildTarget: "test-application:build:production",
+              },
+              development: {
+                buildTarget: "test-application:build:development",
+              },
+            },
+            defaultConfiguration: "development",
+          },
+        },
+      },
+    };
+
+    expect(workspaceJSON.projects["test-application"]).toStrictEqual(
+      expectedProjects["test-application"]
+    );
+
+    expect(tree.files).toContain("/test/jest.test-application.config.ts");
+    expect(tree.files).toContain("/test/jest.config.ts");
+    expect(tree.files).toContain("/test/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/test/.vscode/test.code-workspace");
+    expect(tree.files).toContain("/test/projects/test-lib/assets/.gitkeep");
+    expect(tree.files).toContain(
+      "/test/projects/test-lib/src/lib/test-lib.module.ts"
+    );
+    expect(tree.files).toContain(
+      "/test/projects/test-application/src/app/app.routes.ts"
+    );
   });
 
-  it("should create a new project", async () => {
-    const tree = await schematicRunner.runSchematic(
-      "ng-new",
-      {
-        libraryName: "test-lib",
-        libraryNamespace: "namespace",
-        name: "test",
+  it("should create a new project (complete with scope)", async () => {
+    const tree = await schematicRunner.runSchematic("ng-new", {
+      name: "test",
+      appName: "@test/test-application",
+      libraryName: "@test/test-lib",
+    });
+
+    const workspaceJSON = JSON.parse(tree.readContent("/test/angular.json"));
+
+    const expectedProjects = {
+      "@test/test-application": {
+        root: "projects/test/test-application",
+        sourceRoot: "projects/test/test-application/src",
+        prefix: "app",
+        projectType: "application",
+        schematics: {
+          "@schematics/angular:component": {
+            style: "scss",
+            changeDetection: "OnPush",
+            standalone: true,
+          },
+          "@schematics/angular:directive": {
+            standalone: true,
+          },
+        },
+        architect: {
+          build: {
+            builder: "@angular-devkit/build-angular:browser-esbuild",
+            options: {
+              outputPath: "dist/test/test-application",
+              index: "projects/test/test-application/src/index.html",
+              main: "projects/test/test-application/src/main.ts",
+              polyfills: ["zone.js"],
+              tsConfig: "projects/test/test-application/tsconfig.app.json",
+              inlineStyleLanguage: "scss",
+              assets: [
+                "projects/test/test-application/src/favicon.ico",
+                "projects/test/test-application/src/assets",
+                {
+                  glob: "**/*",
+                  input: "dist/test/test-lib/assets",
+                  output: "assets",
+                },
+              ],
+              styles: [
+                "projects/test/test-application/src/styles.scss",
+                "dist/test/test-lib/styles/index.scss",
+              ],
+              scripts: [],
+            },
+            configurations: {
+              production: {
+                budgets: [
+                  {
+                    type: "initial",
+                    maximumWarning: "500kb",
+                    maximumError: "1500kb",
+                  },
+                  {
+                    type: "anyComponentStyle",
+                    maximumWarning: "2kb",
+                    maximumError: "4kb",
+                  },
+                ],
+                outputHashing: "all",
+                aot: true,
+                buildOptimizer: true,
+                sourceMap: false,
+                namedChunks: false,
+                optimization: true,
+              },
+              development: {
+                buildOptimizer: false,
+                optimization: false,
+                extractLicenses: false,
+                sourceMap: true,
+                namedChunks: true,
+              },
+            },
+            defaultConfiguration: "production",
+          },
+          serve: {
+            builder: "@angular-devkit/build-angular:dev-server",
+            configurations: {
+              production: {
+                buildTarget: "@test/test-application:build:production",
+              },
+              development: {
+                buildTarget: "@test/test-application:build:development",
+              },
+            },
+            defaultConfiguration: "development",
+          },
+        },
       },
-      appTree
+    };
+
+    expect(workspaceJSON.projects["@test/test-application"]).toStrictEqual(
+      expectedProjects["@test/test-application"]
     );
 
-    const packageJson = JSON.parse(tree.readContent("/test/package.json"));
-
-    // Check that all files were created
-    expect(tree.files).toContain("/test/angular.json");
-    expect(tree.files).toContain("/test/package.json");
-    expect(tree.files).toContain("/test/README.md");
-    expect(tree.files).toContain("/test/tsconfig.json");
-    expect(tree.files).toContain("/test/.editorconfig");
-    expect(tree.files).toContain("/test/.gitignore");
-    expect(tree.files).toContain("/test/.eslintrc.js");
-    expect(tree.files).toContain("/test/.stylelintrc.json");
-    expect(tree.files).toContain("/test/jest.app.config.ts");
+    expect(tree.files).toContain("/test/jest.test-application.config.ts");
     expect(tree.files).toContain("/test/jest.config.ts");
-    expect(tree.files).toContain("/test/jest.lib.config.ts");
-    expect(tree.files).toContain("/test/setup-jest.ts");
-    expect(tree.files).toContain("/test/tsconfig.spec.json");
-    expect(tree.files).toContain("/test/.vscode/extensions.json");
-    expect(tree.files).toContain("/test/.vscode/launch.json");
-    expect(tree.files).toContain("/test/.vscode/tasks.json");
+    expect(tree.files).toContain("/test/jest.test-lib.config.ts");
     expect(tree.files).toContain("/test/.vscode/test.code-workspace");
     expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/.eslintrc.js"
+      "/test/projects/test/test-lib/assets/.gitkeep"
     );
     expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/ng-package.json"
+      "/test/projects/test/test-lib/src/lib/test-lib.module.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/package.json"
+      "/test/projects/test/test-application/src/app/app.routes.ts"
     );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/tsconfig.lib.json"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/tsconfig.lib.prod.json"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/tsconfig.spec.json"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/.vscode/settings.json"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/public-api.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/test-lib.module.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/config/test-lib-config.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/core/services/sample/sample.config.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/core/services/sample/sample.service.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/sample/sample.component.html"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/sample/sample.component.scss"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/sample/sample.component.spec.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/sample/sample.component.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/src/lib/sample/sample.routes.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/namespace/test-lib/styles/index.scss"
-    );
-    expect(tree.files).toContain("/test/projects/test-app/.eslintrc.js");
-    expect(tree.files).toContain("/test/projects/test-app/tsconfig.app.json");
-    expect(tree.files).toContain("/test/projects/test-app/tsconfig.spec.json");
-    expect(tree.files).toContain(
-      "/test/projects/test-app/.vscode/settings.json"
-    );
-    expect(tree.files).toContain("/test/projects/test-app/src/favicon.ico");
-    expect(tree.files).toContain("/test/projects/test-app/src/index.html");
-    expect(tree.files).toContain("/test/projects/test-app/src/main.ts");
-    expect(tree.files).toContain("/test/projects/test-app/src/styles.scss");
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/test-app.component.html"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/test-app.component.scss"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/test-app.component.spec.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/test-app.component.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/test-app.routes.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/sample/sample.service.spec.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-app/src/app/sample/sample.service.ts"
-    );
+  });
 
-    // Check that all depencencies were added
-    expect(packageJson.dependencies["@angular/animations"]).toBeDefined();
-    expect(packageJson.dependencies["@angular/common"]).toBeDefined();
-    expect(packageJson.dependencies["@angular/compiler"]).toBeDefined();
-    expect(packageJson.dependencies["@angular/core"]).toBeDefined();
-    expect(packageJson.dependencies["@angular/forms"]).toBeDefined();
-    expect(packageJson.dependencies["@angular/platform-browser"]).toBeDefined();
-    expect(
-      packageJson.dependencies["@angular/platform-browser-dynamic"]
-    ).toBeDefined();
-    expect(packageJson.dependencies["@angular/router"]).toBeDefined();
-    expect(packageJson.dependencies["rxjs"]).toBeDefined();
-    expect(packageJson.dependencies["tslib"]).toBeDefined();
-    expect(packageJson.dependencies["zone.js"]).toBeDefined();
+  it("should create a new project (library)", async () => {
+    const tree = await schematicRunner.runSchematic("ng-new", {
+      name: "test",
+      libraryName: "test-lib",
+    });
 
-    expect(packageJson.devDependencies["@angular/cli"]).toBeDefined();
-    expect(packageJson.devDependencies["@angular/compiler-cli"]).toBeDefined();
-    expect(packageJson.devDependencies["ng-packagr"]).toBeDefined();
-    expect(packageJson.devDependencies["typescript"]).toBeDefined();
-    expect(packageJson.devDependencies["jest"]).toBeDefined();
-    expect(packageJson.devDependencies["jest-preset-angular"]).toBeDefined();
-    expect(
-      packageJson.devDependencies["@testing-library/angular"]
-    ).toBeDefined();
-    expect(
-      packageJson.devDependencies["@testing-library/jest-dom"]
-    ).toBeDefined();
-    expect(
-      packageJson.devDependencies["@testing-library/user-event"]
-    ).toBeDefined();
-    expect(packageJson.devDependencies["@types/jest"]).toBeDefined();
-    expect(packageJson.devDependencies["ts-node"]).toBeDefined();
+    expect(tree.files).not.toContain("/test/jest.test-application.config.ts");
+    expect(tree.files).toContain("/test/jest.config.ts");
+    expect(tree.files).toContain("/test/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/test/.vscode/test.code-workspace");
+    expect(tree.files).toContain("/test/projects/test-lib/assets/.gitkeep");
+    expect(tree.files).toContain(
+      "/test/projects/test-lib/src/lib/test-lib.module.ts"
+    );
+    expect(tree.files).not.toContain(
+      "/test/projects/test-application/src/app/app.routes.ts"
+    );
+  });
 
-    // Check that all scripts were added
-    expect(packageJson.scripts["start"]).toBe("ng serve");
-    expect(packageJson.scripts["build"]).toBe("ng build test-app");
-    expect(packageJson.scripts["build:library"]).toBe(
-      "ng build @namespace/test-lib --configuration=production"
+  it("should create a new project (application)", async () => {
+    const tree = await schematicRunner.runSchematic("ng-new", {
+      name: "test",
+      appName: "test-application",
+    });
+
+    expect(tree.files).toContain("/test/jest.test-application.config.ts");
+    expect(tree.files).toContain("/test/jest.config.ts");
+    expect(tree.files).not.toContain("/test/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/test/.vscode/test.code-workspace");
+    expect(tree.files).not.toContain("/test/projects/test-lib/assets/.gitkeep");
+    expect(tree.files).not.toContain(
+      "/test/projects/test-lib/src/lib/test-lib.module.ts"
     );
-    expect(packageJson.scripts["build:library:watch"]).toBe(
-      "ng build @namespace/test-lib --configuration development --watch"
+    expect(tree.files).toContain(
+      "/test/projects/test-application/src/app/app.routes.ts"
     );
-    expect(packageJson.scripts["test"]).toBe(
-      "npm run test:lib && npm run test:app"
+  });
+
+  it("should create a new project (only workspace)", async () => {
+    const tree = await schematicRunner.runSchematic("ng-new", {
+      name: "test",
+    });
+
+    expect(tree.files).not.toContain("/test/jest.test-application.config.ts");
+    expect(tree.files).toContain("/test/jest.config.ts");
+    expect(tree.files).not.toContain("/test/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/test/.vscode/test.code-workspace");
+    expect(tree.files).not.toContain("/test/projects/test-lib/assets/.gitkeep");
+    expect(tree.files).not.toContain(
+      "/test/projects/test-lib/src/lib/test-lib.module.ts"
     );
-    expect(packageJson.scripts["test:lib"]).toBe(
-      "jest --silent --config ./jest.lib.config.ts"
-    );
-    expect(packageJson.scripts["test:lib:local"]).toBe(
-      "jest --config ./jest.lib.config.ts"
-    );
-    expect(packageJson.scripts["test:app"]).toBe(
-      "jest --silent --config ./jest.app.config.ts"
-    );
-    expect(packageJson.scripts["test:app:local"]).toBe(
-      "jest --config ./jest.app.config.ts"
-    );
-    expect(packageJson.scripts["test:coverage"]).toBe(
-      "jest --silent --collectCoverage --config ./jest.lib.config.ts"
-    );
-    expect(packageJson.scripts["lint"]).toBe("eslint . --ext .ts --ext .html");
-    expect(packageJson.scripts["lint:fix"]).toBe(
-      "eslint . --ext .ts --ext .html --fix"
-    );
-    expect(packageJson.scripts["build:complete"]).toBe(
-      "npm run lint:fix && npm run test:lib && npm run build:library && npm run test:app && npm run build"
+    expect(tree.files).not.toContain(
+      "/test/projects/test-application/src/app/app.routes.ts"
     );
   });
 });

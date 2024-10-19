@@ -7,6 +7,7 @@ import {
   Rule,
   schematic,
   SchematicContext,
+  SchematicsException,
   Tree,
 } from "@angular-devkit/schematics";
 import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
@@ -18,6 +19,10 @@ import { Schema as WorkspaceSchema } from "../workspace/schema";
 import { dasherize } from "@angular-devkit/core/src/utils/strings";
 
 export default function (options: Schema): Rule {
+  if (!options.name) {
+    throw new SchematicsException("Workspace name is required.");
+  }
+
   options.name = dasherize(options.name);
 
   const workspaceOptions: WorkspaceSchema = {
@@ -26,12 +31,14 @@ export default function (options: Schema): Rule {
 
   const libraryOptions: LibrarySchema = {
     name: options.name,
+    appName: options.appName ?? "",
     libraryName: options.libraryName ?? "",
   };
 
   const applicationOptions: ApplicationSchema = {
     name: options.name,
     appName: options.appName ?? "",
+    libraryName: options.libraryName ?? "",
   };
 
   return (tree: Tree, context: SchematicContext) => {

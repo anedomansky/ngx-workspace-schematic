@@ -3,14 +3,18 @@
   "version": "1.4.1",
   "description": "Angular schematic for creating complete workspaces.",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "build:watch": "npm run build -- --watch",
+    "build": "npm run clean && tsc",
+    "clean": "tsc --build --clean",
     "prepublishOnly": "npm run build",
     "ng-new": "npm run build && schematics .:ng-new",
     "ng-new:prod": "npm run build && schematics .:ng-new --debug false",
-    "test:ng-new": "jest ./src/ng-new/ng-new.spec.ts",
+    "test": "npm run build && jest",
+    "test:application": "jest ./src/application/index.spec.ts",
+    "test:library": "jest ./src/library/index.spec.ts",
+    "test:workspace": "jest ./src/workspace/index.spec.ts",
+    "test:ng-new": "jest ./src/ng-new/index.spec.ts",
     "test:integration:ng-new": "rm -rf test && npm run ng-new -- --debug false",
-    "test:integration:ng-new:default": "rm -rf test && npm run ng-new -- test --debug false"
+    "test:integration:ng-new:default": "rm -rf test && npm run ng-new -- test --debug false --library-name test-lib --app-name test-application"
   },
   "author": "Alexander Nedomansky <anedomansky@gmail.com>",
   "license": "MIT",

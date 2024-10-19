@@ -37,6 +37,7 @@ function updatePackageJson(options: Schema): Rule {
   return (tree: Tree): Tree => {
     const path = `/${options.name}/package.json`;
     const file = tree.read(path);
+
     if (!file) {
       throw new SchematicsException("package.json not found.");
     }
@@ -44,13 +45,13 @@ function updatePackageJson(options: Schema): Rule {
     const json = JSON.parse(file.toString());
 
     json.scripts = {
-      "test:esm":
-        "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
-      test: "npm run test:esm -- --silent",
-      "test:local": "npm run test:esm",
-      "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       lint: "eslint ./projects --ext .ts --ext .html",
       "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      test: "npm run test:esm -- --silent",
+      "test:coverage": "npm run test:esm -- --silent --collectCoverage",
+      "test:esm":
+        "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
+      "test:local": "npm run test:esm",
     };
 
     json.engines = {
@@ -60,6 +61,7 @@ function updatePackageJson(options: Schema): Rule {
       pnpm: ">= 9.0.0",
     };
 
+    json.dependencies["@angular/animations"] = "^17.3.12";
     json.dependencies["@angular/common"] = "^17.3.12";
     json.dependencies["@angular/compiler"] = "^17.3.12";
     json.dependencies["@angular/core"] = "^17.3.12";
@@ -69,7 +71,7 @@ function updatePackageJson(options: Schema): Rule {
     json.dependencies["@angular/router"] = "^17.3.12";
     json.dependencies["rxjs"] = "^7.8.1";
     json.dependencies["tslib"] = "^2.7.0";
-    json.dependencies["zone.js"] = "^0.15.0";
+    json.dependencies["zone.js"] = "~0.14.0";
 
     json.devDependencies["@angular/cli"] = "^17.3.10";
     json.devDependencies["@angular/compiler-cli"] = "^17.3.12";
@@ -78,6 +80,10 @@ function updatePackageJson(options: Schema): Rule {
     json.devDependencies["@angular-eslint/eslint-plugin"] = "^17.5.3";
     json.devDependencies["@angular-eslint/eslint-plugin-template"] = "^17.5.3";
     json.devDependencies["@angular-eslint/template-parser"] = "^17.5.3";
+    json.devDependencies["@testing-library/angular"] = "^17.3.1";
+    json.devDependencies["@testing-library/jest-dom"] = "^6.5.0";
+    json.devDependencies["@testing-library/user-event"] = "^14.5.2";
+    json.devDependencies["@types/jest"] = "^29.5.13";
     json.devDependencies["@types/node"] = "^20.14.8";
     json.devDependencies["@typescript-eslint/eslint-plugin"] = "^7.18.0";
     json.devDependencies["@typescript-eslint/parser"] = "^7.18.0";
@@ -87,13 +93,18 @@ function updatePackageJson(options: Schema): Rule {
     json.devDependencies["eslint-plugin-import"] = "^2.31.0";
     json.devDependencies["eslint-plugin-jest"] = "^28.8.3";
     json.devDependencies["eslint-plugin-prettier"] = "^5.2.1";
-    json.devDependencies["eslint-plugin-rxjs"] = "^5.0.3";
-    json.devDependencies["eslint-plugin-rxjs-updated"] = "^1.0.8";
-    json.devDependencies["eslint-plugin-rxjs-angular"] = "^2.0.1";
     json.devDependencies["eslint-plugin-simple-import-sort"] = "^12.1.1";
     json.devDependencies["eslint-plugin-testing-library"] = "^6.3.0";
-    json.devDependencies["prettier"] = "^3.3.3";
+    json.devDependencies["jest"] = "^29.7.0";
+    json.devDependencies["jest-environment-jsdom"] = "^29.7.0";
+    json.devDependencies["jest-preset-angular"] = "^14.2.4";
     json.devDependencies["ng-packagr"] = "^17.3.0";
+    json.devDependencies["prettier"] = "^3.3.3";
+    json.devDependencies["stylelint"] = "^16.9.0";
+    json.devDependencies["stylelint-config-sass-guidelines"] = "^12.1.0";
+    json.devDependencies["stylelint-config-standard-scss"] = "^13.1.0";
+    json.devDependencies["stylelint-order"] = "^6.0.4";
+    json.devDependencies["ts-node"] = "^10.9.2";
     json.devDependencies["typescript"] = "^5.4.5";
 
     // Delete Jasmin / Karma Tests
@@ -104,20 +115,6 @@ function updatePackageJson(options: Schema): Rule {
     delete json.devDependencies["karma-coverage"];
     delete json.devDependencies["karma-jasmine"];
     delete json.devDependencies["karma-jasmine-html-reporter"];
-
-    // Adds jest
-    json.devDependencies["@types/jest"] = "^29.5.13";
-    json.devDependencies["jest"] = "^29.7.0";
-    json.devDependencies["jest-preset-angular"] = "^14.2.4";
-    json.devDependencies["@testing-library/angular"] = "^17.3.1";
-    json.devDependencies["@testing-library/jest-dom"] = "^6.5.0";
-    json.devDependencies["@testing-library/user-event"] = "^14.5.2";
-    json.devDependencies["ts-node"] = "^10.9.2";
-
-    json.devDependencies["stylelint"] = "^16.9.0";
-    json.devDependencies["stylelint-config-sass-guidelines"] = "^12.1.0";
-    json.devDependencies["stylelint-config-standard-scss"] = "^13.1.0";
-    json.devDependencies["stylelint-order"] = "^6.0.4";
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 

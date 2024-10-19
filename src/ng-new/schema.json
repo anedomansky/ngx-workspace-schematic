@@ -13,20 +13,20 @@
         "$source": "argv",
         "index": 0
       },
-      "x-prompt": "Workspace name:"
+      "x-prompt": "Workspace name:",
+      "examples": ["my-workspace", "myworkspace"]
     },
     "appName": {
       "type": "string",
       "description": "The name of the application",
-      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
-      "x-prompt": "Application name: (Enter to skip)"
+      "x-prompt": "Application name: (Enter to skip)",
+      "examples": ["@my-org/my-app", "my-app"]
     },
     "libraryName": {
       "type": "string",
       "description": "The name of the library",
-      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
       "x-prompt": "Library name: (Enter to skip)",
-      "examples": ["@myorg/mylib"]
+      "examples": ["@my-org/my-lib", "my-lib"]
     }
   },
   "required": ["name"]

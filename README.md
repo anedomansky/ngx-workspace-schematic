@@ -22,6 +22,7 @@ You can use the Angular CLI command `ng new` with the following options:
 
 The command will ask you for the name of the workspace, the namespace for your initial library and finally for the name of your initial library.
 
-// TODO: tests
+// TODO: test all permutation of the schematic execution
 // TODO: update README.md
-// TODO: release 2.0.0
+// TODO: release 2.0.0 for Angular 17
+// TODO: release 3.0.0 for Angular 18

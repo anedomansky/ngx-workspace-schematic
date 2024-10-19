@@ -8,7 +8,9 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The name of the workspace"
+      "description": "The name of the workspace",
+      "pattern": "^[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
+      "examples": ["my-workspace", "myworkspace"]
     }
   },
   "required": ["name"]

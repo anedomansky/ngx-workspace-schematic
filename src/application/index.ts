@@ -11,13 +11,14 @@ import {
 } from "@angular-devkit/schematics";
 import { copyPath } from "../utils/copy-path.fn";
 import { Schema } from "./schema";
+import { SCOPE_IDENTIFIER } from "../utils/schema.model";
 
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
     copyPath<Schema>(
       options,
       "base",
-      `${options.name}/projects/${options.appName}`
+      `${options.name}/projects/${options.appNameWithoutPrefix}`
     ),
     MergeStrategy.Overwrite
   );
@@ -34,6 +35,7 @@ function updatePackageJson(options: Schema): Rule {
   return (tree: Tree): Tree => {
     const path = `/${options.name}/package.json`;
     const file = tree.read(path);
+
     if (!file) {
       throw new SchematicsException("package.json not found.");
     }
@@ -42,10 +44,10 @@ function updatePackageJson(options: Schema): Rule {
 
     json.scripts = {
       ...json.scripts,
-      [`start:app:${options.appName}`]: `ng serve ${options.appName}`,
-      [`build:app:${options.appName}`]: `ng build ${options.appName}`,
-      [`test:app:${options.appName}`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts --silent`,
-      [`test:app:${options.appName}:local`]: `npm run test:esm -- -c=jest.${options.appName}.config.ts`,
+      [`start:app:${options.appNameWithoutScope}`]: `ng serve ${options.appName}`,
+      [`build:app:${options.appNameWithoutScope}`]: `ng build ${options.appName}`,
+      [`test:app:${options.appNameWithoutScope}`]: `npm run test:esm -- -c=jest.${options.appNameWithoutScope}.config.ts --silent`,
+      [`test:app:${options.appNameWithoutScope}:local`]: `npm run test:esm -- -c=jest.${options.appNameWithoutScope}.config.ts`,
     };
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
@@ -58,6 +60,7 @@ function updateVSCodeWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
     const path = `/${options.name}/.vscode/${options.name}.code-workspace`;
     const file = tree.read(path);
+
     if (!file) {
       throw new SchematicsException(
         `${options.name}.code-workspace not found.`
@@ -69,8 +72,8 @@ function updateVSCodeWorkspace(options: Schema): Rule {
     json.folders = [
       ...json.folders,
       {
-        name: options.appName,
-        path: `../projects/${options.appName}`,
+        name: options.appNameWithoutScope,
+        path: `../projects/${options.appNameWithoutPrefix}`,
       },
     ];
 
@@ -84,6 +87,7 @@ function updateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
     const path = `/${options.name}/angular.json`;
     const file = tree.read(path);
+
     if (!file) {
       throw new SchematicsException(`angular.json not found.`);
     }
@@ -93,8 +97,8 @@ function updateAngularWorkspace(options: Schema): Rule {
     json.projects = {
       ...json.projects,
       [options.appName]: {
-        root: normalize(`projects/${options.appName}`),
-        sourceRoot: normalize(`projects/${options.appName}/src`),
+        root: normalize(`projects/${options.appNameWithoutPrefix}`),
+        sourceRoot: normalize(`projects/${options.appNameWithoutPrefix}/src`),
         prefix: "app",
         projectType: "application",
         schematics: {
@@ -111,17 +115,19 @@ function updateAngularWorkspace(options: Schema): Rule {
           build: {
             builder: "@angular-devkit/build-angular:browser-esbuild",
             options: {
-              outputPath: `dist/${options.appName}`,
-              index: `projects/${options.appName}/src/index.html`,
-              main: `projects/${options.appName}/src/main.ts`,
+              outputPath: `dist/${options.appNameWithoutPrefix}`,
+              index: `projects/${options.appNameWithoutPrefix}/src/index.html`,
+              main: `projects/${options.appNameWithoutPrefix}/src/main.ts`,
               polyfills: ["zone.js"],
-              tsConfig: `projects/${options.appName}/tsconfig.app.json`,
+              tsConfig: `projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
               inlineStyleLanguage: "scss",
               assets: [
-                `projects/${options.appName}/src/favicon.ico`,
-                `projects/${options.appName}/src/assets`,
+                `projects/${options.appNameWithoutPrefix}/src/favicon.ico`,
+                `projects/${options.appNameWithoutPrefix}/src/assets`,
               ],
-              styles: [`projects/${options.appName}/src/styles.scss`],
+              styles: [
+                `projects/${options.appNameWithoutPrefix}/src/styles.scss`,
+              ],
               scripts: [],
             },
             configurations: {
@@ -167,15 +173,35 @@ function updateAngularWorkspace(options: Schema): Rule {
             },
             defaultConfiguration: "development",
           },
-          "extract-i18n": {
-            builder: "@angular-devkit/build-angular:extract-i18n",
-            options: {
-              buildTarget: `${options.appName}:build`,
-            },
-          },
         },
       },
     };
+
+    if (options.libraryName) {
+      json.projects[options.appName].architect.build.options.assets.push({
+        glob: "**/*",
+        input: `dist/${
+          options.libraryName.startsWith(SCOPE_IDENTIFIER)
+            ? options.libraryName.slice(
+                options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1,
+                options.libraryName.indexOf("/")
+              ) + "/"
+            : ""
+        }${options.libraryNameWithoutScope}/assets`,
+        output: "assets",
+      });
+
+      json.projects[options.appName].architect.build.options.styles.push(
+        `dist/${
+          options.libraryName.startsWith(SCOPE_IDENTIFIER)
+            ? options.libraryName.slice(
+                options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1,
+                options.libraryName.indexOf("/")
+              ) + "/"
+            : ""
+        }${options.libraryNameWithoutScope}/styles/index.scss`
+      );
+    }
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -184,10 +210,34 @@ function updateAngularWorkspace(options: Schema): Rule {
 }
 
 export default function (options: Schema): Rule {
-  if (!options.appName) {
-    options.appName = `${options.name}-app`;
-  } else {
-    options.appName = dasherize(options.appName);
+  options.appName = dasherize(options.appName);
+
+  options.appNameHasScope = options.appName.startsWith(SCOPE_IDENTIFIER);
+
+  const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, "");
+  const appNameWithoutScope = appNameWithoutPrefix.slice(
+    options.appName.indexOf("/") > -1 ? options.appName.indexOf("/") : 0
+  );
+
+  options.appNameWithoutPrefix = appNameWithoutPrefix;
+  options.appNameWithoutScope = appNameWithoutScope;
+
+  options.libraryNameHasScope =
+    options.libraryName?.startsWith(SCOPE_IDENTIFIER);
+
+  if (options.libraryName) {
+    const libraryNameWithoutPrefix = options.libraryName.replace(
+      SCOPE_IDENTIFIER,
+      ""
+    );
+    const libraryNameWithoutScope = libraryNameWithoutPrefix.slice(
+      options.libraryName.indexOf("/") > -1
+        ? options.libraryName.indexOf("/")
+        : 0
+    );
+
+    options.libraryNameWithoutPrefix = libraryNameWithoutPrefix;
+    options.libraryNameWithoutScope = libraryNameWithoutScope;
   }
 
   return (tree: Tree, context: SchematicContext) => {
