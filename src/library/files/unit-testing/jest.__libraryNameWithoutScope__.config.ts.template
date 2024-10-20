@@ -4,7 +4,7 @@ import baseConfig from './jest.config';
 
 const config: Config = {
   ...baseConfig,
-  roots: ['<rootDir>/projects/<%= libraryNameWithoutScope %>'],
+  roots: ['<rootDir>/projects/<%= libraryNameWithoutPrefix %>'],
   displayName: '<%= libraryName %>',
 };
 

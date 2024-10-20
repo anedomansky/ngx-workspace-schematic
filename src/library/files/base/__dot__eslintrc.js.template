@@ -1,13 +1,13 @@
 const path = require("path");
 
 module.exports = {
-  extends: path.join(__dirname, "../../../.eslintrc.js"),
+  extends: path.join(__dirname, "../../<% if(libraryNameHasScope) { %>../<% } %>.eslintrc.js"),
   ignorePatterns: ["coverage/**/*", "src/gen/**/*"],
   rules: {
     "@angular-eslint/component-selector": [
       "error",
       {
-        prefix: "<%= dasherize(libraryName) %>",
+        prefix: "<%= libraryNameWithoutScope %>",
         style: "kebab-case",
         type: "element",
       },
@@ -15,13 +15,13 @@ module.exports = {
     "@angular-eslint/directive-selector": [
       "error",
       {
-        prefix: "<%= camelize(libraryName) %>",
+        prefix: "<%= camelize(libraryNameWithoutScope) %>",
         style: "camelCase",
         type: "attribute",
       },
     ],
   },
   parserOptions: {
-    project: path.join(__dirname, "../../../tsconfig.json"),
+    project: path.join(__dirname, "../../<% if(libraryNameHasScope) { %>../<% } %>tsconfig.json"),
   },
 };

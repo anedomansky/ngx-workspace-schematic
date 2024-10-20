@@ -17,6 +17,6 @@ describe('SampleComponent', () => {
   });
 
   it('should create', () => {
-    expect(screen.getByText('<%= capitalize(libraryName) %>')).toBeTruthy();
+    expect(screen.getByText('<%= capitalize(libraryNameWithoutScope) %>')).toBeTruthy();
   });
 });

@@ -22,22 +22,6 @@ module.exports = {
       },
     },
     {
-      files: ["*.e2e.spec.ts"],
-      extends: ["plugin:playwright/recommended"],
-      rules: {
-        "playwright/expect-expect": [
-          "error",
-          {
-            assertFunctionNames: [
-              "expect",
-              "matchScreenshot",
-              "matchLocatorScreenshot",
-            ],
-          },
-        ],
-      },
-    },
-    {
       files: ["*.ts", "*.tsx"],
       parser: "@typescript-eslint/parser",
       plugins: [
@@ -55,7 +39,6 @@ module.exports = {
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
         "plugin:prettier/recommended",
-        "plugin:rxjs/recommended",
         "plugin:compat/recommended",
       ],
       rules: {

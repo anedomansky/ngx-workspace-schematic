@@ -2,12 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title><%= dasherize(appName) %></title>
+    <title><%= appNameWithoutScope %></title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
   </head>
   <body>
-    <<%= dasherize(appName) %>-root></<%= dasherize(appName) %>-root>
+    <app-root></app-root>
   </body>
 </html>

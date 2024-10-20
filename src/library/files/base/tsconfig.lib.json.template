@@ -1,7 +1,7 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "../../<% if(libraryNameHasScope) { %>../<% } %>tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../../out-tsc/lib",
+    "outDir": "../../<% if(libraryNameHasScope) { %>../<% } %>out-tsc/lib",
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
