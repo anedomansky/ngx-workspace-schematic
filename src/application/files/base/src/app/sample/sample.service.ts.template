@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+<% if(libraryName && libraryNameHasScope) { %>import { SampleServiceConfig } from '<%= libraryName %>';
+import { Observable, of } from 'rxjs';<% } %><% if(libraryName && !libraryNameHasScope) { %>import { Observable, of } from 'rxjs';
+import { SampleServiceConfig } from '<%= libraryName %>';<% } %><% if(!libraryName) { %>import { Observable, of } from 'rxjs';<% } %>
 
 @Injectable()
-export class <%= classify(appName) %>SampleService {
+export class AppSampleService<% if(libraryName) { %> implements SampleServiceConfig<% } %> {
   sayHello(): Observable<string> {
-    return of('Welcome from <%= dasherize(appName) %>!');
+    return of('Welcome from <%= appName %>!');
   }
 }

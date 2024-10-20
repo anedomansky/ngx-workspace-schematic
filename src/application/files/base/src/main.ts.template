@@ -1,17 +1,17 @@
-import { importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';<% if(libraryName) { %>
+import { SampleServiceToken } from '<%= libraryName %>';<% } %>
 
-import { <%= classify(appName) %>Component } from './app/<%= dasherize(appName) %>.component';
-import { APP_ROUTES } from './app/<%= dasherize(appName) %>.routes';
-import { <%= classify(appName) %>SampleService } from './app/sample/sample.service';
+import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/app.routes';<% if(libraryName) { %>
+import { AppSampleService } from './app/sample/sample.service';<% } %>
 
-bootstrapApplication(<%= classify(appName) %>Component, {
-  providers: [
+bootstrapApplication(AppComponent, {
+  <% if(libraryName) { %>providers: [
     provideRouter(APP_ROUTES),
     {
       provide: SampleServiceToken,
-      useClass: <%= classify(appName) %>SampleService,
+      useClass: AppSampleService,
     },
-  ],
+  ],<% } %><% if(!libraryName) { %>providers: [provideRouter(APP_ROUTES)],<% } %>
 });
