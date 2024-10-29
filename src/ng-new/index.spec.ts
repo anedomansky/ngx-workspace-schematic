@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { SchematicTestRunner } from "@angular-devkit/schematics/testing";
 
 describe("ng-new schematic", () => {

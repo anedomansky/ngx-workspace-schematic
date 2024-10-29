@@ -12,10 +12,10 @@ import {
 } from "@angular-devkit/schematics";
 import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 
-import { Schema } from "./schema";
-import { Schema as LibrarySchema } from "../library/schema";
-import { Schema as ApplicationSchema } from "../application/schema";
-import { Schema as WorkspaceSchema } from "../workspace/schema";
+import type { Schema } from "./schema";
+import type { Schema as LibrarySchema } from "../library/schema";
+import type { Schema as ApplicationSchema } from "../application/schema";
+import type { Schema as WorkspaceSchema } from "../workspace/schema";
 import { dasherize } from "@angular-devkit/core/src/utils/strings";
 
 export default function (options: Schema): Rule {

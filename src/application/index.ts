@@ -10,7 +10,7 @@ import {
   Tree,
 } from "@angular-devkit/schematics";
 import { copyPath } from "../utils/copy-path.fn";
-import { Schema } from "./schema";
+import type { Schema } from "./schema";
 import { SCOPE_IDENTIFIER } from "../utils/schema.model";
 
 function copyBaseFiles(options: Schema): Rule {

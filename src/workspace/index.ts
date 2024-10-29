@@ -8,8 +8,8 @@ import {
   SchematicsException,
   Tree,
 } from "@angular-devkit/schematics";
-import { copyPath } from "../utils/copy-path.fn";
-import { Schema } from "./schema";
+import { copyPath } from "../utils/copy-path.fn.js";
+import type { Schema } from "./schema";
 
 function executeSchematic(options: Schema): Rule {
   return externalSchematic("@schematics/angular", "ng-new", {
