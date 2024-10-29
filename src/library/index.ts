@@ -9,9 +9,9 @@ import {
   SchematicsException,
   Tree,
 } from "@angular-devkit/schematics";
-import { copyPath } from "../utils/copy-path.fn";
+import { copyPath } from "../utils/copy-path.fn.js";
 import type { Schema } from "./schema";
-import { SCOPE_IDENTIFIER } from "../utils/schema.model";
+import { SCOPE_IDENTIFIER } from "../utils/schema.model.js";
 
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
