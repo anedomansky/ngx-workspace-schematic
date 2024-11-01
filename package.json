@@ -18,6 +18,9 @@
     "test:integration:ng-new:default": "rm -rf test && npm run ng-new -- test --debug false --library-name test-lib --app-name test-application"
   },
   "author": "Alexander Nedomansky <anedomansky@gmail.com>",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "license": "MIT",
   "keywords": [
     "angular",
