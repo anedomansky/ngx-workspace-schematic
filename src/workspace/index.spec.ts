@@ -24,6 +24,7 @@ describe("workspace schematic", () => {
     expect(tree.files).toContain("/test/setup-jest.ts");
     expect(tree.files).toContain("/test/tsconfig.json");
     expect(tree.files).toContain("/test/tsconfig.spec.json");
+    expect(tree.files).toContain("/test/.npmrc");
   });
 
   it("should add all dependencies to package.json", async () => {

@@ -112,6 +112,7 @@ describe("ng-new schematic", () => {
     expect(tree.files).toContain("/test/jest.config.ts");
     expect(tree.files).toContain("/test/jest.test-lib.config.ts");
     expect(tree.files).toContain("/test/.vscode/test.code-workspace");
+    expect(tree.files).toContain("/test/.npmrc");
     expect(tree.files).toContain("/test/projects/test-lib/assets/.gitkeep");
     expect(tree.files).toContain(
       "/test/projects/test-lib/src/lib/test-lib.module.ts"
@@ -226,6 +227,7 @@ describe("ng-new schematic", () => {
     expect(tree.files).toContain("/test/jest.config.ts");
     expect(tree.files).toContain("/test/jest.test-lib.config.ts");
     expect(tree.files).toContain("/test/.vscode/test.code-workspace");
+    expect(tree.files).toContain("/test/.npmrc");
     expect(tree.files).toContain(
       "/test/projects/test/test-lib/assets/.gitkeep"
     );
