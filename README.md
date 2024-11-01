@@ -28,3 +28,4 @@ The command will ask you for the name of the workspace, the name for your app an
 | ----------------------- | ------- |
 | 1.X.X                   | 16      |
 | 2.X.X                   | 17      |
+| 3.X.X                   | 18      |
