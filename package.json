@@ -4,7 +4,7 @@
   "description": "Angular schematic for creating complete workspaces.",
   "scripts": {
     "build": "npm run clean && tsc",
-    "clean": "tsc --build --clean",
+    "clean": "rm -rf test && tsc --build --clean",
     "prepublishOnly": "npm run build",
     "ng-new": "npm run build && schematics .:ng-new",
     "ng-new:prod": "npm run build && schematics .:ng-new --debug false",
