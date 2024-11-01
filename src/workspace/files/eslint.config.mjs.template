@@ -2,12 +2,22 @@ import eslint from '@eslint/js';
 import angular from 'angular-eslint';
 import compat from 'eslint-plugin-compat';
 import * as importPlugin from 'eslint-plugin-import';
+import jest from 'eslint-plugin-jest';
 import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import testingLibrary from 'eslint-plugin-testing-library';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   {
     ignores: [
       '**/dist/**/*',
@@ -25,20 +35,25 @@ export default tseslint.config(
     ],
   },
   {
-    files: ['**/*.spec.ts'],
-    ...testingLibrary.configs['flat/angular'],
-    ...jest.configs['flat/recommended'],
+    files: ["**/*.spec.ts"],
+    ...jest.configs["flat/recommended"],
     rules: {
-      'testing-library/no-render-in-lifecycle': 'off',
-      'testing-library/no-node-access': 'warn',
-      ...jest.configs['flat/recommended'].rules,
-      'jest/expect-expect': [
-        'error',
+      ...jest.configs["flat/recommended"].rules,
+      "jest/expect-expect": [
+        "error",
         {
-          assertFunctionNames: ['screen.findBy*', 'expect'],
+          assertFunctionNames: ["screen.findBy*", "expect"],
           additionalTestBlockFunctions: [],
         },
       ],
+    },
+  },
+  {
+    files: ["**/*.spec.ts"],
+    ...testingLibrary.configs["flat/angular"],
+    rules: {
+      "testing-library/no-render-in-lifecycle": "off",
+      "testing-library/no-node-access": "warn",
     },
   },
   {
@@ -97,6 +112,7 @@ export default tseslint.config(
       prettierRecommended,
     ],
     rules: {
+      "lines-between-class-members": ["warn", "always"],
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'import/first': 'error',
