@@ -1,0 +1,151 @@
+import eslint from '@eslint/js';
+import angular from 'angular-eslint';
+import compat from 'eslint-plugin-compat';
+import * as importPlugin from 'eslint-plugin-import';
+import prettierRecommended from 'eslint-plugin-prettier/recommended';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import unusedImports from 'eslint-plugin-unused-imports';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(
+  {
+    ignores: [
+      '**/dist/**/*',
+      '**/coverage/**/*',
+      '**/projects/**/*.d.ts',
+      '**/jest-reports/**/*',
+      '**/report/**/*',
+      '**/test-results/**/*',
+      '**/node_modules/**/*',
+      '**/src/gen/**/*',
+      '**/.angular/**/*',
+      '**/*.js',
+      '**/*.mjs',
+      '**/*.json',
+    ],
+  },
+  {
+    files: ['**/*.spec.ts'],
+    ...testingLibrary.configs['flat/angular'],
+    ...jest.configs['flat/recommended'],
+    rules: {
+      'testing-library/no-render-in-lifecycle': 'off',
+      'testing-library/no-node-access': 'warn',
+      ...jest.configs['flat/recommended'].rules,
+      'jest/expect-expect': [
+        'error',
+        {
+          assertFunctionNames: ['screen.findBy*', 'expect'],
+          additionalTestBlockFunctions: [],
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.html'],
+    extends: [
+      ...angular.configs.templateRecommended,
+      ...angular.configs.templateAccessibility,
+      prettierRecommended,
+    ],
+    rules: {
+      '@angular-eslint/template/prefer-control-flow': 'warn',
+      '@angular-eslint/template/alt-text': 'warn',
+      '@angular-eslint/template/elements-content': 'warn',
+      '@angular-eslint/template/label-has-associated-control': 'warn',
+      '@angular-eslint/template/no-positive-tabindex': 'warn',
+      '@angular-eslint/template/table-scope': 'warn',
+      '@angular-eslint/template/valid-aria': 'warn',
+      '@angular-eslint/template/click-events-have-key-events': 'warn',
+      '@angular-eslint/template/mouse-events-have-key-events': 'warn',
+      '@angular-eslint/template/no-autofocus': 'warn',
+      '@angular-eslint/template/no-distracting-elements': 'warn',
+      '@angular-eslint/template/interactive-supports-focus': 'warn',
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: false,
+          useTabs: false,
+          tabWidth: 2,
+          semi: true,
+          bracketSpacing: true,
+          endOfLine: 'auto',
+          parser: 'angular',
+        },
+      ],
+    },
+  },
+  {
+    files: ['**/*.ts'],
+    processor: angular.processInlineTemplates,
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+      'unused-imports': unusedImports,
+    },
+    settings: {
+      'import/resolver': {
+        typescript: true,
+        node: true,
+      },
+    },
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.strict,
+      ...angular.configs.tsRecommended,
+      compat.configs['flat/recommended'],
+      importPlugin.flatConfigs.recommended,
+      prettierRecommended,
+    ],
+    rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'import/no-duplicates': 'error',
+      '@angular-eslint/component-class-suffix': [
+        'error',
+        {
+          suffixes: ['Component'],
+        },
+      ],
+      '@angular-eslint/no-host-metadata-property': 'off',
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/no-extraneous-class': [
+        'error',
+        { allowWithDecorator: true },
+      ],
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+      'prettier/prettier': [
+        'error',
+        {
+          singleQuote: true,
+          useTabs: false,
+          tabWidth: 2,
+          semi: true,
+          bracketSpacing: true,
+          endOfLine: 'auto',
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'TSEnumDeclaration',
+          message:
+            'Do not use enum at all. See: https://www.typescriptlang.org/docs/handbook/enums.html#const-enum-pitfalls',
+        },
+      ],
+    },
+  },
+);

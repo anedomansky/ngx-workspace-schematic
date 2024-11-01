@@ -14,7 +14,7 @@ describe("workspace schematic", () => {
 
     expect(tree.files).toContain("/test/.vscode/test.code-workspace");
     expect(tree.files).toContain("/test/.vscode/extensions.json");
-    expect(tree.files).toContain("/test/.eslintrc.js");
+    expect(tree.files).toContain("/test/eslint.config.mjs");
     expect(tree.files).toContain("/test/.gitignore");
     expect(tree.files).toContain("/test/.stylelintrc.json");
     expect(tree.files).toContain("/test/angular.json");
@@ -104,8 +104,8 @@ describe("workspace schematic", () => {
     );
 
     const expectedScripts = {
-      lint: "eslint ./projects --ext .ts --ext .html",
-      "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      lint: "eslint ./projects",
+      "lint:fix": "eslint ./projects --fix",
       test: "npm run test:esm -- --silent",
       "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       "test:esm":
@@ -130,5 +130,17 @@ describe("workspace schematic", () => {
     };
 
     expect(workspacePackageJson.engines).toStrictEqual(expectedEngines);
+  });
+
+  it("should set correct type in package.json", async () => {
+    const tree = await schematicRunner.runSchematic("workspace", {
+      name: "test",
+    });
+
+    const workspacePackageJson = JSON.parse(
+      tree.readContent("/test/package.json")
+    );
+
+    expect(workspacePackageJson.type).toBe("module");
   });
 });

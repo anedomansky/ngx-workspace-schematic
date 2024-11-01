@@ -28,10 +28,10 @@
       "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "search.exclude": {
-      "**/node_modules": true,
-      "**/target": true,
-      "**/dist": true,
-      "**/coverage": true
+      "**/node_modules/**": true,
+      "**/target/**": true,
+      "**/dist/**": true,
+      "**/coverage/**": true
     }
   }
 }

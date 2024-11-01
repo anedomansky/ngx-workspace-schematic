@@ -30,9 +30,6 @@ describe("application schematic", () => {
 
     expect(tree.files).toContain("/test/jest.test-application.config.ts");
     expect(tree.files).toContain(
-      "/test/projects/test-application/.eslintrc.js"
-    );
-    expect(tree.files).toContain(
       "/test/projects/test-application/tsconfig.app.json"
     );
     expect(tree.files).toContain(
@@ -82,9 +79,6 @@ describe("application schematic", () => {
     );
 
     expect(tree.files).toContain("/test/jest.test-application.config.ts");
-    expect(tree.files).toContain(
-      "/test/projects/test/test-application/.eslintrc.js"
-    );
     expect(tree.files).toContain(
       "/test/projects/test/test-application/tsconfig.app.json"
     );
@@ -141,8 +135,8 @@ describe("application schematic", () => {
     );
 
     const expectedScripts = {
-      lint: "eslint ./projects --ext .ts --ext .html",
-      "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      lint: "eslint ./projects",
+      "lint:fix": "eslint ./projects --fix",
       test: "npm run test:esm -- --silent",
       "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       "test:esm":
@@ -174,8 +168,8 @@ describe("application schematic", () => {
     );
 
     const expectedScripts = {
-      lint: "eslint ./projects --ext .ts --ext .html",
-      "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      lint: "eslint ./projects",
+      "lint:fix": "eslint ./projects --fix",
       test: "npm run test:esm -- --silent",
       "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       "test:esm":

@@ -29,7 +29,6 @@ describe("library schematic", () => {
     );
 
     expect(tree.files).toContain("/test/jest.test-lib.config.ts");
-    expect(tree.files).toContain("/test/projects/test-lib/.eslintrc.js");
     expect(tree.files).toContain("/test/projects/test-lib/ng-package.json");
     expect(tree.files).toContain("/test/projects/test-lib/package.json");
     expect(tree.files).toContain("/test/projects/test-lib/tsconfig.lib.json");
@@ -82,7 +81,6 @@ describe("library schematic", () => {
     );
 
     expect(tree.files).toContain("/test/jest.test-lib.config.ts");
-    expect(tree.files).toContain("/test/projects/test/test-lib/.eslintrc.js");
     expect(tree.files).toContain(
       "/test/projects/test/test-lib/ng-package.json"
     );
@@ -149,8 +147,8 @@ describe("library schematic", () => {
     );
 
     const expectedScripts = {
-      lint: "eslint ./projects --ext .ts --ext .html",
-      "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      lint: "eslint ./projects",
+      "lint:fix": "eslint ./projects --fix",
       test: "npm run test:esm -- --silent",
       "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       "test:esm":
@@ -183,8 +181,8 @@ describe("library schematic", () => {
     );
 
     const expectedScripts = {
-      lint: "eslint ./projects --ext .ts --ext .html",
-      "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      lint: "eslint ./projects",
+      "lint:fix": "eslint ./projects --fix",
       test: "npm run test:esm -- --silent",
       "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       "test:esm":

@@ -44,9 +44,11 @@ function updatePackageJson(options: Schema): Rule {
 
     const json = JSON.parse(file.toString());
 
+    json.type = "module";
+
     json.scripts = {
-      lint: "eslint ./projects --ext .ts --ext .html",
-      "lint:fix": "eslint ./projects --ext .ts --ext .html --fix",
+      lint: "eslint ./projects",
+      "lint:fix": "eslint ./projects --fix",
       test: "npm run test:esm -- --silent",
       "test:coverage": "npm run test:esm -- --silent --collectCoverage",
       "test:esm":
