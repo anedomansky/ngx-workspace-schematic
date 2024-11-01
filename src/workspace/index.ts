@@ -58,21 +58,21 @@ function updatePackageJson(options: Schema): Rule {
       node: "^18.19.1 || ^20.11.1 || ^22.0.0",
     };
 
-    json.dependencies["@angular/animations"] = "~18.2.9";
-    json.dependencies["@angular/common"] = "~18.2.9";
-    json.dependencies["@angular/compiler"] = "~18.2.9";
-    json.dependencies["@angular/core"] = "~18.2.9";
-    json.dependencies["@angular/forms"] = "~18.2.9";
-    json.dependencies["@angular/platform-browser"] = "~18.2.9";
-    json.dependencies["@angular/platform-browser-dynamic"] = "~18.2.9";
-    json.dependencies["@angular/router"] = "~18.2.9";
+    json.dependencies["@angular/animations"] = "~18.2.10";
+    json.dependencies["@angular/common"] = "~18.2.10";
+    json.dependencies["@angular/compiler"] = "~18.2.10";
+    json.dependencies["@angular/core"] = "~18.2.10";
+    json.dependencies["@angular/forms"] = "~18.2.10";
+    json.dependencies["@angular/platform-browser"] = "~18.2.10";
+    json.dependencies["@angular/platform-browser-dynamic"] = "~18.2.10";
+    json.dependencies["@angular/router"] = "~18.2.10";
     json.dependencies["rxjs"] = "~7.8.1";
     json.dependencies["tslib"] = "~2.8.0";
     json.dependencies["zone.js"] = "~0.14.10";
 
-    json.devDependencies["@angular/cli"] = "~18.2.10";
-    json.devDependencies["@angular/compiler-cli"] = "~18.2.9";
-    json.devDependencies["@angular-devkit/build-angular"] = "~18.2.10";
+    json.devDependencies["@angular/cli"] = "~18.2.11";
+    json.devDependencies["@angular/compiler-cli"] = "~18.2.10";
+    json.devDependencies["@angular-devkit/build-angular"] = "~18.2.11";
     json.devDependencies["@jest/globals"] = "~29.7.0";
     json.devDependencies["@testing-library/angular"] = "~17.3.1";
     json.devDependencies["@testing-library/dom"] = "~10.4.0";
