@@ -4,43 +4,71 @@ import {
   chain,
   MergeStrategy,
   mergeWith,
-  Rule,
-  SchematicContext,
+  type Rule,
+  type SchematicContext,
   SchematicsException,
-  Tree,
+  type Tree,
 } from "@angular-devkit/schematics";
 import { copyPath } from "../utils/copy-path.fn.js";
 import type { Schema } from "./schema";
 import { SCOPE_IDENTIFIER } from "../utils/schema.model.js";
+import type { PackageJSON } from "../models/package-json-model.js";
 
+/**
+ * Copies the base files to the specified project directory.
+ *
+ * @param options - The schema options containing configuration for the operation.
+ * @returns A `Rule` that merges the copied files with the existing files in the target directory.
+ */
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
     copyPath<Schema>(
       options,
       "base",
-      `${options.name}/projects/${options.appNameWithoutPrefix}`
+      `projects/${options.appNameWithoutPrefix}`
     ),
     MergeStrategy.Overwrite
   );
 }
 
+/**
+ * Copies unit test files to the specified location.
+ *
+ * @param options - The schema options containing the configuration for the copy operation.
+ * @returns A `Rule` that merges the unit test files with the existing files, using the overwrite strategy.
+ */
 function copyUnitTestFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath(options, "unit-testing", options.name),
+    copyPath(options, "unit-testing", null),
     MergeStrategy.Overwrite
   );
 }
 
+/**
+ * Updates the `package.json` file by adding custom scripts for the specified application.
+ *
+ * @param options - The schema options containing the application details.
+ * @returns A `Rule` that updates the `package.json` file in the tree.
+ *
+ * @throws `SchematicsException` if the `package.json` file is not found.
+ *
+ * @remarks
+ * The following scripts are added to the `package.json`:
+ * - `start:app:<appNameWithoutScope>`: Runs `ng serve` for the specified application.
+ * - `build:app:<appNameWithoutScope>`: Runs `ng build` for the specified application.
+ * - `test:app:<appNameWithoutScope>`: Runs tests using Jest with a specific configuration file.
+ * - `test:app:<appNameWithoutScope>:local`: Runs tests using Jest with a specific configuration file without the `--silent` flag.
+ */
 function updatePackageJson(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = `/${options.name}/package.json`;
+    const path = "package.json";
     const file = tree.read(path);
 
     if (!file) {
       throw new SchematicsException("package.json not found.");
     }
 
-    const json = JSON.parse(file.toString());
+    const json = JSON.parse(file.toString()) as PackageJSON;
 
     json.scripts = {
       ...json.scripts,
@@ -56,9 +84,17 @@ function updatePackageJson(options: Schema): Rule {
   };
 }
 
+/**
+ * Updates the VSCode workspace configuration by adding a new project folder to the workspace.
+ *
+ * @param options - The options provided to the schematic.
+ * @returns A `Rule` that updates the VSCode workspace configuration.
+ *
+ * @throws `SchematicsException` If the specified `.code-workspace` file is not found.
+ */
 function updateVSCodeWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = `/${options.name}/.vscode/${options.name}.code-workspace`;
+    const path = `.vscode/${options.name}.code-workspace`;
     const file = tree.read(path);
 
     if (!file) {
@@ -83,9 +119,27 @@ function updateVSCodeWorkspace(options: Schema): Rule {
   };
 }
 
+/**
+ * Updates the Angular workspace configuration by modifying the `angular.json` file.
+ *
+ * @param options - The schema options containing the application and library details.
+ * @returns A `Rule` that modifies the Angular workspace configuration.
+ *
+ * @throws `SchematicsException` if the `angular.json` file is not found.
+ *
+ * @description
+ * The function performs the following tasks:
+ * - Reads the `angular.json` file from the workspace.
+ * - Parses the JSON content of the file.
+ * - Adds a new project configuration for the application specified in the options.
+ * - Configures the build and serve targets for the application.
+ * - If a library name is provided in the options, it adds the library's assets and styles to the application's build options.
+ * - Overwrites the `angular.json` file with the updated configuration.
+ *
+ */
 function updateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = `/${options.name}/angular.json`;
+    const path = "angular.json";
     const file = tree.read(path);
 
     if (!file) {
@@ -209,6 +263,15 @@ function updateAngularWorkspace(options: Schema): Rule {
   };
 }
 
+/**
+ * This function is the main entry point for the schematic.
+ * It processes the provided options, modifies them as needed,
+ * and returns a rule that applies a series of transformations
+ * to the Angular workspace.
+ *
+ * @param options - The schema options provided to the schematic.
+ * @returns A `Rule` that applies the necessary transformations.
+ */
 export default function (options: Schema): Rule {
   options.appName = dasherize(options.appName);
 

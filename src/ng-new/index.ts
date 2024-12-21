@@ -4,11 +4,11 @@ import {
   empty,
   mergeWith,
   noop,
-  Rule,
+  type Rule,
   schematic,
-  SchematicContext,
+  type SchematicContext,
   SchematicsException,
-  Tree,
+  type Tree,
 } from "@angular-devkit/schematics";
 import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 
@@ -31,14 +31,14 @@ export default function (options: Schema): Rule {
 
   const libraryOptions: LibrarySchema = {
     name: options.name,
-    appName: options.appName ?? "",
+    appName: options.appName,
     libraryName: options.libraryName ?? "",
   };
 
   const applicationOptions: ApplicationSchema = {
     name: options.name,
     appName: options.appName ?? "",
-    libraryName: options.libraryName ?? "",
+    libraryName: options.libraryName,
   };
 
   return (tree: Tree, context: SchematicContext) => {
