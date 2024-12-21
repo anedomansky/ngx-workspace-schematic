@@ -59,10 +59,10 @@
   ],
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "18.2.10",
-    "@angular-devkit/schematics": "18.2.10",
-    "@angular-devkit/schematics-cli": "18.2.10",
-    "@schematics/angular": "18.2.10"
+    "@angular-devkit/core": "18.2.12",
+    "@angular-devkit/schematics": "18.2.12",
+    "@angular-devkit/schematics-cli": "18.2.12",
+    "@schematics/angular": "18.2.12"
   },
   "devDependencies": {
     "typescript": "5.5.4",
