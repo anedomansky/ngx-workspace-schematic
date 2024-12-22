@@ -28,46 +28,44 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    expect(tree.files).toContain("/test/jest.test-lib.config.ts");
-    expect(tree.files).toContain("/test/projects/test-lib/ng-package.json");
-    expect(tree.files).toContain("/test/projects/test-lib/package.json");
-    expect(tree.files).toContain("/test/projects/test-lib/tsconfig.lib.json");
+    expect(tree.files).toContain("/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/projects/test-lib/ng-package.json");
+    expect(tree.files).toContain("/projects/test-lib/package.json");
+    expect(tree.files).toContain("/projects/test-lib/tsconfig.lib.json");
+    expect(tree.files).toContain("/projects/test-lib/tsconfig.lib.prod.json");
+    expect(tree.files).toContain("/projects/test-lib/assets/.gitkeep");
+    expect(tree.files).toContain("/projects/test-lib/src/public-api.ts");
     expect(tree.files).toContain(
-      "/test/projects/test-lib/tsconfig.lib.prod.json"
-    );
-    expect(tree.files).toContain("/test/projects/test-lib/assets/.gitkeep");
-    expect(tree.files).toContain("/test/projects/test-lib/src/public-api.ts");
-    expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/test-lib.module.ts"
+      "/projects/test-lib/src/lib/test-lib.module.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/config/test-lib-config.ts"
+      "/projects/test-lib/src/lib/config/test-lib-config.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/core/services/sample/sample.config.ts"
+      "/projects/test-lib/src/lib/core/services/sample/sample.config.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
+      "/projects/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/core/services/sample/sample.service.ts"
+      "/projects/test-lib/src/lib/core/services/sample/sample.service.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/sample/sample.component.html"
+      "/projects/test-lib/src/lib/sample/sample.component.html"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/sample/sample.component.scss"
+      "/projects/test-lib/src/lib/sample/sample.component.scss"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/sample/sample.component.spec.ts"
+      "/projects/test-lib/src/lib/sample/sample.component.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/sample/sample.component.ts"
+      "/projects/test-lib/src/lib/sample/sample.component.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/sample/sample.routes.ts"
+      "/projects/test-lib/src/lib/sample/sample.routes.ts"
     );
-    expect(tree.files).toContain("/test/projects/test-lib/styles/index.scss");
+    expect(tree.files).toContain("/projects/test-lib/styles/index.scss");
   });
 
   it("should create all files (with scope)", async () => {
@@ -80,56 +78,46 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    expect(tree.files).toContain("/test/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/jest.test-lib.config.ts");
+    expect(tree.files).toContain("/projects/test/test-lib/ng-package.json");
+    expect(tree.files).toContain("/projects/test/test-lib/package.json");
+    expect(tree.files).toContain("/projects/test/test-lib/tsconfig.lib.json");
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/ng-package.json"
+      "/projects/test/test-lib/tsconfig.lib.prod.json"
     );
-    expect(tree.files).toContain("/test/projects/test/test-lib/package.json");
+    expect(tree.files).toContain("/projects/test/test-lib/assets/.gitkeep");
+    expect(tree.files).toContain("/projects/test/test-lib/src/public-api.ts");
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/tsconfig.lib.json"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-lib/tsconfig.lib.prod.json"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-lib/assets/.gitkeep"
+      "/projects/test/test-lib/src/lib/test-lib.module.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/public-api.ts"
+      "/projects/test/test-lib/src/lib/config/test-lib-config.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/test-lib.module.ts"
+      "/projects/test/test-lib/src/lib/core/services/sample/sample.config.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/config/test-lib-config.ts"
+      "/projects/test/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/core/services/sample/sample.config.ts"
+      "/projects/test/test-lib/src/lib/core/services/sample/sample.service.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
+      "/projects/test/test-lib/src/lib/sample/sample.component.html"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/core/services/sample/sample.service.ts"
+      "/projects/test/test-lib/src/lib/sample/sample.component.scss"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/sample/sample.component.html"
+      "/projects/test/test-lib/src/lib/sample/sample.component.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/sample/sample.component.scss"
+      "/projects/test/test-lib/src/lib/sample/sample.component.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/sample/sample.component.spec.ts"
+      "/projects/test/test-lib/src/lib/sample/sample.routes.ts"
     );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/sample/sample.component.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/sample/sample.routes.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-lib/styles/index.scss"
-    );
+    expect(tree.files).toContain("/projects/test/test-lib/styles/index.scss");
   });
 
   it("should add all scripts to package.json (no scope)", async () => {
@@ -142,9 +130,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const workspacePackageJson = JSON.parse(
-      tree.readContent("/test/package.json")
-    );
+    const workspacePackageJson = JSON.parse(tree.readContent("/package.json"));
 
     const expectedScripts = {
       lint: "eslint ./projects",
@@ -176,9 +162,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const workspacePackageJson = JSON.parse(
-      tree.readContent("/test/package.json")
-    );
+    const workspacePackageJson = JSON.parse(tree.readContent("/package.json"));
 
     const expectedScripts = {
       lint: "eslint ./projects",
@@ -212,7 +196,7 @@ describe("library schematic", () => {
     );
 
     const workspaceFile = JSON.parse(
-      tree.readContent("/test/.vscode/test.code-workspace")
+      tree.readContent("/.vscode/test.code-workspace")
     );
 
     const expectedFolders = [
@@ -240,7 +224,7 @@ describe("library schematic", () => {
     );
 
     const workspaceFile = JSON.parse(
-      tree.readContent("/test/.vscode/test.code-workspace")
+      tree.readContent("/.vscode/test.code-workspace")
     );
 
     const expectedFolders = [
@@ -267,7 +251,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const workspaceJSON = JSON.parse(tree.readContent("/test/angular.json"));
+    const workspaceJSON = JSON.parse(tree.readContent("/angular.json"));
 
     const expectedProjects = {
       "test-lib": {
@@ -318,7 +302,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const workspaceJSON = JSON.parse(tree.readContent("/test/angular.json"));
+    const workspaceJSON = JSON.parse(tree.readContent("/angular.json"));
 
     const expectedProjects = {
       "@test/test-lib": {
@@ -369,7 +353,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const tsconfigJSON = JSON.parse(tree.readContent("/test/tsconfig.json"));
+    const tsconfigJSON = JSON.parse(tree.readContent("/tsconfig.json"));
 
     const expectedPaths = {
       "test-lib": ["dist/test-lib"],
@@ -388,7 +372,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const tsconfigJSON = JSON.parse(tree.readContent("/test/tsconfig.json"));
+    const tsconfigJSON = JSON.parse(tree.readContent("/tsconfig.json"));
 
     const expectedPaths = {
       "@test/test-lib": ["dist/test/test-lib"],
@@ -407,7 +391,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const unitTestConfig = tree.readContent("/test/jest.config.ts");
+    const unitTestConfig = tree.readContent("/jest.config.ts");
 
     expect(unitTestConfig).toContain(
       "'^test-lib': '<rootDir>/dist/test-lib/fesm2022/test-lib.mjs'"
@@ -424,7 +408,7 @@ describe("library schematic", () => {
       workspaceTree
     );
 
-    const unitTestConfig = tree.readContent("/test/jest.config.ts");
+    const unitTestConfig = tree.readContent("/jest.config.ts");
 
     expect(unitTestConfig).toContain(
       "'^@test/test-lib': '<rootDir>/dist/test/test-lib/fesm2022/test-test-lib.mjs'"

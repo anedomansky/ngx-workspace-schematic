@@ -18,7 +18,7 @@ import type { PackageJSON } from "../models/package-json-model.js";
  * @param options - The schema options for the schematic.
  * @returns A `Rule` that applies the schematic.
  *
- * @remarks
+ * @description
  * This function uses the `externalSchematic` function to invoke the `ng-new` schematic
  * from the `@schematics/angular` collection. The schematic is configured to create a new
  * Angular workspace with the specified options.
@@ -27,7 +27,7 @@ function executeSchematic(options: Schema): Rule {
   return externalSchematic("@schematics/angular", "ng-new", {
     name: options.name,
     version: "18.2.12",
-    directory: options.name,
+    directory: "./",
     routing: true,
     style: "scss",
     createApplication: false,
@@ -54,6 +54,7 @@ function copyBaseFiles(options: Schema): Rule {
 /**
  * Updates the `package.json` file in the Angular workspace with specific configurations.
  *
+ * @description
  * This function performs the following updates:
  * - Sets the `type` to `"module"`.
  * - Adds and updates various npm scripts.
@@ -61,11 +62,10 @@ function copyBaseFiles(options: Schema): Rule {
  * - Adds and updates `dependencies` and `devDependencies` for Angular, ESLint, Jest, and other tools.
  * - Removes Jasmine and Karma related `devDependencies`.
  *
- * @param options - The schema options for the rule.
  * @returns A `Rule` that updates the `package.json` file in the Angular workspace.
  * @throws `SchematicsException` if the `package.json` file is not found.
  */
-function updatePackageJson(options: Schema): Rule {
+function updatePackageJson(): Rule {
   return (tree: Tree): Tree => {
     const path = "package.json";
     const file = tree.read(path);
@@ -164,7 +164,7 @@ export default function (options: Schema): Rule {
     const rule = chain([
       executeSchematic(options),
       copyBaseFiles(options),
-      updatePackageJson(options),
+      updatePackageJson(),
     ]);
 
     return rule(tree, context);

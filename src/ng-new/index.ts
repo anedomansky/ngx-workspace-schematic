@@ -3,6 +3,7 @@ import {
   chain,
   empty,
   mergeWith,
+  move,
   noop,
   type Rule,
   schematic,
@@ -52,6 +53,7 @@ export default function (options: Schema): Rule {
           applicationOptions.appName
             ? schematic("application", applicationOptions)
             : noop,
+          move(options.name),
         ])
       ),
     ]);

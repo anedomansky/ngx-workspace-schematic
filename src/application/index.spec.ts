@@ -28,43 +28,37 @@ describe("application schematic", () => {
       workspaceTree
     );
 
-    expect(tree.files).toContain("/test/jest.test-application.config.ts");
+    expect(tree.files).toContain("/jest.test-application.config.ts");
     expect(tree.files).toContain(
-      "/test/projects/test-application/tsconfig.app.json"
+      "/projects/test-application/tsconfig.app.json"
+    );
+    expect(tree.files).toContain("/projects/test-application/src/favicon.ico");
+    expect(tree.files).toContain("/projects/test-application/src/index.html");
+    expect(tree.files).toContain("/projects/test-application/src/main.ts");
+    expect(tree.files).toContain("/projects/test-application/src/styles.scss");
+    expect(tree.files).toContain(
+      "/projects/test-application/src/app/app.component.html"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/favicon.ico"
+      "/projects/test-application/src/app/app.component.scss"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/index.html"
-    );
-    expect(tree.files).toContain("/test/projects/test-application/src/main.ts");
-    expect(tree.files).toContain(
-      "/test/projects/test-application/src/styles.scss"
+      "/projects/test-application/src/app/app.component.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/app.component.html"
+      "/projects/test-application/src/app/app.component.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/app.component.scss"
+      "/projects/test-application/src/app/app.routes.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/app.component.spec.ts"
+      "/projects/test-application/src/app/sample/sample.service.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/app.component.ts"
+      "/projects/test-application/src/app/sample/sample.service.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/app.routes.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/sample/sample.service.spec.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-application/src/app/sample/sample.service.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test-application/src/assets/.gitkeep"
+      "/projects/test-application/src/assets/.gitkeep"
     );
   });
 
@@ -78,45 +72,43 @@ describe("application schematic", () => {
       workspaceTree
     );
 
-    expect(tree.files).toContain("/test/jest.test-application.config.ts");
+    expect(tree.files).toContain("/jest.test-application.config.ts");
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/tsconfig.app.json"
+      "/projects/test/test-application/tsconfig.app.json"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/favicon.ico"
+      "/projects/test/test-application/src/favicon.ico"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/index.html"
+      "/projects/test/test-application/src/index.html"
+    );
+    expect(tree.files).toContain("/projects/test/test-application/src/main.ts");
+    expect(tree.files).toContain(
+      "/projects/test/test-application/src/styles.scss"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/main.ts"
+      "/projects/test/test-application/src/app/app.component.html"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/styles.scss"
+      "/projects/test/test-application/src/app/app.component.scss"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/app.component.html"
+      "/projects/test/test-application/src/app/app.component.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/app.component.scss"
+      "/projects/test/test-application/src/app/app.component.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/app.component.spec.ts"
+      "/projects/test/test-application/src/app/app.routes.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/app.component.ts"
+      "/projects/test/test-application/src/app/sample/sample.service.spec.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/app.routes.ts"
+      "/projects/test/test-application/src/app/sample/sample.service.ts"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/sample/sample.service.spec.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/app/sample/sample.service.ts"
-    );
-    expect(tree.files).toContain(
-      "/test/projects/test/test-application/src/assets/.gitkeep"
+      "/projects/test/test-application/src/assets/.gitkeep"
     );
   });
 
@@ -130,9 +122,7 @@ describe("application schematic", () => {
       workspaceTree
     );
 
-    const workspacePackageJson = JSON.parse(
-      tree.readContent("/test/package.json")
-    );
+    const workspacePackageJson = JSON.parse(tree.readContent("/package.json"));
 
     const expectedScripts = {
       lint: "eslint ./projects",
@@ -163,9 +153,7 @@ describe("application schematic", () => {
       workspaceTree
     );
 
-    const workspacePackageJson = JSON.parse(
-      tree.readContent("/test/package.json")
-    );
+    const workspacePackageJson = JSON.parse(tree.readContent("/package.json"));
 
     const expectedScripts = {
       lint: "eslint ./projects",
@@ -197,7 +185,7 @@ describe("application schematic", () => {
     );
 
     const workspaceFile = JSON.parse(
-      tree.readContent("/test/.vscode/test.code-workspace")
+      tree.readContent("/.vscode/test.code-workspace")
     );
 
     const expectedFolders = [
@@ -225,7 +213,7 @@ describe("application schematic", () => {
     );
 
     const workspaceFile = JSON.parse(
-      tree.readContent("/test/.vscode/test.code-workspace")
+      tree.readContent("/.vscode/test.code-workspace")
     );
 
     const expectedFolders = [
@@ -252,7 +240,7 @@ describe("application schematic", () => {
       workspaceTree
     );
 
-    const workspaceJSON = JSON.parse(tree.readContent("/test/angular.json"));
+    const workspaceJSON = JSON.parse(tree.readContent("/angular.json"));
 
     const expectedProjects = {
       "test-application": {
@@ -347,7 +335,7 @@ describe("application schematic", () => {
       workspaceTree
     );
 
-    const workspaceJSON = JSON.parse(tree.readContent("/test/angular.json"));
+    const workspaceJSON = JSON.parse(tree.readContent("/angular.json"));
 
     const expectedProjects = {
       "@test/test-application": {
