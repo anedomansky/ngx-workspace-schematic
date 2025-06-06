@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/angular';
 import { of } from 'rxjs';
 
-import { SampleService } from '../core/services/sample/sample.service';
+import { SampleService } from './sample.service';
 import { SampleComponent } from './sample.component';
 
 describe('SampleComponent', () => {

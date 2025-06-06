@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./src",
     "baseUrl": "./",
-    "declaration": true,
+    "declaration": false,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,

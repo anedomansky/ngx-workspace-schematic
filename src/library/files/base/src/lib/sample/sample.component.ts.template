@@ -2,13 +2,12 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 
 import { <%= classify(libraryNameWithoutScope) %>ConfigToken } from '../config/<%= libraryNameWithoutScope %>-config';
-import { SampleService } from '../core/services/sample/sample.service';
+import { SampleService } from './sample.service';
 
 @Component({
   selector: '<%= libraryNameWithoutScope %>-sample',
   templateUrl: './sample.component.html',
   styleUrls: ['./sample.component.scss'],
-  standalone: true,
   imports: [AsyncPipe],
 })
 export class SampleComponent {

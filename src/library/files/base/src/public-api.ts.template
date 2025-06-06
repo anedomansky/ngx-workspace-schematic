@@ -1,6 +1,14 @@
+export {
+  getDefault<%= classify(libraryNameWithoutScope) %>Config,
+  type <%= classify(libraryNameWithoutScope) %>Config,
+  <%= classify(libraryNameWithoutScope) %>ConfigToken,
+} from './lib/config/<%= libraryNameWithoutScope %>-config';
 export * from './lib/config/<%= libraryNameWithoutScope %>-config';
-export * from './lib/core/services/sample/sample.config';
-export * from './lib/core/services/sample/sample.service';
-export * from './lib/sample/sample.component';
-export * from './lib/sample/sample.routes';
-export * from './lib/<%= libraryNameWithoutScope %>.module';
+export { SampleComponent } from './lib/sample/sample.component';
+export {
+  type SampleServiceConfig,
+  SampleServiceToken,
+} from './lib/sample/sample.config';
+export { SAMPLE_ROUTES } from './lib/sample/sample.routes';
+export { SampleService } from './lib/sample/sample.service';
+
