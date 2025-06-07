@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/angular';
 import { of } from 'rxjs';
 
-import { SampleService } from './sample.service';
 import { SampleComponent } from './sample.component';
+import { SampleService } from './sample.service';
 
 describe('SampleComponent', () => {
   beforeEach(async () => {

@@ -11,4 +11,3 @@ export {
 } from './lib/sample/sample.config';
 export { SAMPLE_ROUTES } from './lib/sample/sample.routes';
 export { SampleService } from './lib/sample/sample.service';
-
