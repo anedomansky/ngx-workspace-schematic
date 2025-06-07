@@ -4,6 +4,20 @@
 
 An angular schematic for creating complete workspaces.
 
+## Requirements
+
+You'll need the current [NodeJS](https://nodejs.org/en) installed.
+In addition to that, you'll need the correct `@angular/cli` version installed:
+
+`npm install -g @angular/cli@X`
+
+| ngx-workspace-schematic | @angular/cli |
+| ----------------------- | ------- |
+| 1.X.X                   | 16.X      |
+| 2.X.X                   | 17.X      |
+| 3.X.X                   | 18.X      |
+| 4.X.X                   | 19.X      |
+
 ## Features
 
 - generate a complete Angular workspace consisting of one library and an accompanying application
@@ -29,3 +43,4 @@ The command will ask you for the name of the workspace, the name for your app an
 | 1.X.X                   | 16      |
 | 2.X.X                   | 17      |
 | 3.X.X                   | 18      |
+| 4.X.X                   | 19      |
