@@ -36,19 +36,16 @@ describe("library schematic", () => {
     expect(tree.files).toContain("/projects/test-lib/assets/.gitkeep");
     expect(tree.files).toContain("/projects/test-lib/src/public-api.ts");
     expect(tree.files).toContain(
-      "/projects/test-lib/src/lib/test-lib.module.ts"
-    );
-    expect(tree.files).toContain(
       "/projects/test-lib/src/lib/config/test-lib-config.ts"
     );
     expect(tree.files).toContain(
-      "/projects/test-lib/src/lib/core/services/sample/sample.config.ts"
+      "/projects/test-lib/src/lib/sample/sample.config.ts"
     );
     expect(tree.files).toContain(
-      "/projects/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
+      "/projects/test-lib/src/lib/sample/sample.service.spec.ts"
     );
     expect(tree.files).toContain(
-      "/projects/test-lib/src/lib/core/services/sample/sample.service.ts"
+      "/projects/test-lib/src/lib/sample/sample.service.ts"
     );
     expect(tree.files).toContain(
       "/projects/test-lib/src/lib/sample/sample.component.html"
@@ -88,19 +85,16 @@ describe("library schematic", () => {
     expect(tree.files).toContain("/projects/test/test-lib/assets/.gitkeep");
     expect(tree.files).toContain("/projects/test/test-lib/src/public-api.ts");
     expect(tree.files).toContain(
-      "/projects/test/test-lib/src/lib/test-lib.module.ts"
-    );
-    expect(tree.files).toContain(
       "/projects/test/test-lib/src/lib/config/test-lib-config.ts"
     );
     expect(tree.files).toContain(
-      "/projects/test/test-lib/src/lib/core/services/sample/sample.config.ts"
+      "/projects/test/test-lib/src/lib/sample/sample.config.ts"
     );
     expect(tree.files).toContain(
-      "/projects/test/test-lib/src/lib/core/services/sample/sample.service.spec.ts"
+      "/projects/test/test-lib/src/lib/sample/sample.service.spec.ts"
     );
     expect(tree.files).toContain(
-      "/projects/test/test-lib/src/lib/core/services/sample/sample.service.ts"
+      "/projects/test/test-lib/src/lib/sample/sample.service.ts"
     );
     expect(tree.files).toContain(
       "/projects/test/test-lib/src/lib/sample/sample.component.html"

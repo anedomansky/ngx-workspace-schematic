@@ -115,9 +115,6 @@ describe("ng-new schematic", () => {
     expect(tree.files).toContain("/test/.npmrc");
     expect(tree.files).toContain("/test/projects/test-lib/assets/.gitkeep");
     expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/test-lib.module.ts"
-    );
-    expect(tree.files).toContain(
       "/test/projects/test-application/src/app/app.routes.ts"
     );
   });
@@ -232,9 +229,6 @@ describe("ng-new schematic", () => {
       "/test/projects/test/test-lib/assets/.gitkeep"
     );
     expect(tree.files).toContain(
-      "/test/projects/test/test-lib/src/lib/test-lib.module.ts"
-    );
-    expect(tree.files).toContain(
       "/test/projects/test/test-application/src/app/app.routes.ts"
     );
   });
@@ -250,9 +244,6 @@ describe("ng-new schematic", () => {
     expect(tree.files).toContain("/test/jest.test-lib.config.ts");
     expect(tree.files).toContain("/test/.vscode/test.code-workspace");
     expect(tree.files).toContain("/test/projects/test-lib/assets/.gitkeep");
-    expect(tree.files).toContain(
-      "/test/projects/test-lib/src/lib/test-lib.module.ts"
-    );
     expect(tree.files).not.toContain(
       "/test/projects/test-application/src/app/app.routes.ts"
     );

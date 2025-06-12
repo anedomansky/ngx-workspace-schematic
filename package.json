@@ -58,17 +58,17 @@
   ],
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "19.2.13",
-    "@angular-devkit/schematics": "19.2.13",
-    "@angular-devkit/schematics-cli": "19.2.13",
-    "@schematics/angular": "19.2.13"
+    "@angular-devkit/core": "19.2.15",
+    "@angular-devkit/schematics": "19.2.15",
+    "@angular-devkit/schematics-cli": "19.2.15",
+    "@schematics/angular": "19.2.15"
   },
   "devDependencies": {
     "@anedomansky/eslint-config": "1.2.0",
-    "@types/node": "22.15.21",
-    "eslint": "9.27.0",
+    "@types/node": "24.0.1",
+    "eslint": "9.28.0",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.32.1",
-    "vitest": "3.1.4"
+    "typescript-eslint": "8.34.0",
+    "vitest": "3.2.3"
   }
 }
