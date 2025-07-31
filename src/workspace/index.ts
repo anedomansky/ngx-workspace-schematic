@@ -27,7 +27,7 @@ import type { Schema } from './schema';
 function executeSchematic(options: Schema): Rule {
   return externalSchematic('@schematics/angular', 'ng-new', {
     name: options.name,
-    version: '19.2.15',
+    version: '20.1.4',
     directory: './',
     routing: true,
     style: 'scss',
@@ -93,41 +93,39 @@ function updatePackageJson(): Rule {
       node: '^18.19.1 || ^20.11.1 || ^22.0.0',
     };
 
-    json.dependencies['@angular/animations'] = '~19.2.14';
-    json.dependencies['@angular/common'] = '~19.2.14';
-    json.dependencies['@angular/compiler'] = '~19.2.14';
-    json.dependencies['@angular/core'] = '~19.2.14';
-    json.dependencies['@angular/forms'] = '~19.2.14';
-    json.dependencies['@angular/platform-browser'] = '~19.2.14';
-    json.dependencies['@angular/platform-browser-dynamic'] = '~19.2.14';
-    json.dependencies['@angular/router'] = '~19.2.14';
-    json.dependencies['rxjs'] = '~7.8.2';
-    json.dependencies['tslib'] = '~2.8.1';
-    json.dependencies['zone.js'] = '~0.15.0';
-    json.devDependencies['@anedomansky/eslint-config'] = '1.2.0';
-    json.devDependencies['@angular/cli'] = '~19.2.15';
-    json.devDependencies['@angular/compiler-cli'] = '~19.2.14';
-    json.devDependencies['@angular-devkit/build-angular'] = '~19.2.15';
-    json.devDependencies['@jest/globals'] = '~30.0.0';
-    json.devDependencies['@testing-library/angular'] = '~17.4.0';
-    json.devDependencies['@testing-library/dom'] = '~10.4.0';
-    json.devDependencies['@testing-library/jest-dom'] = '~6.6.3';
-    json.devDependencies['@testing-library/user-event'] = '~14.6.1';
-    json.devDependencies['@types/jest'] = '~29.5.14';
-    json.devDependencies['@types/node'] = '~24.0.1';
-    json.devDependencies['eslint'] = '~9.28.0';
-    json.devDependencies['jest'] = '~30.0.0';
-    json.devDependencies['jest-environment-jsdom'] = '~30.0.0';
-    json.devDependencies['jest-preset-angular'] = '~14.6.0';
-    json.devDependencies['ng-packagr'] = '~19.2.2';
-    json.devDependencies['prettier'] = '~3.5.3';
-    json.devDependencies['stylelint'] = '~16.19.1';
-    json.devDependencies['stylelint-config-sass-guidelines'] = '~12.1.0';
-    json.devDependencies['stylelint-config-standard-scss'] = '~15.0.0';
-    json.devDependencies['stylelint-order'] = '~7.0.0';
-    json.devDependencies['ts-node'] = '~10.9.2';
-    json.devDependencies['typescript'] = '~5.8.3';
-    json.devDependencies['typescript-eslint'] = '~8.34.0';
+    json.dependencies['@angular/animations'] = '20.1.4';
+    json.dependencies['@angular/common'] = '20.1.4';
+    json.dependencies['@angular/compiler'] = '20.1.4';
+    json.dependencies['@angular/core'] = '20.1.4';
+    json.dependencies['@angular/forms'] = '20.1.4';
+    json.dependencies['@angular/platform-browser'] = '20.1.4';
+    json.dependencies['@angular/platform-browser-dynamic'] = '20.1.4';
+    json.dependencies['@angular/router'] = '20.1.4';
+    json.dependencies['rxjs'] = '7.8.2';
+    json.dependencies['tslib'] = '2.8.1';
+    json.dependencies['zone.js'] = '0.15.1';
+    json.devDependencies['@anedomansky/eslint-config'] = '1.3.0';
+    json.devDependencies['@anedomansky/stylelint-config'] = '1.0.0';
+    json.devDependencies['@angular/build'] = '20.1.4';
+    json.devDependencies['@angular/cli'] = '20.1.4';
+    json.devDependencies['@angular/compiler-cli'] = '20.1.4';
+    json.devDependencies['@jest/globals'] = '30.0.5';
+    json.devDependencies['@testing-library/angular'] = '17.4.0';
+    json.devDependencies['@testing-library/dom'] = '10.4.1';
+    json.devDependencies['@testing-library/jest-dom'] = '6.6.4';
+    json.devDependencies['@testing-library/user-event'] = '14.6.1';
+    json.devDependencies['@types/jest'] = '30.0.0';
+    json.devDependencies['@types/node'] = '24.1.0';
+    json.devDependencies['eslint'] = '9.32.0';
+    json.devDependencies['jest'] = '30.0.5';
+    json.devDependencies['jest-environment-jsdom'] = '30.0.5';
+    json.devDependencies['jest-preset-angular'] = '15.0.0';
+    json.devDependencies['ng-packagr'] = '20.1.0';
+    json.devDependencies['prettier'] = '3.6.2';
+    json.devDependencies['stylelint'] = '16.23.0';
+    json.devDependencies['ts-node'] = '10.9.2';
+    json.devDependencies['typescript'] = '5.8.3';
+    json.devDependencies['typescript-eslint'] = '8.38.0';
 
     // Delete Jasmin / Karma Tests
     delete json.devDependencies['@types/jasmine'];
