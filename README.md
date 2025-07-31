@@ -17,6 +17,7 @@ In addition to that, you'll need the correct `@angular/cli` version installed:
 | 2.X.X                   | 17.X      |
 | 3.X.X                   | 18.X      |
 | 4.X.X                   | 19.X      |
+| 5.X.X                   | 20.X      |
 
 ## Features
 
