@@ -6,8 +6,8 @@ import { SampleService } from './sample.service';
 
 @Component({
   selector: '<%= libraryNameWithoutScope %>-sample',
-  templateUrl: './sample.component.html',
-  styleUrls: ['./sample.component.scss'],
+  templateUrl: './sample.html',
+  styleUrls: ['./sample.scss'],
   imports: [AsyncPipe],
 })
 export class SampleComponent {

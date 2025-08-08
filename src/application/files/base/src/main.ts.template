@@ -1,17 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, withComponentInputBinding } from '@angular/router';<% if(libraryName) { %>
-import { SampleServiceToken } from '<%= libraryName %>';<% } %>
 
-import { AppComponent } from './app/app.component';
-import { APP_ROUTES } from './app/app.routes';<% if(libraryName) { %>
-import { AppSampleService } from './app/sample/sample.service';<% } %>
+import { appConfig } from './app/app.config;
+import { App } from './app/app';
 
-await bootstrapApplication(AppComponent, {
-  <% if(libraryName) { %>providers: [
-    provideRouter(APP_ROUTES, withComponentInputBinding()),
-    {
-      provide: SampleServiceToken,
-      useClass: AppSampleService,
-    },
-  ],<% } %><% if(!libraryName) { %>providers: [provideRouter(APP_ROUTES), withComponentInputBinding()],<% } %>
-});
+await bootstrapApplication(App, appConfig)
+  catch((err) => console.error(err));

@@ -36,6 +36,7 @@ function executeSchematic(options: Schema): Rule {
     inlineTemplate: false,
     skipInstall: true,
     skipGit: false,
+    zoneless: true,
   });
 }
 

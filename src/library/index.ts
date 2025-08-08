@@ -1,5 +1,5 @@
-import { normalize } from "@angular-devkit/core";
-import { dasherize } from "@angular-devkit/core/src/utils/strings";
+import { normalize } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
   MergeStrategy,
@@ -8,11 +8,12 @@ import {
   type SchematicContext,
   SchematicsException,
   type Tree,
-} from "@angular-devkit/schematics";
-import { copyPath } from "../utils/copy-path.fn.js";
-import type { Schema } from "./schema";
-import { SCOPE_IDENTIFIER } from "../utils/schema.model.js";
-import type { PackageJSON } from "../models/package-json-model.js";
+} from '@angular-devkit/schematics';
+
+import type { PackageJSON } from '../models/package-json-model.js';
+import { copyPath } from '../utils/copy-path.fn.js';
+import { SCOPE_IDENTIFIER } from '../utils/schema.model.js';
+import type { Schema } from './schema';
 
 /**
  * Copies the base files to the specified library directory.
@@ -24,11 +25,11 @@ function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
     copyPath<Schema>(
       options,
-      "base",
-      `projects/${options.libraryNameWithoutPrefix}`
+      'base',
+      `projects/${options.libraryNameWithoutPrefix}`,
     ),
-    MergeStrategy.Overwrite
-  );
+    MergeStrategy.Overwrite,
+  ); // TODO: update file structure with structure from test-20/projects/test-app
 }
 
 /**
@@ -39,8 +40,8 @@ function copyBaseFiles(options: Schema): Rule {
  */
 function copyUnitTestFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath(options, "unit-testing", null),
-    MergeStrategy.Overwrite
+    copyPath(options, 'unit-testing', null),
+    MergeStrategy.Overwrite,
   );
 }
 
@@ -61,11 +62,11 @@ function copyUnitTestFiles(options: Schema): Rule {
  */
 function updatePackageJson(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = "package.json";
+    const path = 'package.json';
     const file = tree.read(path);
 
     if (!file) {
-      throw new SchematicsException("package.json not found.");
+      throw new SchematicsException('package.json not found.');
     }
 
     const json = JSON.parse(file.toString()) as PackageJSON;
@@ -107,7 +108,7 @@ function updateVSCodeWorkspace(options: Schema): Rule {
 
     if (!file) {
       throw new SchematicsException(
-        `${options.name}.code-workspace not found.`
+        `${options.name}.code-workspace not found.`,
       );
     }
 
@@ -152,7 +153,7 @@ function updateVSCodeWorkspace(options: Schema): Rule {
  */
 function updateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = "angular.json";
+    const path = 'angular.json';
     const file = tree.read(path);
 
     if (!file) {
@@ -164,28 +165,21 @@ function updateAngularWorkspace(options: Schema): Rule {
     json.projects = {
       ...json.projects,
       [options.libraryName]: {
+        projectType: 'library',
         root: normalize(`projects/${options.libraryNameWithoutPrefix}`),
         sourceRoot: normalize(
-          `projects/${options.libraryNameWithoutPrefix}/src`
+          `projects/${options.libraryNameWithoutPrefix}/src`,
         ),
-        prefix: "lib",
-        projectType: "library",
+        prefix: 'lib',
         schematics: {
-          "@schematics/angular:component": {
-            style: "scss",
-            changeDetection: "OnPush",
-            standalone: true,
-          },
-          "@schematics/angular:directive": {
-            standalone: true,
+          '@schematics/angular:component': {
+            style: 'scss',
+            changeDetection: 'OnPush',
           },
         },
         architect: {
           build: {
-            builder: "@angular-devkit/build-angular:ng-packagr",
-            options: {
-              project: `projects/${options.libraryNameWithoutPrefix}/ng-package.json`,
-            },
+            builder: '@angular/build:ng-packagr',
             configurations: {
               production: {
                 tsConfig: `projects/${options.libraryNameWithoutPrefix}/tsconfig.lib.prod.json`,
@@ -194,7 +188,7 @@ function updateAngularWorkspace(options: Schema): Rule {
                 tsConfig: `projects/${options.libraryNameWithoutPrefix}/tsconfig.lib.json`,
               },
             },
-            defaultConfiguration: "production",
+            defaultConfiguration: 'production',
           },
         },
       },
@@ -216,11 +210,11 @@ function updateAngularWorkspace(options: Schema): Rule {
  */
 function updateTsconfig(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = "tsconfig.json";
+    const path = 'tsconfig.json';
     const file = tree.read(path);
 
     if (!file) {
-      throw new SchematicsException("tsconfig.json not found.");
+      throw new SchematicsException('tsconfig.json not found.');
     }
 
     const json = JSON.parse(file.toString());
@@ -232,6 +226,16 @@ function updateTsconfig(options: Schema): Rule {
         [options.libraryName]: [`dist/${options.libraryNameWithoutPrefix}`],
       },
     };
+
+    json.references = [
+      ...json.references,
+      {
+        path: `./projects/${options.libraryNameWithoutPrefix}/tsconfig.lib.json`,
+      },
+      {
+        path: `./projects/${options.libraryNameWithoutPrefix}/tsconfig.spec.json`,
+      },
+    ];
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -259,23 +263,23 @@ function updateTsconfig(options: Schema): Rule {
  */
 function updateUnitTestConfig(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = "jest.config.ts";
+    const path = 'jest.config.ts';
 
     const file = tree.readText(path);
 
     if (!file) {
-      throw new SchematicsException("jest.config.ts not found.");
+      throw new SchematicsException('jest.config.ts not found.');
     }
 
     const libraryScope = options.libraryName.substring(
       options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1 > -1
         ? options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1
         : 0,
-      options.libraryName.indexOf("/")
+      options.libraryName.indexOf('/'),
     );
     const newEntry = `'^${options.libraryName}': '<rootDir>/dist/${
       options.libraryNameWithoutPrefix
-    }/fesm2022/${options.libraryNameHasScope ? libraryScope + "-" : ""}${
+    }/fesm2022/${options.libraryNameHasScope ? libraryScope + '-' : ''}${
       options.libraryNameWithoutScope
     }.mjs',`;
 
@@ -314,10 +318,12 @@ export default function (options: Schema): Rule {
 
   const libraryNameWithoutPrefix = options.libraryName.replace(
     SCOPE_IDENTIFIER,
-    ""
+    '',
   );
   const libraryNameWithoutScope = libraryNameWithoutPrefix.slice(
-    options.libraryName.indexOf("/") > -1 ? options.libraryName.indexOf("/") : 0
+    options.libraryName.indexOf('/') > -1
+      ? options.libraryName.indexOf('/')
+      : 0,
   );
 
   options.libraryNameWithoutPrefix = libraryNameWithoutPrefix;
@@ -326,9 +332,9 @@ export default function (options: Schema): Rule {
   if (options.appName) {
     options.appName = dasherize(options.appName);
 
-    const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, "");
+    const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, '');
     const appNameWithoutScope = appNameWithoutPrefix.slice(
-      options.appName.indexOf("/") > -1 ? options.appName.indexOf("/") : 0
+      options.appName.indexOf('/') > -1 ? options.appName.indexOf('/') : 0,
     );
 
     options.appNameWithoutScope = appNameWithoutScope;

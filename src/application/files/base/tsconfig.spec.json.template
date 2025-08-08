@@ -1,13 +1,13 @@
 {
   "extends": "../../<% if(appNameHasScope) { %>../<% } %>tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../<% if(appNameHasScope) { %>../<% } %>out-tsc/app",
-    "types": []
+    "outDir": "../../<% if(appNameHasScope) { %>../<% } %>out-tsc/spec",
+    "types": [
+      "jest",
+      "@testing-library/jest-dom"
+    ]
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "exclude": [
-    "src/**/*.spec.ts"
   ]
 }

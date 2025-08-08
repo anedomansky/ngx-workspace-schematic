@@ -1,0 +1,13 @@
+{
+  "extends": "../../<% if(libraryNameHasScope) { %>../<% } %>tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../<% if(libraryNameHasScope) { %>../<% } %>out-tsc/spec",
+    "types": [
+      "jest",
+      "@testing-library/jest-dom"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

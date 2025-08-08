@@ -2,14 +2,12 @@
   "name": "<%= libraryName %>",
   "version": "0.0.1",
   "description": "An Angular Library",
-  "scripts": {
-    "build": "ng build <%= libraryName %>",
-    "prepublishOnly": "npm run build"
+  "peerDependencies": {
+    "@angular/common": "^20.1.0,
+    "@angular/core": "^20.1.0"
   },
-  "exports": {
-    ".": {
-      "sass": "./styles/index.scss"
-    }
+  "dependencies": {
+    "tslib": "^2.3.0"
   },
   "sideEffects": false
 }

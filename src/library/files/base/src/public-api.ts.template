@@ -4,7 +4,7 @@ export {
   <%= classify(libraryNameWithoutScope) %>ConfigToken,
 } from './lib/config/<%= libraryNameWithoutScope %>-config';
 export * from './lib/config/<%= libraryNameWithoutScope %>-config';
-export { SampleComponent } from './lib/sample/sample.component';
+export { SampleComponent } from './lib/sample/sample';
 export {
   type SampleServiceConfig,
   SampleServiceToken,

@@ -1,5 +1,5 @@
-import { normalize } from "@angular-devkit/core";
-import { dasherize } from "@angular-devkit/core/src/utils/strings";
+import { normalize } from '@angular-devkit/core';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
   MergeStrategy,
@@ -8,11 +8,12 @@ import {
   type SchematicContext,
   SchematicsException,
   type Tree,
-} from "@angular-devkit/schematics";
-import { copyPath } from "../utils/copy-path.fn.js";
-import type { Schema } from "./schema";
-import { SCOPE_IDENTIFIER } from "../utils/schema.model.js";
-import type { PackageJSON } from "../models/package-json-model.js";
+} from '@angular-devkit/schematics';
+
+import type { PackageJSON } from '../models/package-json-model.js';
+import { copyPath } from '../utils/copy-path.fn.js';
+import { SCOPE_IDENTIFIER } from '../utils/schema.model.js';
+import type { Schema } from './schema';
 
 /**
  * Copies the base files to the specified project directory.
@@ -24,10 +25,10 @@ function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
     copyPath<Schema>(
       options,
-      "base",
-      `projects/${options.appNameWithoutPrefix}`
+      'base',
+      `projects/${options.appNameWithoutPrefix}`,
     ),
-    MergeStrategy.Overwrite
+    MergeStrategy.Overwrite,
   );
 }
 
@@ -39,8 +40,8 @@ function copyBaseFiles(options: Schema): Rule {
  */
 function copyUnitTestFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath(options, "unit-testing", null),
-    MergeStrategy.Overwrite
+    copyPath(options, 'unit-testing', null),
+    MergeStrategy.Overwrite,
   );
 }
 
@@ -61,11 +62,11 @@ function copyUnitTestFiles(options: Schema): Rule {
  */
 function updatePackageJson(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = "package.json";
+    const path = 'package.json';
     const file = tree.read(path);
 
     if (!file) {
-      throw new SchematicsException("package.json not found.");
+      throw new SchematicsException('package.json not found.');
     }
 
     const json = JSON.parse(file.toString()) as PackageJSON;
@@ -99,7 +100,7 @@ function updateVSCodeWorkspace(options: Schema): Rule {
 
     if (!file) {
       throw new SchematicsException(
-        `${options.name}.code-workspace not found.`
+        `${options.name}.code-workspace not found.`,
       );
     }
 
@@ -139,7 +140,7 @@ function updateVSCodeWorkspace(options: Schema): Rule {
  */
 function updateAngularWorkspace(options: Schema): Rule {
   return (tree: Tree): Tree => {
-    const path = "angular.json";
+    const path = 'angular.json';
     const file = tree.read(path);
 
     if (!file) {
@@ -151,72 +152,60 @@ function updateAngularWorkspace(options: Schema): Rule {
     json.projects = {
       ...json.projects,
       [options.appName]: {
+        projectType: 'application',
         root: normalize(`projects/${options.appNameWithoutPrefix}`),
         sourceRoot: normalize(`projects/${options.appNameWithoutPrefix}/src`),
-        prefix: "app",
-        projectType: "application",
+        prefix: 'app',
         schematics: {
-          "@schematics/angular:component": {
-            style: "scss",
-            changeDetection: "OnPush",
-            standalone: true,
-          },
-          "@schematics/angular:directive": {
-            standalone: true,
+          '@schematics/angular:component': {
+            style: 'scss',
+            changeDetection: 'OnPush',
           },
         },
         architect: {
           build: {
-            builder: "@angular-devkit/build-angular:browser-esbuild",
+            builder: '@angular/build:application',
             options: {
               outputPath: `dist/${options.appNameWithoutPrefix}`,
-              index: `projects/${options.appNameWithoutPrefix}/src/index.html`,
-              main: `projects/${options.appNameWithoutPrefix}/src/main.ts`,
-              polyfills: ["zone.js"],
+              browser: `projects/${options.appNameWithoutPrefix}/src/main.ts`,
               tsConfig: `projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
-              inlineStyleLanguage: "scss",
+              inlineStyleLanguage: 'scss',
               assets: [
-                `projects/${options.appNameWithoutPrefix}/src/favicon.ico`,
-                `projects/${options.appNameWithoutPrefix}/src/assets`,
+                {
+                  glob: '**/*',
+                  input: `projects/${options.appNameWithoutPrefix}/public`,
+                },
               ],
               styles: [
                 `projects/${options.appNameWithoutPrefix}/src/styles.scss`,
               ],
-              scripts: [],
             },
             configurations: {
               production: {
                 budgets: [
                   {
-                    type: "initial",
-                    maximumWarning: "500kb",
-                    maximumError: "1500kb",
+                    type: 'initial',
+                    maximumWarning: '500kb',
+                    maximumError: '1MB',
                   },
                   {
-                    type: "anyComponentStyle",
-                    maximumWarning: "2kb",
-                    maximumError: "4kb",
+                    type: 'anyComponentStyle',
+                    maximumWarning: '4kb',
+                    maximumError: '8kb',
                   },
                 ],
-                outputHashing: "all",
-                aot: true,
-                buildOptimizer: true,
-                sourceMap: false,
-                namedChunks: false,
-                optimization: true,
+                outputHashing: 'all',
               },
               development: {
-                buildOptimizer: false,
                 optimization: false,
                 extractLicenses: false,
                 sourceMap: true,
-                namedChunks: true,
               },
             },
-            defaultConfiguration: "production",
+            defaultConfiguration: 'production',
           },
           serve: {
-            builder: "@angular-devkit/build-angular:dev-server",
+            builder: '@angular/build:dev-server',
             configurations: {
               production: {
                 buildTarget: `${options.appName}:build:production`,
@@ -225,7 +214,7 @@ function updateAngularWorkspace(options: Schema): Rule {
                 buildTarget: `${options.appName}:build:development`,
               },
             },
-            defaultConfiguration: "development",
+            defaultConfiguration: 'development',
           },
         },
       },
@@ -233,16 +222,16 @@ function updateAngularWorkspace(options: Schema): Rule {
 
     if (options.libraryName) {
       json.projects[options.appName].architect.build.options.assets.push({
-        glob: "**/*",
+        glob: '**/*',
         input: `dist/${
           options.libraryName.startsWith(SCOPE_IDENTIFIER)
             ? options.libraryName.slice(
                 options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1,
-                options.libraryName.indexOf("/")
-              ) + "/"
-            : ""
+                options.libraryName.indexOf('/'),
+              ) + '/'
+            : ''
         }${options.libraryNameWithoutScope}/assets`,
-        output: "assets",
+        output: 'assets',
       });
 
       json.projects[options.appName].architect.build.options.styles.push(
@@ -250,12 +239,55 @@ function updateAngularWorkspace(options: Schema): Rule {
           options.libraryName.startsWith(SCOPE_IDENTIFIER)
             ? options.libraryName.slice(
                 options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1,
-                options.libraryName.indexOf("/")
-              ) + "/"
-            : ""
-        }${options.libraryNameWithoutScope}/styles/index.scss`
+                options.libraryName.indexOf('/'),
+              ) + '/'
+            : ''
+        }${options.libraryNameWithoutScope}/styles/index.scss`,
       );
     }
+
+    tree.overwrite(path, JSON.stringify(json, null, 2));
+
+    return tree;
+  };
+}
+
+/**
+ * Updates the `tsconfig.json` file to include a new path mapping for the specified application.
+ *
+ * @param options - The schema options containing the application details.
+ * @returns A `Rule` that updates the `tsconfig.json` file in the provided Tree.
+ *
+ * @throws `SchematicsException` if the `tsconfig.json` file is not found.
+ */
+function updateTsconfig(options: Schema): Rule {
+  return (tree: Tree): Tree => {
+    const path = 'tsconfig.json';
+    const file = tree.read(path);
+
+    if (!file) {
+      throw new SchematicsException('tsconfig.json not found.');
+    }
+
+    const json = JSON.parse(file.toString());
+
+    json.compilerOptions = {
+      ...json.compilerOptions,
+      paths: {
+        ...json.compilerOptions.paths,
+        [options.appName]: [`dist/${options.appNameWithoutPrefix}`],
+      },
+    };
+
+    json.references = [
+      ...json.references,
+      {
+        path: `./projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
+      },
+      {
+        path: `./projects/${options.appNameWithoutPrefix}/tsconfig.spec.json`,
+      },
+    ];
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -277,9 +309,9 @@ export default function (options: Schema): Rule {
 
   options.appNameHasScope = options.appName.startsWith(SCOPE_IDENTIFIER);
 
-  const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, "");
+  const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, '');
   const appNameWithoutScope = appNameWithoutPrefix.slice(
-    options.appName.indexOf("/") > -1 ? options.appName.indexOf("/") : 0
+    options.appName.indexOf('/') > -1 ? options.appName.indexOf('/') : 0,
   );
 
   options.appNameWithoutPrefix = appNameWithoutPrefix;
@@ -291,12 +323,12 @@ export default function (options: Schema): Rule {
   if (options.libraryName) {
     const libraryNameWithoutPrefix = options.libraryName.replace(
       SCOPE_IDENTIFIER,
-      ""
+      '',
     );
     const libraryNameWithoutScope = libraryNameWithoutPrefix.slice(
-      options.libraryName.indexOf("/") > -1
-        ? options.libraryName.indexOf("/")
-        : 0
+      options.libraryName.indexOf('/') > -1
+        ? options.libraryName.indexOf('/')
+        : 0,
     );
 
     options.libraryNameWithoutPrefix = libraryNameWithoutPrefix;
@@ -310,6 +342,7 @@ export default function (options: Schema): Rule {
       updatePackageJson(options),
       updateVSCodeWorkspace(options),
       updateAngularWorkspace(options),
+      updateTsconfig(options),
     ]);
 
     return rule(tree, context);
