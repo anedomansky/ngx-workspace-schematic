@@ -4,7 +4,7 @@
   "description": "Angular schematic for creating complete workspaces.",
   "scripts": {
     "build": "npm run clean && tsc --project tsconfig.app.json",
-    "clean": "rm -rf test && tsc --build --clean",
+    "clean": "rmrf test && tsc --build --clean",
     "prepublishOnly": "npm run build",
     "ng-new": "npm run build && schematics .:ng-new",
     "ng-new:prod": "npm run build && schematics .:ng-new --debug false",
@@ -14,8 +14,8 @@
     "test:library": "vitest run ./src/library/index.spec.ts",
     "test:workspace": "vitest run ./src/workspace/index.spec.ts",
     "test:ng-new": "vitest run ./src/ng-new/index.spec.ts",
-    "test:integration:ng-new": "rm -rf test && npm run ng-new -- --debug false",
-    "test:integration:ng-new:default": "rm -rf test && npm run ng-new -- test --debug false --library-name test-lib --app-name test-application"
+    "test:integration:ng-new": "rmrf test && npm run ng-new -- --debug false",
+    "test:integration:ng-new:default": "rmrf test && npm run ng-new -- test --debug false --library-name test-lib --app-name test-application"
   },
   "author": "anedomansky",
   "publishConfig": {
@@ -56,17 +56,18 @@
   ],
   "schematics": "./src/collection.json",
   "dependencies": {
-    "@angular-devkit/core": "20.1.4",
-    "@angular-devkit/schematics": "20.1.4",
-    "@angular-devkit/schematics-cli": "20.1.4",
+    "@angular-devkit/core": "20.2.0",
+    "@angular-devkit/schematics": "20.2.0",
+    "@angular-devkit/schematics-cli": "20.2.0",
     "@schematics/angular": "20.1.4"
   },
   "devDependencies": {
-    "@anedomansky/eslint-config": "1.3.0",
-    "@types/node": "24.1.0",
-    "eslint": "9.32.0",
+    "@anedomansky/eslint-config": "2.0.0",
+    "@anedomansky/rmrf": "1.0.0",
+    "@types/node": "24.3.0",
+    "eslint": "9.33.0",
     "typescript": "5.8.3",
-    "typescript-eslint": "8.38.0",
+    "typescript-eslint": "8.39.1",
     "vitest": "3.2.4"
   }
 }
