@@ -1,12 +1,13 @@
-import { 
+import {
   ApplicationConfig,
-  provideBrowserGlobalErrorListeners,provideZonelessChangeDetection,
- } from '@angular/core';
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';<% if(libraryName) { %>
 import { SampleServiceToken } from '<%= libraryName %>';<% } %>
 
-import { routes } from './app/app.routes';<% if(libraryName) { %>
-import { AppSampleService } from './app/sample/sample.service';<% } %>
+<% if(libraryName) { %>import { AppSampleService } from './sample/sample.service';<% } %>
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [

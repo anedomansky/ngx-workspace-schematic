@@ -1,1 +1,1 @@
-export const SCOPE_IDENTIFIER = "@";
+export const SCOPE_IDENTIFIER = '@';

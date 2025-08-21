@@ -2,7 +2,10 @@
   "extends": "../../<% if(appNameHasScope) { %>../<% } %>tsconfig.json",
   "compilerOptions": {
     "outDir": "../../<% if(appNameHasScope) { %>../<% } %>out-tsc/app",
-    "types": []
+    "types": [],
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": [
     "src/**/*.ts"

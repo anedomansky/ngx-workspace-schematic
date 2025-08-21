@@ -1,5 +1,3 @@
-import { normalize } from '@angular-devkit/core';
-import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
   MergeStrategy,
@@ -9,11 +7,13 @@ import {
   SchematicsException,
   type Tree,
 } from '@angular-devkit/schematics';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
+import { normalize } from '@angular-devkit/core';
 
-import type { PackageJSON } from '../models/package-json-model.js';
 import { copyPath } from '../utils/copy-path.fn.js';
-import { SCOPE_IDENTIFIER } from '../utils/schema.model.js';
+import type { PackageJSON } from '../models/package-json-model.js';
 import type { Schema } from './schema';
+import { SCOPE_IDENTIFIER } from '../utils/schema.model.js';
 
 /**
  * Copies the base files to the specified library directory.
@@ -23,13 +23,9 @@ import type { Schema } from './schema';
  */
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath<Schema>(
-      options,
-      'base',
-      `projects/${options.libraryNameWithoutPrefix}`,
-    ),
+    copyPath(options, 'base', `projects/${options.libraryNameWithoutPrefix}`),
     MergeStrategy.Overwrite,
-  ); // TODO: update file structure with structure from test-20/projects/test-app
+  );
 }
 
 /**
@@ -223,19 +219,24 @@ function updateTsconfig(options: Schema): Rule {
       ...json.compilerOptions,
       paths: {
         ...json.compilerOptions.paths,
-        [options.libraryName]: [`dist/${options.libraryNameWithoutPrefix}`],
+        [options.libraryName]: [`./dist/${options.libraryNameWithoutPrefix}`],
       },
     };
 
-    json.references = [
-      ...json.references,
-      {
-        path: `./projects/${options.libraryNameWithoutPrefix}/tsconfig.lib.json`,
-      },
-      {
-        path: `./projects/${options.libraryNameWithoutPrefix}/tsconfig.spec.json`,
-      },
-    ];
+    if (json.references) {
+      json.references = [
+        ...json.references,
+        {
+          path: `./projects/${options.libraryNameWithoutPrefix}/tsconfig.lib.json`,
+        },
+      ];
+    } else {
+      json.references = [
+        {
+          path: `./projects/${options.libraryNameWithoutPrefix}/tsconfig.lib.json`,
+        },
+      ];
+    }
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -279,15 +280,18 @@ function updateUnitTestConfig(options: Schema): Rule {
     );
     const newEntry = `'^${options.libraryName}': '<rootDir>/dist/${
       options.libraryNameWithoutPrefix
-    }/fesm2022/${options.libraryNameHasScope ? libraryScope + '-' : ''}${
+    }/fesm2022/${options.libraryNameHasScope ? `${libraryScope}-` : ''}${
       options.libraryNameWithoutScope
     }.mjs',`;
 
-    const updatedFile = file.replace(/moduleNameMapper:\s*{[^}]*}/, (match) => {
-      // Remove the closing brace and add the new entry
-      const updatedMapper = match.replace(/}$/, `  ${newEntry}\n  }`);
-      return updatedMapper;
-    });
+    const updatedFile = file.replace(
+      /moduleNameMapper:\s*\{[^}]*\}/,
+      (match) => {
+        // Remove the closing brace and add the new entry
+        const updatedMapper = match.replace(/\}$/, `  ${newEntry}\n  }`);
+        return updatedMapper;
+      },
+    );
 
     tree.overwrite(path, updatedFile);
 
@@ -321,9 +325,7 @@ export default function (options: Schema): Rule {
     '',
   );
   const libraryNameWithoutScope = libraryNameWithoutPrefix.slice(
-    options.libraryName.indexOf('/') > -1
-      ? options.libraryName.indexOf('/')
-      : 0,
+    options.libraryName.includes('/') ? options.libraryName.indexOf('/') : 0,
   );
 
   options.libraryNameWithoutPrefix = libraryNameWithoutPrefix;
@@ -334,7 +336,7 @@ export default function (options: Schema): Rule {
 
     const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, '');
     const appNameWithoutScope = appNameWithoutPrefix.slice(
-      options.appName.indexOf('/') > -1 ? options.appName.indexOf('/') : 0,
+      options.appName.includes('/') ? options.appName.indexOf('/') : 0,
     );
 
     options.appNameWithoutScope = appNameWithoutScope;

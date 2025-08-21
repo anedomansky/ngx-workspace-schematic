@@ -10,18 +10,18 @@ import {
   type SchematicContext,
   SchematicsException,
   type Tree,
-} from "@angular-devkit/schematics";
-import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
+} from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 
-import type { Schema } from "./schema";
-import type { Schema as LibrarySchema } from "../library/schema";
-import type { Schema as ApplicationSchema } from "../application/schema";
-import type { Schema as WorkspaceSchema } from "../workspace/schema";
-import { dasherize } from "@angular-devkit/core/src/utils/strings";
+import type { Schema as ApplicationSchema } from '../application/schema';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
+import type { Schema as LibrarySchema } from '../library/schema';
+import type { Schema } from './schema';
+import type { Schema as WorkspaceSchema } from '../workspace/schema';
 
 export default function (options: Schema): Rule {
   if (!options.name) {
-    throw new SchematicsException("Workspace name is required.");
+    throw new SchematicsException('Workspace name is required.');
   }
 
   options.name = dasherize(options.name);
@@ -33,12 +33,12 @@ export default function (options: Schema): Rule {
   const libraryOptions: LibrarySchema = {
     name: options.name,
     appName: options.appName,
-    libraryName: options.libraryName ?? "",
+    libraryName: options.libraryName ?? '',
   };
 
   const applicationOptions: ApplicationSchema = {
     name: options.name,
-    appName: options.appName ?? "",
+    appName: options.appName ?? '',
     libraryName: options.libraryName,
   };
 
@@ -46,15 +46,15 @@ export default function (options: Schema): Rule {
     const rule = chain([
       mergeWith(
         apply(empty(), [
-          schematic("workspace", workspaceOptions),
+          schematic('workspace', workspaceOptions),
           libraryOptions.libraryName
-            ? schematic("library", libraryOptions)
+            ? schematic('library', libraryOptions)
             : noop,
           applicationOptions.appName
-            ? schematic("application", applicationOptions)
+            ? schematic('application', applicationOptions)
             : noop,
           move(options.name),
-        ])
+        ]),
       ),
     ]);
 
@@ -62,7 +62,7 @@ export default function (options: Schema): Rule {
       new NodePackageInstallTask({
         workingDirectory: `/${options.name}`,
         allowScripts: true,
-      })
+      }),
     );
 
     return rule(tree, context);

@@ -1,16 +1,13 @@
-import { provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideZonelessChangeDetection } from '@angular/core';
 import { render } from '@testing-library/angular';
 
-import { AppComponent } from './app.component';
+import { App } from './app';
 
-describe('AppComponent', () => {
+describe('App', () => {
   it('should create the app', async () => {
-    const { container } = await render(AppComponent, {
-      imports: [
-        provideRouter([]),
-        provideZonelessChangeDetection(),
-      ],
+    const { container } = await render(App, {
+      imports: [provideRouter([]), provideZonelessChangeDetection()],
     });
 
     expect(container).toBeTruthy();

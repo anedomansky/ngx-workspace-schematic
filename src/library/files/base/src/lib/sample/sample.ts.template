@@ -1,8 +1,8 @@
-import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
-import { <%= classify(libraryNameWithoutScope) %>ConfigToken } from '../config/<%= libraryNameWithoutScope %>-config';
 import { SampleService } from './sample.service';
+import { <%= classify(libraryNameWithoutScope) %>ConfigToken } from '../config/<%= libraryNameWithoutScope %>-config';
 
 @Component({
   selector: '<%= libraryNameWithoutScope %>-sample',

@@ -1,7 +1,6 @@
+import { Observable, of } from 'rxjs';
 import { Injectable } from '@angular/core';
-<% if(libraryName && libraryNameHasScope) { %>import { SampleServiceConfig } from '<%= libraryName %>';
-import { Observable, of } from 'rxjs';<% } %><% if(libraryName && !libraryNameHasScope) { %>import { Observable, of } from 'rxjs';
-import { SampleServiceConfig } from '<%= libraryName %>';<% } %><% if(!libraryName) { %>import { Observable, of } from 'rxjs';<% } %>
+<% if(libraryName) { %>import { SampleServiceConfig } from '<%= libraryName %>';<% } %>
 
 @Injectable()
 export class AppSampleService<% if(libraryName) { %> implements SampleServiceConfig<% } %> {

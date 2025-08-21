@@ -23,11 +23,7 @@ import type { Schema } from './schema';
  */
 function copyBaseFiles(options: Schema): Rule {
   return mergeWith(
-    copyPath<Schema>(
-      options,
-      'base',
-      `projects/${options.appNameWithoutPrefix}`,
-    ),
+    copyPath(options, 'base', `projects/${options.appNameWithoutPrefix}`),
     MergeStrategy.Overwrite,
   );
 }
@@ -168,7 +164,7 @@ function updateAngularWorkspace(options: Schema): Rule {
             options: {
               outputPath: `dist/${options.appNameWithoutPrefix}`,
               browser: `projects/${options.appNameWithoutPrefix}/src/main.ts`,
-              tsConfig: `projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
+              tsConfig: `projects/${options.appNameWithoutPrefix}/tsconfig.app.prod.json`,
               inlineStyleLanguage: 'scss',
               assets: [
                 {
@@ -225,10 +221,10 @@ function updateAngularWorkspace(options: Schema): Rule {
         glob: '**/*',
         input: `dist/${
           options.libraryName.startsWith(SCOPE_IDENTIFIER)
-            ? options.libraryName.slice(
+            ? `${options.libraryName.slice(
                 options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1,
                 options.libraryName.indexOf('/'),
-              ) + '/'
+              )}/`
             : ''
         }${options.libraryNameWithoutScope}/assets`,
         output: 'assets',
@@ -237,10 +233,10 @@ function updateAngularWorkspace(options: Schema): Rule {
       json.projects[options.appName].architect.build.options.styles.push(
         `dist/${
           options.libraryName.startsWith(SCOPE_IDENTIFIER)
-            ? options.libraryName.slice(
+            ? `${options.libraryName.slice(
                 options.libraryName.indexOf(SCOPE_IDENTIFIER) + 1,
                 options.libraryName.indexOf('/'),
-              ) + '/'
+              )}/`
             : ''
         }${options.libraryNameWithoutScope}/styles/index.scss`,
       );
@@ -275,19 +271,24 @@ function updateTsconfig(options: Schema): Rule {
       ...json.compilerOptions,
       paths: {
         ...json.compilerOptions.paths,
-        [options.appName]: [`dist/${options.appNameWithoutPrefix}`],
+        [options.appName]: [`./dist/${options.appNameWithoutPrefix}`],
       },
     };
 
-    json.references = [
-      ...json.references,
-      {
-        path: `./projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
-      },
-      {
-        path: `./projects/${options.appNameWithoutPrefix}/tsconfig.spec.json`,
-      },
-    ];
+    if (json.references) {
+      json.references = [
+        ...json.references,
+        {
+          path: `./projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
+        },
+      ];
+    } else {
+      json.references = [
+        {
+          path: `./projects/${options.appNameWithoutPrefix}/tsconfig.app.json`,
+        },
+      ];
+    }
 
     tree.overwrite(path, JSON.stringify(json, null, 2));
 
@@ -311,7 +312,7 @@ export default function (options: Schema): Rule {
 
   const appNameWithoutPrefix = options.appName.replace(SCOPE_IDENTIFIER, '');
   const appNameWithoutScope = appNameWithoutPrefix.slice(
-    options.appName.indexOf('/') > -1 ? options.appName.indexOf('/') : 0,
+    options.appName.includes('/') ? options.appName.indexOf('/') : 0,
   );
 
   options.appNameWithoutPrefix = appNameWithoutPrefix;
@@ -326,9 +327,7 @@ export default function (options: Schema): Rule {
       '',
     );
     const libraryNameWithoutScope = libraryNameWithoutPrefix.slice(
-      options.libraryName.indexOf('/') > -1
-        ? options.libraryName.indexOf('/')
-        : 0,
+      options.libraryName.includes('/') ? options.libraryName.indexOf('/') : 0,
     );
 
     options.libraryNameWithoutPrefix = libraryNameWithoutPrefix;

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-export const APP_ROUTES: Routes = <% if(!libraryName) { %>[];<% } %><% if(libraryName) {%>[
+export const routes: Routes = <% if(!libraryName) { %>[];<% } %><% if(libraryName) {%>[
   {
     path: '',
     loadChildren: () => import('<%= libraryName %>').then((m) => m.SAMPLE_ROUTES),

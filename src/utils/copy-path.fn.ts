@@ -1,4 +1,3 @@
-import { normalize } from "@angular-devkit/core";
 import {
   apply,
   applyTemplates,
@@ -7,7 +6,8 @@ import {
   Source,
   strings,
   url,
-} from "@angular-devkit/schematics";
+} from '@angular-devkit/schematics';
+import { normalize } from '@angular-devkit/core';
 
 /**
  * Copies a path to a specified destination with applied templates.
@@ -19,16 +19,16 @@ import {
  *
  * @return - The source with applied templates and optional move operation.
  */
-export function copyPath<T>(
-  options: T,
+export function copyPath(
+  options: object,
   path: string,
-  pathToCopyTo: string | null
+  pathToCopyTo: string | null,
 ): Source {
   return apply(url(`./files/${path}`), [
     applyTemplates({
       ...options,
       ...strings,
-      dot: ".",
+      dot: '.',
     }),
     pathToCopyTo ? move(normalize(pathToCopyTo)) : noop,
   ]);
