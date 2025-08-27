@@ -260,7 +260,10 @@ describe('application schematic', () => {
           build: {
             builder: '@angular/build:application',
             options: {
-              outputPath: 'dist/test-application',
+              outputPath: {
+                base: 'dist/test-application',
+                browser: '',
+              },
               browser: 'projects/test-application/src/main.ts',
               tsConfig: 'projects/test-application/tsconfig.app.prod.json',
               inlineStyleLanguage: 'scss',
@@ -343,7 +346,10 @@ describe('application schematic', () => {
           build: {
             builder: '@angular/build:application',
             options: {
-              outputPath: 'dist/test/test-application',
+              outputPath: {
+                base: 'dist/test/test-application',
+                browser: '',
+              },
               browser: 'projects/test/test-application/src/main.ts',
               tsConfig: 'projects/test/test-application/tsconfig.app.prod.json',
               inlineStyleLanguage: 'scss',

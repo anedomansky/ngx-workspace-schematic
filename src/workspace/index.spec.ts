@@ -48,7 +48,7 @@ describe('workspace schematic', () => {
     };
 
     const expectedDevDependencies = {
-      '@anedomansky/eslint-config': '2.0.0',
+      '@anedomansky/eslint-config': '2.3.0',
       '@anedomansky/stylelint-config': '1.0.0',
       '@angular/build': '20.2.0',
       '@angular/cli': '20.2.0',

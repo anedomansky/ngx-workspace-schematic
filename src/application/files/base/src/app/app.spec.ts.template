@@ -7,7 +7,7 @@ import { App } from './app';
 describe('App', () => {
   it('should create the app', async () => {
     const { container } = await render(App, {
-      imports: [provideRouter([]), provideZonelessChangeDetection()],
+      providers: [provideRouter([]), provideZonelessChangeDetection()],
     });
 
     expect(container).toBeTruthy();

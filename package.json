@@ -59,10 +59,10 @@
     "@angular-devkit/core": "20.2.0",
     "@angular-devkit/schematics": "20.2.0",
     "@angular-devkit/schematics-cli": "20.2.0",
-    "@schematics/angular": "20.1.4"
+    "@schematics/angular": "20.2.0"
   },
   "devDependencies": {
-    "@anedomansky/eslint-config": "2.0.0",
+    "@anedomansky/eslint-config": "2.3.0",
     "@anedomansky/rmrf": "1.0.0",
     "@types/node": "24.3.0",
     "eslint": "9.33.0",

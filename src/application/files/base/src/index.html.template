@@ -6,7 +6,7 @@
     <title><%= appNameWithoutScope %></title>
     <base href="/" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link type="image/x-icon" href="favicon.ico" rel="icon" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />
   </head>
   <body>
     <app-root></app-root>

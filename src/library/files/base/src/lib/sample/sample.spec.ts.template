@@ -4,19 +4,21 @@ import { of } from 'rxjs';
 import { SampleComponent } from './sample';
 import { SampleService } from './sample.service';
 
-describe('SampleComponent', () => {
-  beforeEach(async () => {
-    await render(SampleComponent, {
-      providers: [
-        {
-          provide: SampleService,
-          useValue: { sayHello: () => of('Hello') },
-        },
-      ],
-    });
+async function setup(): Promise<void> {
+  await render(SampleComponent, {
+    providers: [
+      {
+        provide: SampleService,
+        useValue: { sayHello: (): Observable<string> => of('Hello') },
+      },
+    ],
   });
+}
 
-  it('should create', () => {
+describe('SampleComponent', () => {
+  it('should create', async () => {
+    await setup();
+
     expect(screen.getByText('<%= capitalize(libraryNameWithoutScope) %>')).toBeTruthy();
   });
 });

@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 
-export type <%= classify(libraryNameWithoutScope) %>Config = {
+export interface <%= classify(libraryNameWithoutScope) %>Config {
   appTitle: string;
 };
 
@@ -13,6 +13,6 @@ export function getDefault<%= classify(libraryNameWithoutScope) %>Config(): <%= 
 export const <%= classify(libraryNameWithoutScope) %>ConfigToken = new InjectionToken<<%= classify(libraryNameWithoutScope) %>Config>(
   '<%= classify(libraryNameWithoutScope) %>Config',
   {
-    factory: () => getDefault<%= classify(libraryNameWithoutScope) %>Config(),
+    factory: (): <%= classify(libraryNameWithoutScope) %>Config => getDefault<%= classify(libraryNameWithoutScope) %>Config(),
   },
 );

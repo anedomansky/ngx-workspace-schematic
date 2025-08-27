@@ -37,6 +37,8 @@ function executeSchematic(options: Schema): Rule {
     skipInstall: true,
     skipGit: false,
     zoneless: true,
+    commit: false,
+    aiConfig: ['none'],
   });
 }
 
@@ -102,7 +104,7 @@ function updatePackageJson(): Rule {
     json.dependencies.rxjs = '7.8.2';
     json.dependencies.tslib = '2.8.1';
     json.dependencies['zone.js'] = '0.15.1';
-    json.devDependencies['@anedomansky/eslint-config'] = '2.0.0';
+    json.devDependencies['@anedomansky/eslint-config'] = '2.3.0';
     json.devDependencies['@anedomansky/stylelint-config'] = '1.0.0';
     json.devDependencies['@angular/build'] = '20.2.0';
     json.devDependencies['@angular/cli'] = '20.2.0';

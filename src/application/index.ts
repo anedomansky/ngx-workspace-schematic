@@ -162,7 +162,10 @@ function updateAngularWorkspace(options: Schema): Rule {
           build: {
             builder: '@angular/build:application',
             options: {
-              outputPath: `dist/${options.appNameWithoutPrefix}`,
+              outputPath: {
+                base: `dist/${options.appNameWithoutPrefix}`,
+                browser: '',
+              },
               browser: `projects/${options.appNameWithoutPrefix}/src/main.ts`,
               tsConfig: `projects/${options.appNameWithoutPrefix}/tsconfig.app.prod.json`,
               inlineStyleLanguage: 'scss',
