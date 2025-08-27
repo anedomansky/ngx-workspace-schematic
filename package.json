@@ -1,6 +1,6 @@
 {
   "name": "@anedomansky/ngx-workspace-schematic",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "description": "Angular schematic for creating complete workspaces.",
   "scripts": {
     "build": "npm run clean && tsc --project tsconfig.app.json",
